@@ -1,9 +1,9 @@
 // **********************************************************
 // Assignment2:
-// Student1:
-// UTORID user_name:
-// UT Student #:
-// Author:
+// Student1: 
+// UTORID user_name: gaoxu1
+// UT Student #: 1002309502
+// Author: Xu Sheng Gao
 //
 // Student2:
 // UTORID user_name:
