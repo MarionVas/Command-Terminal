@@ -16,9 +16,9 @@
 // Author: Marion Vasantharajah
 //
 // Student4:
-// UTORID user_name:
-// UT Student #:
-// Author:
+// UTORID user_name: shahid41
+// UT Student #: 1002385741
+// Author: Adnan Shahid
 //
 //
 // Honor Code: I pledge that this program represents my own
