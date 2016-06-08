@@ -6,9 +6,9 @@
 // Author: Xu Sheng Gao
 //
 // Student2:
-// UTORID user_name:
-// UT Student #:
-// Author:
+// UTORID user_name: haqueya1
+// UT Student #: 1002418225
+// Author: Yasir Haque
 //
 // Student3:
 // UTORID user_name: vasant42
