@@ -32,10 +32,11 @@ package driver;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import a2.*;
 
 public class JShell 
 {
-  //private Validator v1;
+  private Validator v1;
 
   public static void main(String[] args) 
   {
