@@ -29,10 +29,40 @@
 // *********************************************************
 package driver;
 
-public class JShell {
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-  public static void main(String[] args) {
+public class JShell 
+{
+  //private Validator v1;
+
+  public static void main(String[] args) 
+  {
+    // variable declaration
+    String input;
+    try 
+    {
+      // Create a line reader
+      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      
+      // Assess user input endlessly (intended to stop with the exit command)
+      // and send the input to the validator
+      while(true)
+      {
+        input = br.readLine();
+        //v1.validate(input);
+        
+        
+      }
+      
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
     // TODO Auto-generated method stub
+    
 
   }
 
