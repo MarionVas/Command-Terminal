@@ -7,12 +7,19 @@ public class FileSystem {
   private Vector Manager;
   private Vector<String> fullPaths;
   private String currDir;
+  private Folder empty;
+  private int currDepth;
   
   public FileSystem(){
     //Coordinates = new Vector();
     this.Manager = new Vector();
     this.fullPaths = new Vector();
+    this.fullPaths.addElement("/");
+    this.fullPaths.addElement("");
+    //empty = new Folder("empty", "/");
+    this.Manager.addElement(empty);
     currDir = "/";
+    this.currDepth = 0;
   }
   public String getCurrPath(){
    return this.currDir;
@@ -21,6 +28,7 @@ public class FileSystem {
     this.currDir = newDir;
   }
   public Object getObject(int index){
+    //System.out.println("getting" + Manager.get(0));
     return Manager.get(index);
   }
 
@@ -60,8 +68,11 @@ public class FileSystem {
     return result;
   }
   public void add(Folder newFolder){
-    Manager.addElement(newFolder);
+    //System.out.println(newFolder);
+    Manager.add(newFolder);
     fullPaths.add(newFolder.getPath());
+    this.currDepth++;
+    //System.out.println("added");
   }
   public void add(File newFile){
     Manager.addElement(newFile);
@@ -69,5 +80,14 @@ public class FileSystem {
   }
   public Vector<String> getFullPaths(){
     return this.fullPaths;
+  }
+  public int getDepth(){
+    return this.currDepth;
+  }
+  public void decreaseDepth(){
+    this.currDepth--;
+  }
+  public void increaseDepth(){
+    this.currDepth++;
   }
 }
