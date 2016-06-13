@@ -23,6 +23,26 @@ public class FileSystem {
   public Object getObject(int index){
     return Manager.get(index);
   }
+  public Object getObject(String name) {
+    Object result = null;
+    if (name.startsWith("/")) {
+      String parentName =
+          name.substring(name.lastIndexOf("/") + 1, name.length());
+      for (int i = 0; i < Manager.size(); i++) {
+        if (Manager.get(i) == parentName) {
+          result = Manager.get(i);
+        }
+      }
+    }
+    else{
+      for (int i = 0; i < Manager.size(); i++){
+        if (Manager.get(i) == name){
+          result = Manager.get(i);
+        }
+      }
+    }
+    return result;
+  }
   public void add(Folder newFolder){
     Manager.addElement(newFolder);
     fullPaths.add(newFolder.getPath());
