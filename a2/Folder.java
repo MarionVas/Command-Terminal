@@ -1,7 +1,7 @@
 package a2;
 
 import java.util.*;
-public class Folder {
+public class Folder extends FileSystem{
   private String dirName;
   private String dirPath;
   private Vector children;
@@ -25,5 +25,8 @@ public class Folder {
   }
   public Object getChildren(int index){
     return children.get(index);
+  }
+  public String toString(){
+    return dirName + dirPath;
   }
 }
