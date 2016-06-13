@@ -20,6 +20,9 @@ public class FileSystem {
   public void setFullPath(String newDir){
     this.currDir = newDir;
   }
+  public Object getObject(int index){
+    return Manager.get(index);
+  }
   public void add(Folder newFolder){
     Manager.addElement(newFolder);
     fullPaths.add(newFolder.getPath());
