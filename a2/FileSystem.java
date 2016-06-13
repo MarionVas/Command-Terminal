@@ -3,12 +3,12 @@ import java.util.*;
 public class FileSystem {
   //Output collaboration
   //DirStack collaboration
-  Vector Coordinates;
-  Vector Manager;
+  //Vector Coordinates; //Unessercsay
+  private Vector Manager;
   private String currDir;
   
   public FileSystem(){
-    Coordinates = new Vector();
+    //Coordinates = new Vector();
     Manager = new Vector();
     currDir = "/";
   }
@@ -17,5 +17,11 @@ public class FileSystem {
   }
   public void setFullPath(String newDir){
     this.currDir = newDir;
+  }
+  public void add(Folder newFolder){
+    Manager.addElement(newFolder);
+  }
+  public void add(File newFile){
+    Manager.addElement(newFile);
   }
 }
