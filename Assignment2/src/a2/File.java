@@ -1,5 +1,5 @@
 package a2;
 
-public class File {
+public class File extends FileSystem{
 
 }
