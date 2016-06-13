@@ -5,11 +5,13 @@ public class FileSystem {
   //DirStack collaboration
   //Vector Coordinates; //Unessercsay
   private Vector Manager;
+  private Vector<String> fullPaths;
   private String currDir;
   
   public FileSystem(){
     //Coordinates = new Vector();
-    Manager = new Vector();
+    this.Manager = new Vector();
+    this.fullPaths = new Vector();
     currDir = "/";
   }
   public String getCurrPath(){
@@ -20,8 +22,13 @@ public class FileSystem {
   }
   public void add(Folder newFolder){
     Manager.addElement(newFolder);
+    fullPaths.add(newFolder.getPath());
   }
   public void add(File newFile){
     Manager.addElement(newFile);
+    //fullPaths.add(newFile.getPath());
+  }
+  public Vector<String> getFullPaths(){
+    return this.fullPaths;
   }
 }
