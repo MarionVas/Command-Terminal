@@ -20,7 +20,17 @@ public class Mkdir {
         String currDir = name.substring(currDirIndex + 1, name.length());
         Folder newFolder = new Folder(currDir, name);
         Manager.add(newFolder);
-        System.out.println(currDir + "    " + name);
+        String parentPath = name.substring(0, name.lastIndexOf("/"));
+        int nameIndex = parentPath.lastIndexOf("/");
+        String parentName =
+            parentPath.substring(nameIndex, parentPath.length());
+        for (int i = 0; i < Manager.getFullPaths().size(); i++){
+          Folder parentFolder = (Folder) Manager.getObject(i);
+          if (parentName == parentFolder.getName()){
+            parentFolder.addChildren(newFolder);
+          }
+        }
+        //System.out.println(currDir + "    " + name);
       } else {
         // Return an error
       }
@@ -33,9 +43,18 @@ public class Mkdir {
         }
       }
       if (valid){
-        String fullPath = Manager.getCurrPath();
+        String fullPath = Manager.getCurrPath() + "/" + name;
         Folder newFolder = new Folder(name, fullPath);
         Manager.add(newFolder);
+        int nameIndex = Manager.getCurrPath().lastIndexOf("/");
+        String parentName = Manager.getCurrPath().substring(nameIndex + 1, 
+            Manager.getCurrPath().length());
+        for (int i = 0; i < Manager.getFullPaths().size(); i++){
+          Folder parentFolder = (Folder) Manager.getObject(i);
+          if (name == parentFolder.getName()){
+            parentFolder.addChildren(newFolder);
+          }
+        }
       }
       else {
         //Return an error message
