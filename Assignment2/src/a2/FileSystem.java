@@ -23,22 +23,38 @@ public class FileSystem {
   public Object getObject(int index){
     return Manager.get(index);
   }
+
   public Object getObject(String name) {
     Object result = null;
     if (name.startsWith("/")) {
-      String parentName =
-          name.substring(name.lastIndexOf("/") + 1, name.length());
+      /*
+       * String parentName = name.substring(name.lastIndexOf("/") + 1,
+       * name.length());
+       */ //To be removed
       for (int i = 0; i < Manager.size(); i++) {
-        if (Manager.get(i) == parentName) {
-          result = Manager.get(i);
+        if (Manager.get(i).getClass().equals(Folder.class)) {
+          if (((Folder) Manager.get(i)).getPath() == name) {
+            result = Manager.get(i);
+          }
         }
+        /*
+         * else{ if (((File) Manager.get(i)).getPath() == name) { result =
+         * Manager.get(i); } }
+         */ // To be taken out of comment latter
+
       }
-    }
-    else{
-      for (int i = 0; i < Manager.size(); i++){
-        if (Manager.get(i) == name){
-          result = Manager.get(i);
+    } else {
+      for (int i = 0; i < Manager.size(); i++) {
+        if (Manager.get(i).getClass().equals(Folder.class)) {
+          if (((Folder) Manager.get(i)).getName() == name) {
+            result = Manager.get(i);
+          }
         }
+        /*
+         * else{ if (((File) Manager.get(i)).getName() == name){ result =
+         * Manager.get(i); } }
+         */ // To be taken out of comment later
+
       }
     }
     return result;
@@ -49,7 +65,7 @@ public class FileSystem {
   }
   public void add(File newFile){
     Manager.addElement(newFile);
-    //fullPaths.add(newFile.getPath());
+    //fullPaths.add(newFile.getPath()); To be taken out of comment later
   }
   public Vector<String> getFullPaths(){
     return this.fullPaths;
