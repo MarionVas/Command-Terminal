@@ -20,7 +20,7 @@ public class History
    * 
    * @param input, the string value of the item to be added to the list
    */
-  private void addInput(String input)
+  public void addInput(String input)
   {
     this.inputHistory.add(input);
   }
@@ -28,7 +28,7 @@ public class History
   /**
    * The purpose of this function is to return the inputHistory list
    */
-  private List getHistory()
+  public List getHistory()
   {
     return inputHistory;
   }
@@ -40,13 +40,9 @@ public class History
    * 
    * @param location, the amount of previous commands the user wishes to see
    */
-  private List getHistory(int location)
+  public List getHistory(int location)
   {
     return inputHistory.subList((inputHistory.size()-location),
         inputHistory.size());
   }
-  
-  
-  
-
 }
