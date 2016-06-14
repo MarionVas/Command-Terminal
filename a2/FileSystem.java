@@ -8,7 +8,7 @@ public class FileSystem {
   private Vector<String> fullPaths;
   private String currDir;
   private Folder empty;
-  private int currDepth;
+  //private int currDepth;
   
   public FileSystem(){
     //Coordinates = new Vector();
@@ -19,7 +19,7 @@ public class FileSystem {
     //empty = new Folder("empty", "/");
     this.Manager.addElement(empty);
     currDir = "/";
-    this.currDepth = 0;
+    //this.currDepth = 0;
   }
   public String getCurrPath(){
    return this.currDir;
@@ -71,7 +71,7 @@ public class FileSystem {
     //System.out.println(newFolder);
     Manager.add(newFolder);
     fullPaths.add(newFolder.getPath());
-    this.currDepth++;
+    //this.currDepth++;
     //System.out.println("added");
   }
   public void add(File newFile){
@@ -81,7 +81,10 @@ public class FileSystem {
   public Vector<String> getFullPaths(){
     return this.fullPaths;
   }
-  public int getDepth(){
+  public boolean checkValidPath(String path){
+    return this.fullPaths.contains(path);
+  }
+  /*public int getDepth(){
     return this.currDepth;
   }
   public void decreaseDepth(){
@@ -89,5 +92,5 @@ public class FileSystem {
   }
   public void increaseDepth(){
     this.currDepth++;
-  }
+  }*/ //to be removed
 }
