@@ -14,14 +14,14 @@ public class Mkdir {
 
   public void create(String name) {
     if (name.startsWith("/")) {
-      Vector<String> fullPaths = Manager.getFullPaths();
+      //Vector<String> fullPaths = Manager.getFullPaths();
       String parentPath = name.substring(0, name.lastIndexOf("/"));
       // System.out.println(parentPath + "test1");
-      if (fullPaths.contains(parentPath)) {
+      if (Manager.checkValidPath(parentPath)) {
         // System.out.println(name + "test1");
         int currDirIndex = name.lastIndexOf("/");
         String currDir = name.substring(currDirIndex + 1, name.length());
-        System.out.println(currDir + "asdasd");
+        //System.out.println(currDir + "asdasd");
         Folder newFolder = new Folder(currDir, name);
         Manager.add(newFolder);
         // parentPath = name.substring(0, name.lastIndexOf("/"));
