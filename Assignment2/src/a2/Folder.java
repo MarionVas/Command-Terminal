@@ -6,11 +6,13 @@ public class Folder extends FileSystem{
   private String dirPath;
   private Vector children;
   private Vector<String> childrenNames;
+  private boolean atRoot;
   
   public Folder(String name, String path){
     this.dirName = name;
     this.dirPath = path;
     this.children = new Vector();
+    this.atRoot = false;
   }
   public String getName(){
     return this.dirName;
@@ -39,5 +41,11 @@ public class Folder extends FileSystem{
   }
   public String toString(){
     return dirName + dirPath;
+  }
+  public void isAtRoot(boolean root){
+    this.atRoot = root;
+  }
+  public boolean getisAtRoot(){
+    return this.atRoot;
   }
 }
