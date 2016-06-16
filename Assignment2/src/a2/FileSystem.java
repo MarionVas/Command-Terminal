@@ -7,7 +7,7 @@ public class FileSystem {
   private Vector Manager;
   private Vector<String> fullPaths;
   private String currDir;
-  private Folder empty;
+  private Folder empty; //To be removed
   //private int currDepth;
   
   public FileSystem(){
@@ -17,7 +17,7 @@ public class FileSystem {
     this.fullPaths.addElement("/");
     this.fullPaths.addElement("");
     //empty = new Folder("empty", "/");
-    this.Manager.addElement(empty);
+    this.Manager.addElement(empty); //To be removed
     currDir = "/";
     //this.currDepth = 0;
   }
