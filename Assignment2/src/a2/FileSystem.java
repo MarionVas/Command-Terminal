@@ -84,6 +84,15 @@ public class FileSystem {
   public boolean checkValidPath(String path){
     return this.fullPaths.contains(path);
   }
+  public boolean relativePathCehcker(String path){
+    boolean valid = false;
+    for (int i = 0; i < this.fullPaths.size(); i++){
+      if (this.fullPaths.get(i).contains(path)){
+        valid = true;
+      }
+    }
+    return  valid;
+  }
   /*public int getDepth(){
     return this.currDepth;
   }
