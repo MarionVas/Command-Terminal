@@ -9,7 +9,7 @@ public class FileSystem {
   private Vector<Folder> Manager;
   private Vector<String> fullPaths;
   private String currDir;
-  private Folder empty; // To be removed
+  private Folder currFolder; // DON'T REMOVE THIS (David)
   // private int currDepth;
 
   public FileSystem() {
@@ -20,8 +20,9 @@ public class FileSystem {
     this.fullPaths.addElement("");
     // empty = new Folder("empty", "/");
     // this.Manager.addElement(empty); //To be removed
-    currDir = "/";
+    this.currDir = "/"; // this. was missing did you miss it on purpose? (David)
     // this.currDepth = 0;
+    this.currFolder = new Folder("/", "/"); // maybe change the name (David)
   }
 
   public String getCurrPath() {
@@ -113,7 +114,8 @@ public class FileSystem {
     return this.fullPaths.contains(path);
   }
 
-  public boolean relativePathCehcker(String path) {
+  public boolean relativePathChecker(String path) { // you spelled the name
+                                                    // wrong (David)
     boolean valid = false;
     for (int i = 0; i < this.fullPaths.size(); i++) {
       if (this.fullPaths.get(i).contains(path)) {
@@ -121,6 +123,14 @@ public class FileSystem {
       }
     }
     return valid;
+  }
+
+  public void setCurrFolder(Folder folder) {
+    this.currFolder = folder;
+  }
+
+  public Folder getCurrFolder() {
+    return this.currFolder;
   }
   /*
    * public int getDepth(){ return this.currDepth; } public void
