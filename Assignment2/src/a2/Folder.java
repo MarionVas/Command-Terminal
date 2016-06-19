@@ -22,7 +22,7 @@ public class Folder extends FileSystem{
   }
   public void addChildren(Folder child){
     this.children.addElement(child);
-    this.childrenNames.addElement(child.getName());
+    //this.childrenNames.addElement(child.getName());
   }
   public void addChildren(File child){
     children.addElement(child);
@@ -38,6 +38,12 @@ public class Folder extends FileSystem{
       return null;
     }
     return childrenNames.get(index);
+  }
+  public Vector getAllChildren(){
+    if (children.size() == 0){
+      return null;
+    }
+    return children;
   }
   public String toString(){
     return dirName + dirPath;
