@@ -94,7 +94,7 @@ public class Mkdir {
       }
     }
     else if (name.contains("/")){
-      name = Manager.getCurrPath() + name;
+      name = Manager.getCurrPath() + "/" + name;
       
       
       String parentPath = name.substring(0, name.lastIndexOf("/"));
