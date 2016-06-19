@@ -12,6 +12,7 @@ public class Folder extends FileSystem{
     this.dirName = name;
     this.dirPath = path;
     this.children = new Vector();
+    this.childrenNames = new Vector();
     this.atRoot = false;
   }
   public String getName(){
@@ -22,7 +23,7 @@ public class Folder extends FileSystem{
   }
   public void addChildren(Folder child){
     this.children.addElement(child);
-    //this.childrenNames.addElement(child.getName());
+    this.childrenNames.addElement(child.getName());
   }
   public void addChildren(File child){
     children.addElement(child);
