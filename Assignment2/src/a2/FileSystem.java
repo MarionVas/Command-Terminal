@@ -205,6 +205,16 @@ public class FileSystem {
     return this.currFolder;
   }
 
+  /**
+   * Adds the an absolute path to fullPaths. To be used only in Mkdir for
+   * non-root Folders.
+   * 
+   * @param path - An absolute path of a Folder
+   */
+  public void addFullPath(String path) {
+    this.fullPaths.addElement(path);
+  }
+
 }
 
 
