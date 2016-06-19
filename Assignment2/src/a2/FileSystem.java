@@ -214,7 +214,23 @@ public class FileSystem {
   public void addFullPath(String path) {
     this.fullPaths.addElement(path);
   }
-
+  
+  /**
+   * This function checks if the relative path is a valid one, by seeing if
+   * it's a substring of another larger path
+   * 
+   * @param path - A relative path relative to the current working directory
+   * @return A boolean representing validity
+   */
+  public boolean relativePathChecker(String path) { 
+    boolean valid = false;
+    for (int i = 0; i < this.fullPaths.size(); i++) {
+      if (this.fullPaths.get(i).contains(path)) {
+        valid = true;
+      }
+    }
+    return valid;
+  }
 }
 
 
