@@ -23,11 +23,15 @@ public class Mkdir {
         String currDir = name.substring(currDirIndex + 1, name.length());
         //System.out.println(currDir + "asdasd");
         Folder newFolder = new Folder(currDir, name);
-        Manager.add(newFolder);
+        Manager.addFullPath(name);
         // parentPath = name.substring(0, name.lastIndexOf("/"));
-        if (Manager.getCurrPath().split("/", -1).length < 2) {
-          Folder parentFolder = (Folder) Manager.getObject(parentPath);
+        if (name.split("/").length > 2) {
+          Folder parentFolder = (Folder) Manager.getObj(parentPath);
           parentFolder.addChildren(newFolder);
+        }
+        else{
+          Manager.add(newFolder);
+          newFolder.isAtRoot(true);
         }
         /*
          * int nameIndex = parentPath.lastIndexOf("/"); String parentName =
@@ -40,7 +44,90 @@ public class Mkdir {
       } else {
         // Return an error
       }
-    } else {
+    } 
+    else if (name.startsWith("..")){
+      int lastIndex = 0;
+      int count = 0;
+
+      while(lastIndex != -1){
+
+          lastIndex = name.indexOf("..",lastIndex);
+
+          if(lastIndex != -1){
+              count ++;
+              lastIndex += 2;
+          }
+      }
+      String path = "";
+      for (int i = 1; i < Manager.getCurrPath().split("/").length - count; i++){
+        path =  path + "/" +  Manager.getCurrPath().split("/")[i];
+      }
+      name = path + name;
+      String parentPath = name.substring(0, name.lastIndexOf("/"));
+      // System.out.println(parentPath + "test1");
+      if (Manager.checkValidPath(parentPath)) {
+        // System.out.println(name + "test1");
+        int currDirIndex = name.lastIndexOf("/");
+        String currDir = name.substring(currDirIndex + 1, name.length());
+        //System.out.println(currDir + "asdasd");
+        Folder newFolder = new Folder(currDir, name);
+        Manager.addFullPath(name);
+        // parentPath = name.substring(0, name.lastIndexOf("/"));
+        if (name.split("/").length > 2) {
+          Folder parentFolder = (Folder) Manager.getObj(parentPath);
+          parentFolder.addChildren(newFolder);
+        }
+        else{
+          Manager.add(newFolder);
+          newFolder.isAtRoot(true);
+        }
+        /*
+         * int nameIndex = parentPath.lastIndexOf("/"); String parentName =
+         * parentPath.substring(nameIndex, parentPath.length()); for (int i = 0;
+         * i < Manager.getFullPaths().size(); i++){ Folder parentFolder =
+         * (Folder) Manager.getObject(i); if (parentName ==
+         * parentFolder.getName()){ parentFolder.addChildren(newFolder); } }
+         */ // To be removed
+        // System.out.println(currDir + " " + name); //To be removed
+      } else {
+        // Return an error
+      }
+    }
+    else if (name.contains("/")){
+      name = Manager.getCurrPath() + name;
+      
+      
+      String parentPath = name.substring(0, name.lastIndexOf("/"));
+      // System.out.println(parentPath + "test1");
+      if (Manager.checkValidPath(parentPath)) {
+        // System.out.println(name + "test1");
+        int currDirIndex = name.lastIndexOf("/");
+        String currDir = name.substring(currDirIndex + 1, name.length());
+        //System.out.println(currDir + "asdasd");
+        Folder newFolder = new Folder(currDir, name);
+        Manager.addFullPath(name);
+        // parentPath = name.substring(0, name.lastIndexOf("/"));
+        if (name.split("/").length > 2) {
+          Folder parentFolder = (Folder) Manager.getObj(parentPath);
+          parentFolder.addChildren(newFolder);
+        }
+        else{
+          Manager.add(newFolder);
+          newFolder.isAtRoot(true);
+        }
+        /*
+         * int nameIndex = parentPath.lastIndexOf("/"); String parentName =
+         * parentPath.substring(nameIndex, parentPath.length()); for (int i = 0;
+         * i < Manager.getFullPaths().size(); i++){ Folder parentFolder =
+         * (Folder) Manager.getObject(i); if (parentName ==
+         * parentFolder.getName()){ parentFolder.addChildren(newFolder); } }
+         */ // To be removed
+        // System.out.println(currDir + " " + name); //To be removed
+      } else {
+        // Return an error
+      }
+    }
+    else {
       boolean valid = true;
       for (int i = 0; i < specialChar.length; i++) {
         if (name.contains(specialChar[i])) {
@@ -58,12 +145,16 @@ public class Mkdir {
           fullPath = Manager.getCurrPath() + "/" + name;
         }
         Folder newFolder = new Folder(name, fullPath);
-        Manager.add(newFolder);
+        Manager.addFullPath(fullPath);
         // System.out.println("added2");
-        if (Manager.getCurrPath().split("/", -1).length < 2) {
+        if (fullPath.split("/").length > 2) {
           Folder parentFolder =
-              (Folder) Manager.getObject(Manager.getCurrPath());
+              (Folder) Manager.getObj(Manager.getCurrPath());
           parentFolder.addChildren(newFolder);
+        }
+        else{
+          Manager.add(newFolder);
+          newFolder.isAtRoot(true);
         }
 
         /*
