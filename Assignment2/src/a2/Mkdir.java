@@ -26,7 +26,7 @@ public class Mkdir {
         Manager.addFullPath(name);
         // parentPath = name.substring(0, name.lastIndexOf("/"));
         if (name.split("/").length > 2) {
-          Folder parentFolder = (Folder) Manager.getObj(parentPath);
+          Folder parentFolder = (Folder) Manager.getObject(parentPath);
           parentFolder.addChildren(newFolder);
         }
         else{
@@ -74,7 +74,7 @@ public class Mkdir {
         Manager.addFullPath(name);
         // parentPath = name.substring(0, name.lastIndexOf("/"));
         if (name.split("/").length > 2) {
-          Folder parentFolder = (Folder) Manager.getObj(parentPath);
+          Folder parentFolder = (Folder) Manager.getObject(parentPath);
           parentFolder.addChildren(newFolder);
         }
         else{
@@ -108,7 +108,7 @@ public class Mkdir {
         Manager.addFullPath(name);
         // parentPath = name.substring(0, name.lastIndexOf("/"));
         if (name.split("/").length > 2) {
-          Folder parentFolder = (Folder) Manager.getObj(parentPath);
+          Folder parentFolder = (Folder) Manager.getObject(parentPath);
           parentFolder.addChildren(newFolder);
         }
         else{
@@ -149,7 +149,7 @@ public class Mkdir {
         // System.out.println("added2");
         if (fullPath.split("/").length > 2) {
           Folder parentFolder =
-              (Folder) Manager.getObj(Manager.getCurrPath());
+              (Folder) Manager.getObject(Manager.getCurrPath());
           parentFolder.addChildren(newFolder);
         }
         else{
