@@ -26,8 +26,9 @@ public class FileSystem {
     // The root directory
     this.currDir = "/";
   }
+
   /**
-   * This function return the path of the current working directory.To be used 
+   * This function return the path of the current working directory.To be used
    * with various command classes.
    * 
    * @return currDirr - The absolute path of the current working directory
@@ -61,7 +62,7 @@ public class FileSystem {
   /**
    * This function accepts an absolute path or a name of an object in the local
    * directory and returns the corresponding directory or File according the the
-   * path. Traverses through the all the Trees that exist at root. To be used 
+   * path. Traverses through the all the Trees that exist at root. To be used
    * with various command classes.
    * 
    * @param name - A string representing an absolute path or a name of a local
@@ -99,9 +100,9 @@ public class FileSystem {
 
   /**
    * This is the recursive helper function to getObject() which searches through
-   * the tree. With each recursive step it checks a new child, and adds to
-   * the previous path until either, the desired object is found or the end of
-   * the subtree is reached.
+   * the tree. With each recursive step it checks a new child, and adds to the
+   * previous path until either, the desired object is found or the end of the
+   * subtree is reached.
    * 
    * @param name - The absolute path of the desired directory or file
    * @param currName - The current path built by the previous recursive steps
@@ -109,22 +110,34 @@ public class FileSystem {
    * @return result - Can either be the desired object or a null type
    */
   public Object getObjRecurs(String name, String currName, Folder dirrOrFile) {
-
+    // Base case if the desired name matches the name built by the recursive
+    // steps
     if (currName.equals(name)) {
       return dirrOrFile;
-    } else if (dirrOrFile == null) {
+    }
+    // If the end of the subtree is reached
+    else if (dirrOrFile == null) {
       Object result = null;
     }
+    // A vector representing all the children in the tree
     Vector allChildren = dirrOrFile.getAllChildren();
+    // Object representing the result of the recursive step
     Object result = null;
+    // Runs for all children of the node and while an object is not found and
+    // iff the node has children
     for (int i = 0; result == null && allChildren != null
         && i < allChildren.size(); i++) {
+      // If the specified child is a Folder
       if (allChildren.get(i).getClass().equals(Folder.class)) {
+        // the recursive call on the specified child as well as adding onto
+        // the current path
         result = getObjRecurs(name,
             currName + "/" + ((Folder) allChildren.get(i)).getName(),
             (Folder) allChildren.get(i));
-      } else {
-        // get File's name and check
+      }
+      // If the specified child is a File
+      else {
+        // Sending in a null as the child since, files have no children
         result = getObjRecurs(name,
             currName + "/" + ((File) allChildren.get(i)).getName(), null);
       }
@@ -133,35 +146,65 @@ public class FileSystem {
     return result;
   }
 
+  /**
+   * Adds a folder at ROOT only into Manager, as well as its corresponding
+   * absolute path. To be used only with Mkdir.
+   * 
+   * @param newFolder - A Folder at root
+   */
   public void add(Folder newFolder) {
     Manager.add(newFolder);
     fullPaths.add(newFolder.getPath());
   }
 
+  /**
+   * Adds a file's absolute path into fullPaths. To be used only with
+   * EchoOverride.
+   * 
+   * @param newFolder - A File
+   */
   public void addFilePath(String path) {
-    // Manager.addElement(newFile);
+    // Manager.addElement(newFile); //To be possibly removed later
     fullPaths.add(path);
   }
 
+  /**
+   * Returns a vector contained all the absolute paths in JShell
+   * 
+   * @return A vector containing all the absolute paths in JShell
+   */
   public Vector<String> getFullPaths() {
     return this.fullPaths;
   }
 
-  public void addFullPath(String path) {
-    this.fullPaths.addElement(path);
-  }
-
+  /**
+   * Checks whether the specified absolute path is valid and exist or not.
+   * 
+   * @param path - An absolute path
+   * @return A boolean representing whether or not the path is valid
+   */
   public boolean checkValidPath(String path) {
     return this.fullPaths.contains(path);
   }
-  
+
+  /**
+   * Sets the current working folder. To be used by CD only.
+   * 
+   * @param folder - representing the new current working folder
+   */
   public void setCurrFolder(Folder folder) {
     this.currFolder = folder;
   }
 
+  /**
+   * returns the current working folder
+   * 
+   * @return the current working folder
+   */
   public Folder getCurrFolder() {
     return this.currFolder;
   }
+
 }
 
 
