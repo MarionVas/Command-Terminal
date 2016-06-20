@@ -42,13 +42,10 @@ public class Folder extends FileSystem {
     return children.get(index);
   }
 
-  public Object getChildren(String name) {
+  public Object getFile(String name) {
     Object result = null;
     for (Object fileOrFolder : children) {
-      if (((Folder) fileOrFolder).getName() == name) {
-        result = fileOrFolder;
-      }
-      else if (((File) fileOrFolder).getName() == name) {
+      if (((File) fileOrFolder).getName() == name) {
         result = fileOrFolder;
       }
     }
