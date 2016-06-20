@@ -42,14 +42,14 @@ public class Folder extends FileSystem {
     return children.get(index);
   }
 
-  public Object getFile(String name) {
+  public File getFile(String name) {
     Object result = null;
     for (Object fileOrFolder : children) {
       if (((File) fileOrFolder).getName() == name) {
         result = fileOrFolder;
       }
     }
-    return result;
+    return (File) result;
   }
 
   public Object getChildrenName(int index) {
