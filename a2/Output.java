@@ -1,7 +1,7 @@
 package a2;
 
 public class Output {
-	public void printError() {
+	public static void printError() {
 		System.out.println("That was not a recognized command");
 	}
 
