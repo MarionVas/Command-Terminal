@@ -13,8 +13,9 @@ public class File extends FileSystem {
 		this.body.addElement(append);;
 	}
 
-	public void setBody(Vector<String> body) {
-		this.body = body;
+	public void setBody(String body) {
+		this.body = new Vector();
+		this.body.addElement(body);
 	}
 
   public String getName() {
