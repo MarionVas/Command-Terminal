@@ -3,10 +3,15 @@ package a2;
 public class CD {
   private FileSystem fileSystem = new FileSystem();
   private Output output = new Output();
+  private String path;
 
-  public void execute(String path) {
+  public CD (String path) {
+    this.path = path;
+    }
+
+  public void execute() {
     String currPath = fileSystem.getCurrPath();
-    if (path == "..") {
+    if (this.path == "..") {
       if (currPath == "/") {
         output.printPathError();
       } else {
@@ -14,15 +19,15 @@ public class CD {
         fileSystem.setFullPath(currPath);
         fileSystem.setCurrFolder((Folder) fileSystem.getObject(currPath));
       }
-    } else if (path == ".") {
+    } else if (this.path == ".") {
       // do nothing
     } else {
-      boolean correctPath = fileSystem.checkValidPath(path);
+      boolean correctPath = fileSystem.checkValidPath(this.path);
       if (!correctPath) {
         output.printPathError();
       } else {
-        fileSystem.setFullPath(path);
-        fileSystem.setCurrFolder((Folder) fileSystem.getObject(path));
+        fileSystem.setFullPath(this.path);
+        fileSystem.setCurrFolder((Folder) fileSystem.getObject(this.path));
 
       }
     }
