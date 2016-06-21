@@ -45,7 +45,8 @@ public class EchoOverwrite implements CommandInterface {
       // check if the file exists
       if (file.equals(null)) {
         // if the file does not exist display an error
-        Output.printFileNameError();
+        File newFile = new File(fileName);
+        currFolder.addChildren(newFile);
       } else {
         // if the file exists, replace the body of the file with the string
         replace(file, body);
