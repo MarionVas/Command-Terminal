@@ -3,11 +3,10 @@ package a2;
 public class PWD implements CommandInterface{
   private FileSystem fileSystem;
   private String path;
-  public PWD(JFileSystem manager, String arg){
+  public PWD(JFileSystem manager){
     this.fileSystem = manager;
-    this.path = arg;
   }
-  public String execute(String path) {
-    return fileSystem.getCurrPath();
+  public void execute() {
+    Output.printString(fileSystem.getCurrPath());
   }
 }
