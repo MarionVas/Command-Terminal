@@ -76,7 +76,7 @@ public class ProQuery {
           Output.printError();
         }
       } catch (NullPointerException e) {
-        System.out.println("Invalid command0");
+        Output.printError();
       }
 
     } else {
