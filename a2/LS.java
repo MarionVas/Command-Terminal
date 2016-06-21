@@ -14,7 +14,8 @@ public class LS implements CommandInterface{
   }
   public LS(JFileSystem fileManager){
     this.Manager = fileManager;
-    this.args = null;
+    this.args = new String[1];
+    this.args[0] = "";
   }
   public void execute(){
     for (int indexarg = 0 ; indexarg < this.args.length; indexarg++){
@@ -25,7 +26,9 @@ public class LS implements CommandInterface{
         if (Manager.getCurrPath() != "/"){
           Folder currFolder = (Folder) Manager.getObject(Manager.getCurrPath());
           Vector childNames = currFolder.getAllChildren();
-          java.util.Collections.sort(childNames);
+          if (childNames != null){
+            java.util.Collections.sort(childNames);
+          }
           int i = 0;
           while (currFolder.getChildren(i) != null){
             contents = contents + "\n" + childNames.get(i);
@@ -37,7 +40,9 @@ public class LS implements CommandInterface{
           while (Manager.getObject(index) != null){
             childNames.add(((Folder) Manager.getObject(index)).getName());
           }
-          java.util.Collections.sort(childNames);
+          if (childNames != null){
+            java.util.Collections.sort(childNames);
+          }
           int i = 0;
           while (childNames.get(i) != null){
             contents = contents + "      " + childNames.get(i);
@@ -52,7 +57,9 @@ public class LS implements CommandInterface{
               
               Folder currFolder = (Folder) Manager.getObject(arg);
               Vector childNames = currFolder.getAllChildren();
-              java.util.Collections.sort(childNames);
+              if (childNames != null){
+                java.util.Collections.sort(childNames);
+              }
               int i = 0;
               while (currFolder.getChildren(i) != null){
                 contents = contents + "     " + childNames.get(i);
@@ -69,7 +76,9 @@ public class LS implements CommandInterface{
             while (Manager.getObject(index) != null){
               childNames.add(((Folder) Manager.getObject(index)).getName());
             }
-            java.util.Collections.sort(childNames);
+            if (childNames != null){
+              java.util.Collections.sort(childNames);
+            }
             int i = 0;
             while (childNames.get(i) != null){
               contents = contents + "    " + childNames.get(i);
@@ -105,7 +114,9 @@ public class LS implements CommandInterface{
             if (Manager.getObject(arg).getClass().equals(Folder.class)){
               Folder currFolder = (Folder) Manager.getObject(arg);
               Vector childNames = currFolder.getAllChildren();
-              java.util.Collections.sort(childNames);
+              if (childNames != null){
+                java.util.Collections.sort(childNames);
+              }
               int i = 0;
               while (currFolder.getChildren(i) != null){
                 contents = contents + "     " + childNames.get(i);
@@ -122,7 +133,9 @@ public class LS implements CommandInterface{
             while (Manager.getObject(index) != null){
               childNames.add(((Folder) Manager.getObject(index)).getName());
             }
-            java.util.Collections.sort(childNames);
+            if (childNames != null){
+              java.util.Collections.sort(childNames);
+            }
             int i = 0;
             while (childNames.get(i) != null){
               contents = contents + "      " + childNames.get(i);
@@ -140,7 +153,9 @@ public class LS implements CommandInterface{
             if (Manager.getObject(arg).getClass().equals(Folder.class)){
               Folder currFolder = (Folder) Manager.getObject(arg);
               Vector childNames = currFolder.getAllChildren();
-              java.util.Collections.sort(childNames);
+              if (childNames != null){
+                java.util.Collections.sort(childNames);
+              }
               int i = 0;
               while (currFolder.getChildren(i) != null){
                 contents = contents + "     " + childNames.get(i);
