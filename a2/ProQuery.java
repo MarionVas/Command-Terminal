@@ -53,28 +53,27 @@ public class ProQuery {
 
         } catch (ClassNotFoundException e) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
-          System.out.println("Invalid command1");
+          Output.printError();
         } catch (InstantiationException e) {
           // TODO Auto-generated catch block
           // e.printStackTrace();
-          System.out.println("Invalid command2");
+          Output.printError();
         } catch (IllegalAccessException e) {
           // TODO Auto-generated catch block
           // e.printStackTrace();
-          System.out.println("Invalid command3");
+          Output.printError();
         } catch (IllegalArgumentException e) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
+          Output.printError();
         } catch (InvocationTargetException e) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
+          Output.printError();
         } catch (NoSuchMethodException e) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
+          Output.printError();
         } catch (SecurityException e) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
+          Output.printError();
         }
       } catch (NullPointerException e) {
         System.out.println("Invalid command0");
@@ -96,29 +95,28 @@ public class ProQuery {
 
         } catch (ClassNotFoundException e) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
-          System.out.println("Invalid command1");
+          Output.printError();
         } catch (IllegalArgumentException e) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
+          Output.printError();
         } catch (InvocationTargetException e) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
+          Output.printError();
         } catch (NoSuchMethodException e) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
+          Output.printError();
         } catch (SecurityException e) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
+          Output.printError();
         } catch (InstantiationException e) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
+          Output.printError();
         } catch (IllegalAccessException e) {
           // TODO Auto-generated catch block
-          e.printStackTrace();
+          Output.printError();
         }
       } catch (NullPointerException e) {
-        System.out.println("Invalid command0");
+        Output.printError();
       }
     }
 
@@ -135,19 +133,6 @@ public class ProQuery {
      * System.out.println("this   is a test".substring(1)); System.out.println(
      * "              this is a test".startsWith(" "));
      */
-    JFileSystem jfs = new JFileSystem();
-    ProQuery pq = new ProQuery(jfs);
-    pq.sortQuery("mkdir qawsed rsxq");
-    System.out.println("123");
-    pq.sortQuery("mkdir /rsxq/wer");
-    //System.out.println(((Folder) jfs.getObject(0)).getName());
-    pq.sortQuery("cd /rsxq");
-    pq.sortQuery("mkdir ../Test");
-    pq.sortQuery("ls");
-    pq.sortQuery("cd /");
-    System.out.println(jfs.getCurrPath());
-    pq.sortQuery("ls /rsxq");
-    pq.sortQuery("ls rsxq");
 
 
   }
