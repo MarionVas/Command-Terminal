@@ -19,14 +19,14 @@ public class ProQuery {
     singleCommandKeys.put("history", "a2.History");
     singleCommandKeys.put("popd", "a2.PushD");
 
-    commandKeys.put("cd", "CD");
-    commandKeys.put("cat", "Cat");
+    commandKeys.put("cd", "a2.CD");
+    commandKeys.put("cat", "a2.Cat");
     commandKeys.put("echo", "");
-    commandKeys.put("ls", "LS");
-    commandKeys.put("man", "Man");
-    commandKeys.put("mkdir", "Mkdir");
-    commandKeys.put("history", "History");
-    commandKeys.put("pushd", "PopD");
+    commandKeys.put("ls", "a2.LS");
+    commandKeys.put("man", "a2.Man");
+    commandKeys.put("mkdir", "a2.Mkdir");
+    commandKeys.put("history", "a2.History");
+    commandKeys.put("pushd", "a2.PopD");
 
     while (entry.startsWith(" ")) {
       entry = entry.substring(1);
