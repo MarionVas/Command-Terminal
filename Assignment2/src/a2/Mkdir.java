@@ -33,7 +33,22 @@ public class Mkdir implements CommandInterface{
             Manager.add(newFolder);
             newFolder.isAtRoot(true);
           }
-        } else {
+        
+        }
+        else if (parentPath.equals("")){
+          int currDirIndex = name.lastIndexOf("/");
+          String currDir = name.substring(currDirIndex + 1, name.length());
+          Folder newFolder = new Folder(currDir, name);
+          Manager.addFullPath(name);
+          if (name.split("/").length > 2) {
+            Folder parentFolder = (Folder) Manager.getObject(parentPath);
+            parentFolder.addChildren(newFolder);
+          } else {
+            Manager.add(newFolder);
+            newFolder.isAtRoot(true);
+          }
+        }
+        else {
           Output.printPathError();
         }
       } else if (name.startsWith("..")) {
