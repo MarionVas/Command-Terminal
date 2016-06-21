@@ -102,7 +102,6 @@ public class Mkdir implements CommandInterface{
         if (valid) {
           String fullPath = "";
           if (Manager.getCurrPath().split("/", -1).length <= 2) {
-            System.out.println(Manager.getCurrPath().split("/", -1).length);
             fullPath = Manager.getCurrPath() + name;
           }
   
