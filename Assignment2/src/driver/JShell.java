@@ -36,15 +36,13 @@ import a2.*;
 
 public class JShell 
 {
-  public static History commandHistory;
 
   public static void main(String[] args) 
   {
-    // creating the history object
-    commandHistory = new History();
     // variable declaration
+    JFileSystem jFileSystem = new JFileSystem();
+    ProQuery shellQuery = new ProQuery(jFileSystem);
     String input;
-    Boolean validEntry;
     try 
     {
       // Create a line reader
@@ -55,11 +53,7 @@ public class JShell
       while(true)
       {
         input = br.readLine();
-        commandHistory.addInput(input);
-        // Validate the entry
-        validEntry = Validator.validateEntry(input);
-        // awaiting further classes to be made - next command will use proQuery
-
+        shellQuery.sortQuery(input);
         
       }
       
