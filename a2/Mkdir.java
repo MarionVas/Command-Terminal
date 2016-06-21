@@ -19,6 +19,9 @@ public class Mkdir implements CommandInterface {
   public void execute() {
     for (int index = 0; index < this.names.length; index++) {
       String name = this.names[index];
+      if (name.endsWith("/")){
+        name = name.substring(0, name.length());
+      }
       if (name.startsWith("/")) {
         String parentPath = name.substring(0, name.lastIndexOf("/"));
         if (Manager.checkValidPath(parentPath)) {
