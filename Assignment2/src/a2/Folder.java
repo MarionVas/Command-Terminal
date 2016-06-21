@@ -60,6 +60,12 @@ public class Folder extends File {
     }
     return children;
   }
+  public Vector getAllChildrenNames() {
+    if (childrenNames.size() == 0) {
+      return null;
+    }
+    return childrenNames;
+  }
 
   public String toString() {
     return super.getName() + dirPath;
