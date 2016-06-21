@@ -5,8 +5,8 @@ public class EchoAppend extends EchoOverwrite implements CommandInterface {
   /**
    * The constructor uses the constructor from EchoOverwrite
    */
-  public EchoAppend(String parameter) {
-    super(parameter);
+  public EchoAppend(JFileSystem manager, String parameter) {
+    super(manager, parameter);
   }
 
   /**
