@@ -2,7 +2,7 @@ package a2;
 
 public class CD implements CommandInterface {
   // CD collaborates with FileSystem
-  private FileSystem fileSystem = new FileSystem(); // del equals
+  private FileSystem fileSystem; // del equals
   // initialize a string variable for the path given as parameter
   private String path;
 
@@ -10,9 +10,10 @@ public class CD implements CommandInterface {
    * The constructor
    */
 
-  public CD(String path) {
+  public CD(JFileSystem manager, String path) {
     // fileSystem = FileSystem.createFileSystemInstance();
     this.path = path;
+    this.fileSystem = manager;
   }
 
   /**
