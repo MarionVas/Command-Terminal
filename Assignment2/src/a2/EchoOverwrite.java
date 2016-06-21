@@ -4,7 +4,7 @@ import java.util.Vector;
 
 public class EchoOverwrite implements CommandInterface {
   // collaboration with fileSystem
-  private FileSystem fileSystem = new FileSystem(); // del equals
+  private FileSystem fileSystem; // del equals
   // initialize a variable to hold the index of "<"
   private int indexOfSymbol;
   // initialize a variable to hold the parameter passed to the command
@@ -16,8 +16,9 @@ public class EchoOverwrite implements CommandInterface {
    * The constructor
    */
 
-  public EchoOverwrite(String parameter) {
+  public EchoOverwrite(JFileSystem manager, String parameter) {
     // fileSystem = FileSystem.createFileSystemInstance();
+    this.fileSystem = manager;
     this.parameter = parameter;
     // finds the index of the ">" symbol
     this.indexOfSymbol = parameter.indexOf(">");
