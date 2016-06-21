@@ -1,6 +1,11 @@
 package a2;
 
 public class Exit implements CommandInterface {
+    private FileSystem manager;
+    public Exit(JFileSystem man){
+      this.manager = man;
+      
+    }
 	public void execute() {
 		// method to exit consoles
 		System.exit(0);
