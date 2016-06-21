@@ -137,7 +137,12 @@ public class ProQuery {
      */
     JFileSystem jfs = new JFileSystem();
     ProQuery pq = new ProQuery(jfs);
-    pq.sortQuery("pwd");
+    pq.sortQuery("mkdir qawsed rsxq");
+    System.out.println("123");
+    pq.sortQuery("mkdir /rsxq/wer");
+    System.out.println(((Folder) jfs.getObject(0)).getName());
+    pq.sortQuery("cd /rsxq");
+    pq.sortQuery("ls");
 
 
   }
