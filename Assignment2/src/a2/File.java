@@ -2,7 +2,7 @@ package a2;
 
 import java.util.Vector;
 
-public class File extends FileSystem {
+public class File extends JFileSystem {
     private String name;
 	private Vector<String> body = new Vector();
 	public File(String name){
