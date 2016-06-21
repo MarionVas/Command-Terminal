@@ -5,8 +5,13 @@ import java.util.Arrays;
 import java.util.Hashtable;
 
 public class ProQuery {
+  private JFileSystem jFileSystem;
 
-  public static void sortQuery(String entry) {
+  public ProQuery(JFileSystem jFileSystem) {
+    this.jFileSystem = jFileSystem;
+  }
+
+  public void sortQuery(String entry) {
 
     Hashtable<String, String> singleCommandKeys =
         new Hashtable<String, String>();
@@ -33,17 +38,17 @@ public class ProQuery {
     }
 
     String[] splitEntry = entry.split(" ");
-    System.out.println(Arrays.toString(splitEntry));
-    System.out.println(splitEntry[0]);
+    //System.out.println(Arrays.toString(splitEntry));
+    //System.out.println(splitEntry[0]);
 
     if (splitEntry.length <= 1) {
       try {
         String commandName = singleCommandKeys.get(splitEntry[0]);
-        System.out.println(commandName);
+        //System.out.println(commandName);
         try {
-          Class commandClass = Class.forName(commandName);
           CommandInterface commandInstance =
-              (CommandInterface) commandClass.newInstance();
+              (CommandInterface) Class.forName(commandName)
+                  .getConstructor(JFileSystem.class).newInstance(jFileSystem);
           commandInstance.execute();
 
         } catch (ClassNotFoundException e) {
@@ -58,6 +63,18 @@ public class ProQuery {
           // TODO Auto-generated catch block
           // e.printStackTrace();
           System.out.println("Invalid command3");
+        } catch (IllegalArgumentException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        } catch (InvocationTargetException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        } catch (SecurityException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
         }
       } catch (NullPointerException e) {
         System.out.println("Invalid command0");
@@ -66,13 +83,17 @@ public class ProQuery {
     } else {
       try {
         String commandName = commandKeys.get(splitEntry[0]);
-        String[] commandParameters = Arrays.copyOfRange(splitEntry, 1, splitEntry.length);
-        System.out.println(commandName);
+        String[] commandParameters =
+            Arrays.copyOfRange(splitEntry, 1, splitEntry.length);
+        //System.out.println(commandName);
+        //System.out.println(Arrays.toString(commandParameters));
         try {
-          Class commandClass = Class.forName(commandName);
-          CommandInterface commandInstance = CommandInterface.class.getConstructor(String[].class).newInstance(commandParameters);
+          CommandInterface commandInstance =
+              (CommandInterface) Class.forName(commandName)
+                  .getConstructor(JFileSystem.class, String[].class)
+                  .newInstance(jFileSystem, commandParameters);
           commandInstance.execute();
-          
+
         } catch (ClassNotFoundException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
@@ -105,10 +126,8 @@ public class ProQuery {
 
   public static void main(String[] args) {
     // TODO Auto-generated method stub
-    String teststring = "                    this is a test      ";
-    while (teststring.startsWith(" ")) {
-      teststring = teststring.substring(1);
-    }
+    // String teststring = " this is a test ";
+
     /*
      * String [] test = teststring.split(" ");
      * System.out.println(Arrays.toString(test));
@@ -116,8 +135,11 @@ public class ProQuery {
      * System.out.println("this   is a test".substring(1)); System.out.println(
      * "              this is a test".startsWith(" "));
      */
-    ProQuery.sortQuery("ikshgdk");
-    System.out.println("this   is a test".substring(1));
+    JFileSystem jfs = new JFileSystem();
+    ProQuery pq = new ProQuery(jfs);
+    pq.sortQuery("pwd");
+
+
   }
 
 }
