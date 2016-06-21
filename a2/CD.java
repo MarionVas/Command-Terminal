@@ -27,7 +27,7 @@ public class CD implements CommandInterface {
     // get the current path
     String currPath = fileSystem.getCurrPath();
     // check if the user wants the parent directory
-    if (this.path[0] == "..") {
+    if (this.path[0].equals("..")) {
       // check if the user is at the root
       if (currPath == "/") {
         // do nothing
@@ -40,7 +40,7 @@ public class CD implements CommandInterface {
         fileSystem.setCurrFolder((Folder) fileSystem.getObject(currPath));
       }
       // check if the user wants to stay on the same directory
-    } else if (this.path[0] == ".") {
+    } else if (this.path[0].equals(".")) {
       // do nothing
     } else {
       // check if the path given is valid
