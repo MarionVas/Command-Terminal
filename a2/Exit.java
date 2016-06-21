@@ -1,6 +1,6 @@
 package a2;
 
-public class Exit implements CommandsInterface {
+public class Exit implements CommandInterface {
 	public void execute() {
 		// method to exit consoles
 		System.exit(0);
