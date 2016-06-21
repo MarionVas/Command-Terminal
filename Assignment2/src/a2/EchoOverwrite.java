@@ -16,12 +16,12 @@ public class EchoOverwrite implements CommandInterface {
    * The constructor
    */
 
-  public EchoOverwrite(JFileSystem manager, String parameter) {
+  public EchoOverwrite(JFileSystem manager, String[] parameter) {
     // fileSystem = FileSystem.createFileSystemInstance();
     this.fileSystem = manager;
-    this.parameter = parameter;
+    this.parameter = parameter[0];
     // finds the index of the ">" symbol
-    this.indexOfSymbol = parameter.indexOf(">");
+    this.indexOfSymbol = this.parameter.indexOf(">");
   }
 
   /**
