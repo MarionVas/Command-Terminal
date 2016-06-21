@@ -2,17 +2,30 @@ package a2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class History implements CommandInterface //need execute method()
 {
-  
-  private List<String> inputHistory;
-  
+  // variable declaration
+  private Vector<String> inputHistory;
+  private int location;
+  private Vector<String> output;
+
   // Default constructor
   public History()
   {
     // make a new list
-    this.inputHistory = new ArrayList<String>();
+    this.inputHistory = new Vector<String>();
+    this.location = 0;
+
+  }
+  
+  public History(int location)
+  {
+    // make a new list
+    this.inputHistory = new Vector<String>();
+    this.location = location;
+
   }
   
   /**
@@ -23,26 +36,32 @@ public class History implements CommandInterface //need execute method()
   public void addInput(String input)
   {
     this.inputHistory.add(input);
+    
   }
-  
+    
   /**
-   * The purpose of this function is to return the inputHistory list
+   * The purpose of this method is to find the location of the 
    */
-  public List getHistory()
+  public void execute()
   {
-    return inputHistory;
-  }
-  
-  /**
-   * The purpose of this overloaded method is to return the a sublist of
-   * the inputHistory list containing the last n commands as specified by
-   * the user
-   * 
-   * @param location, the amount of previous commands the user wishes to see
-   */
-  public List getHistory(int location)
-  {
-    return inputHistory.subList((inputHistory.size()-location),
-        inputHistory.size());
+    // Error fixing, if the user picks a location larger than the command
+    // size it will default to 0
+    if (this.location == 0)
+    {
+      output = inputHistory;
+    }
+    else
+    {
+      // Error checking to prevent the user from picking a history location
+      // that is bigger than the history vector size
+      int commandLocation = Math.max(inputHistory.size()-this.location,0);
+      
+      // creating a vector string to output that displays the history
+      // appropriately from a location specified
+      output = (Vector<String>) inputHistory.subList(
+          inputHistory.size()-commandLocation, inputHistory.size());
+    }
+
+    Output.printContents(output);
   }
 }
