@@ -55,6 +55,9 @@ public class JFileSystem implements FileSystem{
     * @return returns the directory at the specified index of Manager
     */
    public Object getObject(int index) {
+     if (index >= Manager.size()){
+       return null;
+     }
      return Manager.get(index);
    }
   
