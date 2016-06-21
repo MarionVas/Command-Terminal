@@ -45,7 +45,7 @@ public class Folder extends FileSystem {
   public File getFile(String name) {
     Object result = null;
     for (Object fileOrFolder : children) {
-      if (((File) fileOrFolder).getName() == name) {
+      if (((File) fileOrFolder).getName().equals(name)) {
         result = fileOrFolder;
       }
     }

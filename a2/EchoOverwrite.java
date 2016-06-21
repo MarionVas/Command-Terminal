@@ -2,7 +2,7 @@ package a2;
 
 import java.util.Vector;
 
-public class EchoOverwrite {
+public class EchoOverwrite implements CommandInterface {
   // collaboration with fileSystem
   private FileSystem fileSystem = new FileSystem(); // del equals
   // initialize a variable to hold the index of "<"
