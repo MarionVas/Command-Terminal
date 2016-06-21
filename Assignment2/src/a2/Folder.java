@@ -2,23 +2,18 @@ package a2;
 
 import java.util.*;
 
-public class Folder extends FileSystem {
-  private String dirName;
+public class Folder extends File {
   private String dirPath;
   private Vector children;
   private Vector<String> childrenNames;
   private boolean atRoot;
 
   public Folder(String name, String path) {
-    this.dirName = name;
+    super(name);
     this.dirPath = path;
     this.children = new Vector();
     this.childrenNames = new Vector();
     this.atRoot = false;
-  }
-
-  public String getName() {
-    return this.dirName;
   }
 
   public String getPath() {
@@ -67,7 +62,7 @@ public class Folder extends FileSystem {
   }
 
   public String toString() {
-    return dirName + dirPath;
+    return super.getName() + dirPath;
   }
 
   public void isAtRoot(boolean root) {
@@ -77,4 +72,5 @@ public class Folder extends FileSystem {
   public boolean getisAtRoot() {
     return this.atRoot;
   }
+  
 }
