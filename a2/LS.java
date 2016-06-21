@@ -23,9 +23,16 @@ public class LS implements CommandInterface{
     
       String contents = "";
       if (arg == ""){
-        if (Manager.getCurrPath() != "/"){
+        if (!Manager.getCurrPath().equals("/")){
           Folder currFolder = (Folder) Manager.getObject(Manager.getCurrPath());
-          Vector childNames = currFolder.getAllChildrenNames();
+          Vector childNames;
+          if (currFolder == null){
+            childNames = null;
+          }
+          else{
+            childNames = currFolder.getAllChildrenNames();
+          }
+          
           if (childNames != null){
             java.util.Collections.sort(childNames);
           }
@@ -55,7 +62,7 @@ public class LS implements CommandInterface{
       }
       else if (arg.startsWith("/")){
         if (Manager.checkValidPath(arg)){
-          if (Manager.getCurrPath() != "/"){
+          if (!Manager.getCurrPath().equals("/")){
             if (Manager.getObject(arg).getClass().equals(Folder.class)){
               
               Folder currFolder = (Folder) Manager.getObject(arg);
@@ -116,7 +123,7 @@ public class LS implements CommandInterface{
         arg = path + arg;
         
         if (Manager.checkValidPath(arg)){
-          if (Manager.getCurrPath() != "/"){
+          if (!Manager.getCurrPath().equals("/")){
             if (Manager.getObject(arg).getClass().equals(Folder.class)){
               Folder currFolder = (Folder) Manager.getObject(arg);
               Vector childNames = currFolder.getAllChildrenNames();
