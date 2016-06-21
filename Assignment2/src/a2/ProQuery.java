@@ -140,9 +140,14 @@ public class ProQuery {
     pq.sortQuery("mkdir qawsed rsxq");
     System.out.println("123");
     pq.sortQuery("mkdir /rsxq/wer");
-    System.out.println(((Folder) jfs.getObject(0)).getName());
+    //System.out.println(((Folder) jfs.getObject(0)).getName());
     pq.sortQuery("cd /rsxq");
+    pq.sortQuery("mkdir ../Test");
     pq.sortQuery("ls");
+    pq.sortQuery("cd /");
+    System.out.println(jfs.getCurrPath());
+    pq.sortQuery("ls /rsxq");
+    pq.sortQuery("ls rsxq");
 
 
   }
