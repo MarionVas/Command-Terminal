@@ -30,7 +30,7 @@ public class LS implements CommandInterface{
             java.util.Collections.sort(childNames);
           }
           int i = 0;
-          while (currFolder.getChildren(i) != null){
+          while (i < currFolder.getAllChildren().size()){
             contents = contents + "\n" + childNames.get(i);
             i++;
           }
@@ -46,7 +46,7 @@ public class LS implements CommandInterface{
             java.util.Collections.sort(childNames);
           }
           int i = 0;
-          while (childNames.get(i) != null){
+          while (i < childNames.size() ){
             contents = contents + "      " + childNames.get(i);
             i++;
           }
@@ -64,7 +64,7 @@ public class LS implements CommandInterface{
                 java.util.Collections.sort(childNames);
               }
               int i = 0;
-              while (currFolder.getChildren(i) != null){
+              while (i < currFolder.getAllChildren().size()){
                 contents = contents + "     " + childNames.get(i);
                 i++;
               }
@@ -85,7 +85,7 @@ public class LS implements CommandInterface{
               java.util.Collections.sort(childNames);
             }
             int i = 0;
-            while (childNames.get(i) != null){
+            while (i < childNames.size()){
               contents = contents + "    " + childNames.get(i);
               i++;
             }
@@ -124,7 +124,7 @@ public class LS implements CommandInterface{
                 java.util.Collections.sort(childNames);
               }
               int i = 0;
-              while (currFolder.getChildren(i) != null){
+              while (i < currFolder.getAllChildren().size()){
                 contents = contents + "     " + childNames.get(i);
                 i++;
               }
@@ -145,7 +145,7 @@ public class LS implements CommandInterface{
               java.util.Collections.sort(childNames);
             }
             int i = 0;
-            while (childNames.get(i) != null){
+            while (i < childNames.size()){
               contents = contents + "      " + childNames.get(i);
               i++;
             }
@@ -166,7 +166,7 @@ public class LS implements CommandInterface{
                 java.util.Collections.sort(childNames);
               }
               int i = 0;
-              while (currFolder.getChildren(i) != null){
+              while (i < currFolder.getAllChildren().size()){
                 contents = contents + "     " + childNames.get(i);
                 i++;
               }
