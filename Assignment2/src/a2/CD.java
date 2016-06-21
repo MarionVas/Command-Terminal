@@ -25,6 +25,7 @@ public class CD implements CommandInterface {
 
   public void execute() {
     // get the current path
+    Folder currFolder = fileSystem.getCurrFolder();
     String currPath = fileSystem.getCurrPath();
     // check if the user wants the parent directory
     if (this.path[0].equals("..")) {
@@ -47,7 +48,18 @@ public class CD implements CommandInterface {
       boolean correctPath = fileSystem.checkValidPath(this.path[0]);
       // if the path is not valid print an error message
       if (!correctPath) {
-        Output.printPathError();
+        if (currFolder.getAllChildrenNames().contains(path[0])) {
+          Object pathObject = currFolder.getObject(path[0]);
+          if (pathObject.getClass().equals(Folder.class)) {
+            fileSystem.setFullPath(currPath + "/" + path[0]);
+            fileSystem.setCurrFolder((Folder) pathObject);
+          } else {
+            Output.printPathError();
+          }
+        } else {
+          Output.printPathError();
+        }
+
         // if the path is valid, change the current path to the given path
       } else {
         fileSystem.setFullPath(this.path[0]);
@@ -57,7 +69,7 @@ public class CD implements CommandInterface {
       }
     }
   }
-  
+
   /**
    * This function return the instructions on how to use the command CD.
    * 
