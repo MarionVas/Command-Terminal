@@ -4,13 +4,13 @@ public class CD implements CommandInterface {
   // CD collaborates with FileSystem
   private FileSystem fileSystem; // del equals
   // initialize a string variable for the path given as parameter
-  private String path;
+  private String[] path;
 
   /**
    * The constructor
    */
 
-  public CD(JFileSystem manager, String path) {
+  public CD(JFileSystem manager, String[] path) {
     // fileSystem = FileSystem.createFileSystemInstance();
     this.path = path;
     this.fileSystem = manager;
@@ -27,7 +27,7 @@ public class CD implements CommandInterface {
     // get the current path
     String currPath = fileSystem.getCurrPath();
     // check if the user wants the parent directory
-    if (this.path == "..") {
+    if (this.path[0] == "..") {
       // check if the user is at the root
       if (currPath == "/") {
         // do nothing
@@ -40,19 +40,19 @@ public class CD implements CommandInterface {
         fileSystem.setCurrFolder((Folder) fileSystem.getObject(currPath));
       }
       // check if the user wants to stay on the same directory
-    } else if (this.path == ".") {
+    } else if (this.path[0] == ".") {
       // do nothing
     } else {
       // check if the path given is valid
-      boolean correctPath = fileSystem.checkValidPath(this.path);
+      boolean correctPath = fileSystem.checkValidPath(this.path[0]);
       // if the path is not valid print an error message
       if (!correctPath) {
         Output.printPathError();
         // if the path is valid, change the current path to the given path
       } else {
-        fileSystem.setFullPath(this.path);
+        fileSystem.setFullPath(this.path[0]);
         // change the current folder to the given folder at the given path
-        fileSystem.setCurrFolder((Folder) fileSystem.getObject(this.path));
+        fileSystem.setCurrFolder((Folder) fileSystem.getObject(this.path[0]));
 
       }
     }
