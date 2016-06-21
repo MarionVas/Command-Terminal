@@ -8,9 +8,13 @@ public class LS implements CommandInterface{
   private FileSystem Manager;
   private String[] args;
   private String arg = "";
-  public LS(FileSystem fileManager, String[] name){
+  public LS(JFileSystem fileManager, String[] name){
     this.Manager = fileManager;
     this.args = name;
+  }
+  public LS(JFileSystem fileManager){
+    this.Manager = fileManager;
+    this.args = null;
   }
   public void execute(){
     for (int indexarg = 0 ; indexarg < this.args.length; indexarg++){
