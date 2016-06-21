@@ -3,7 +3,7 @@ package a2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class History 
+public class History implements CommandInterface //need execute method()
 {
   
   private List<String> inputHistory;

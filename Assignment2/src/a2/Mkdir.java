@@ -2,7 +2,7 @@ package a2;
 
 import java.util.*;
 
-public class Mkdir {
+public class Mkdir implements CommandInterface{
   private FileSystem Manager;
   private String[] specialChar =
       new String[] {"/", "!", "@", "$", "&", "#", "*", "(", ")", "?", ":", "[",

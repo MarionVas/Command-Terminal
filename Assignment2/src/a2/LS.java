@@ -4,7 +4,7 @@ import java.awt.Component;
 import java.awt.List;
 import java.util.Vector;
 
-public class LS {
+public class LS implements CommandInterface{
   private FileSystem Manager;
   public LS(FileSystem fileManager){
     this.Manager = fileManager;

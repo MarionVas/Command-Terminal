@@ -1,6 +1,6 @@
 package a2;
 
-public class CD {
+public class CD implements CommandInterface {
   // CD collaborates with FileSystem
   private FileSystem fileSystem = new FileSystem(); // del equals
   // initialize a string variable for the path given as parameter

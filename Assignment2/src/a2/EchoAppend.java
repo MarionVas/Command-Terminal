@@ -1,6 +1,6 @@
 package a2;
 
-public class EchoAppend extends EchoOverwrite {
+public class EchoAppend extends EchoOverwrite implements CommandInterface {
 
   /**
    * The constructor uses the constructor from EchoOverwrite
