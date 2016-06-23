@@ -17,8 +17,8 @@ public interface FileSystem {
   public boolean relativePathChecker(String path);
   public void setRoot(Folder root);
   public Folder getRootFolder();
+  public DirStack getDirStack();
   public void setDirStack(DirStack stack);
-  public void setHistory(History hist);
 }
 
 
