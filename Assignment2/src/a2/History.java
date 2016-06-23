@@ -1,5 +1,6 @@
 package a2;
 
+import java.util.List;
 import java.util.Vector;
 
 public class History implements CommandInterface //need execute method()
@@ -9,6 +10,7 @@ public class History implements CommandInterface //need execute method()
   private int location;
   private Vector<String> output;
   private int commandNumber = 0;
+  private int commandLocation;
 
   // Default constructor
   public History()
@@ -25,8 +27,9 @@ public class History implements CommandInterface //need execute method()
   public void addInput(String input)
   {
     // iterate the command number
-    //commandNumber++;
-    this.inputHistory.add(input);
+    commandNumber++;
+    // add the command input with the appropriate formatting
+    this.inputHistory.add(commandNumber + ". " + input);
     
   }
     
@@ -58,21 +61,40 @@ public class History implements CommandInterface //need execute method()
       
       // if the user chose a location larger than the size of the history
       // vector, choose zero instead - as per command terminal functionality
-      int commandLocation = Math.max(inputHistory.size()-location, 0);
+      commandLocation = Math.max(inputHistory.size()-location, 0);
       
       // creating a vector string to output that displays the history
       // appropriately from a location specified or 0 if need be
-      output = (Vector<String>) inputHistory.subList(
-          inputHistory.size()-commandLocation, inputHistory.size());
+      
+      for (int i = commandLocation; i < inputHistory.size(); i++)
+      {
+        output.add(inputHistory.get(i));
+      }
+      
+      Output.printContents(output);
+      
     } catch (Exception e){
       Output.printNumberError();
+      
+
+      
     }
 
 
     
  
   }
-
+  
+  public static void main(String[] args) {
+    History h = new History();
+    h.addInput("hi");
+    h.addInput("my");
+    h.addInput("name");
+    h.addInput("Adnan");
+    h.getHistory();
+    String[] taco = {"2"};
+    h.getHistory(taco);
+  }
   @Override
   public void execute() {
     // TODO Auto-generated method stub
