@@ -15,16 +15,24 @@ public class Cat implements CommandInterface { // require execute() method
     Folder currFolder = fileSystem.getCurrFolder();
     if (this.fileNames.length == 1) {
       File file = (File) currFolder.getFile(fileNames[0]);
-      Output.printContents(file.getBody());
+      if (file == null) {
+        Output.printFileNameError();
+      } else {
+        Output.printContents(file.getBody());
+      }
     } else {
       for (String eachFile : this.fileNames) {
         File file = (File) currFolder.getFile(eachFile);
-        Output.printContents(file.getBody());
-        Output.printString("");
-        Output.printString("");
-        Output.printString("");
+        if (file == null) {
+          Output.printFileNameError();
+          break;
+        } else {
+          Output.printContents(file.getBody());
+          Output.printString("");
+          Output.printString("");
+          Output.printString("");
+        }
       }
-
     }
   }
 
