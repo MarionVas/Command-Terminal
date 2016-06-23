@@ -26,6 +26,8 @@ public class JFileSystem implements FileSystem{
      this.fullPaths.addElement("/");
      // The root directory
      this.currDir = "/";
+     // Creating a DirStack
+     dirStack = new DirStack();
    }
   
    /**
@@ -263,7 +265,7 @@ public class JFileSystem implements FileSystem{
    }
    public DirStack getDirStack()
    {
-     return this.dirStack;
+     return dirStack;
    }
    public void setDirStack(DirStack stack){
      this.dirStack = stack;
