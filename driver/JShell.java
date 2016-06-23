@@ -47,17 +47,6 @@ public class JShell
     ProQuery shellQuery = new ProQuery(jFileSystem);
     String input;
     
-    
-    
-    
-    String[] a = new String [1];
-    a[0] = "a";
-    Mkdir mkdir = new Mkdir(jFileSystem, a);
-    mkdir.execute();
-    CD cd = new CD(jFileSystem, a);
-    cd.execute();
-        
-        
         
         
         
