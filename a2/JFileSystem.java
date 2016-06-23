@@ -6,19 +6,22 @@ public class JFileSystem implements FileSystem{
   //Output collaboration
    // DirStack collaboration
    // A vector which holds all Directories at root
-   private Vector<Folder> Manager;
+   //private Vector<Folder> Manager;
    // A vector that holds all the full paths of each entity in JShell
    private Vector<String> fullPaths;
    // A string representing the current working directory
    private String currDir;
    // The current working folder
    private Folder currFolder;
+   private Folder rootFolder;
+   private DirStack dirStack;
+   private History history;
   
    /**
     * The constructor
     */
    public JFileSystem() {
-     this.Manager = new Vector();
+     //this.Manager = new Vector();
      this.fullPaths = new Vector();
      // Adding the two most basic paths
      this.fullPaths.addElement("/");
@@ -54,12 +57,12 @@ public class JFileSystem implements FileSystem{
     * @param index - An integer representing an index position
     * @return returns the directory at the specified index of Manager
     */
-   public Object getObject(int index) {
+   /*public Object getObject(int index) {
      if (index >= Manager.size()){
        return null;
      }
      return Manager.get(index);
-   }
+   }*/
   
    /**
     * This function accepts an absolute path or a name of an object in the local
@@ -76,8 +79,9 @@ public class JFileSystem implements FileSystem{
      Object result = null;
      // If an absolute path is provided
      if (name.startsWith("/")) {
+       result = getObjRecurs(name, "/", this.rootFolder);
        // A loop which checks each tree present at root
-       for (int i = 0; i < Manager.size(); i++) {
+       /*for (int i = 0; i < Manager.size(); i++) {
          // Only runs if the object is not found
          if (result == null) {
            // Sends the given absolute path, the initial path of the current
@@ -85,17 +89,18 @@ public class JFileSystem implements FileSystem{
            result = getObjRecurs(name, "/" + ((Folder) Manager.get(i)).getName(),
                Manager.get(i));
          }
-       }
+       }*/
   
      } else { // If a local directory name is given
        // turning the local directory name into an absolute path
        name = this.currDir + "/" + name;
-       for (int i = 0; i < Manager.size(); i++) {
+       result = getObjRecurs(name, "/", this.rootFolder);
+       /*for (int i = 0; i < Manager.size(); i++) {
          if (result == null) {
            result = getObjRecurs(name, "/" + ((Folder) Manager.get(i)).getName(),
                Manager.get(i));
          }
-       }
+       }*/
      }
      return result;
    }
@@ -133,15 +138,28 @@ public class JFileSystem implements FileSystem{
        if (allChildren.get(i).getClass().equals(Folder.class)) {
          // the recursive call on the specified child as well as adding onto
          // the current path
-         result = getObjRecurs(name,
+         if (currName.equals("/")){
+           result = getObjRecurs(name, "/" + ((Folder) allChildren.get(i)).getName(), (Folder) allChildren.get(i));
+         }
+         else{
+           result = getObjRecurs(name,
              currName + "/" + ((Folder) allChildren.get(i)).getName(),
              (Folder) allChildren.get(i));
+         }
+         
        }
        // If the specified child is a File
        else {
          // Sending in a null as the child since, files have no children
-         result = getObjRecurs(name,
-             currName + "/" + ((File) allChildren.get(i)).getName(), null);
+         if (currName.equals("/")){
+           result = getObjRecurs(name,
+               "/" + ((File) allChildren.get(i)).getName(), null);
+         }
+         else{
+           result = getObjRecurs(name,
+               currName + "/" + ((File) allChildren.get(i)).getName(), null);
+         }
+         
        }
   
      }
@@ -155,7 +173,7 @@ public class JFileSystem implements FileSystem{
     * @param newFolder - A Folder at root
     */
    public void add(Folder newFolder) {
-     Manager.add(newFolder);
+     //Manager.add(newFolder);
      fullPaths.add(newFolder.getPath());
    }
   
@@ -197,6 +215,9 @@ public class JFileSystem implements FileSystem{
    public void setCurrFolder(Folder folder) {
      this.currFolder = folder;
    }
+   public void setRoot(Folder root){
+     this.rootFolder = root;
+   }
   
    /**
     * returns the current working folder
@@ -206,7 +227,9 @@ public class JFileSystem implements FileSystem{
    public Folder getCurrFolder() {
      return this.currFolder;
    }
-  
+   public Folder getRootFolder() {
+     return this.rootFolder;
+   }
    /**
     * Adds the an absolute path to fullPaths. To be used only in Mkdir for
     * non-root Folders.
@@ -232,5 +255,11 @@ public class JFileSystem implements FileSystem{
        }
      }
      return valid;
+   }
+   public void setDirStack(DirStack stack){
+     this.dirStack = stack;
+   }
+   public void setHistory(History hist){
+     this.history = hist;
    }
 }
