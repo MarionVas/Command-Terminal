@@ -15,7 +15,6 @@ public class JFileSystem implements FileSystem{
    private Folder currFolder;
    private Folder rootFolder;
    private DirStack dirStack;
-   private History history;
   
    /**
     * The constructor
