@@ -1,16 +1,16 @@
 package a2;
 
-public class PopD 
+public class PopD implements CommandInterface
 {
   private JFileSystem Manager;
   private DirStack directoryStack;
   private String[] location;
   
   // basic constructor for the PushD class
-  public PopD(JFileSystem fileManager, DirStack directoryStack)
+  public PopD(JFileSystem fileManager)
   {
     this.Manager = fileManager;
-    this.directoryStack = directoryStack;
+    this.directoryStack = Manager.getDirStack();
   }
 
   public void execute() 
@@ -20,6 +20,8 @@ public class PopD
      * to be placed in location
      */
     location[0] = directoryStack.popD();
+    // updated the FileSystem DirStack object
+    Manager.setDirStack(directoryStack);
     // change the current directory to the given location
     CD changeDirectory = new CD(Manager, location);
     changeDirectory.execute();
