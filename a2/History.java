@@ -8,6 +8,7 @@ public class History implements CommandInterface //need execute method()
   private Vector<String> inputHistory;
   private int location;
   private Vector<String> output;
+  private int commandNumber = 0;
 
   // Default constructor
   public History()
@@ -23,6 +24,8 @@ public class History implements CommandInterface //need execute method()
    */
   public void addInput(String input)
   {
+    // iterate the command number
+    //commandNumber++;
     this.inputHistory.add(input);
     
   }
@@ -46,13 +49,28 @@ public class History implements CommandInterface //need execute method()
    */
   public void getHistory(String[] strLocation)
   {
-    // change the string array into a single digit
-    int location = Integer.parseInt(strLocation[0]);
+    // Determine if the given string can be turned into an integer
+    // If not, display an error message
+    try
+    {
+      // convert the given string array into an integer
+      int location = Integer.parseInt(strLocation[0]);
+      
+      // if the user chose a location larger than the size of the history
+      // vector, choose zero instead - as per command terminal functionality
+      int commandLocation = Math.max(inputHistory.size()-location, 0);
+      
+      // creating a vector string to output that displays the history
+      // appropriately from a location specified or 0 if need be
+      output = (Vector<String>) inputHistory.subList(
+          inputHistory.size()-commandLocation, inputHistory.size());
+    } catch (Exception e){
+      Output.printNumberError();
+    }
+
+
     
-    // creating a vector string to output that displays the history
-    // appropriately from a location specified
-    output = (Vector<String>) inputHistory.subList(
-        inputHistory.size()-location, inputHistory.size()); 
+ 
   }
 
   @Override
