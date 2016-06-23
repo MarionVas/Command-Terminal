@@ -13,6 +13,10 @@ public class Output {
   public static void printError() {
     System.out.println("That was not a recognized command.");
   }
+  
+  public static void printNumberError() {
+    System.out.println("A numeric arguement is required.");
+  }
 
   /**
    * This function display an error message claiming the path is invalid, if an
