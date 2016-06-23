@@ -55,9 +55,14 @@ public class CD implements CommandInterface {
       // check if the path given is valid
       boolean correctPath = fileSystem.checkValidPath(this.path[0]);
       if (!correctPath) {
-        if (currFolder.getAllChildrenNames().contains(path[0])) {
-          System.out.println("ok1.");
-          Object pathObject = currFolder.getObject(path[0]);
+        System.out.println("okk." + currFolder.getName());
+        if (this.fileSystem.getCurrPath() == "/" && !path[0].contains("/")){
+          this.fileSystem.setFullPath("/" + path[0]);
+          this.fileSystem.setCurrFolder((Folder)fileSystem.getObject("/" + path[0]));
+        }
+        else if (currFolder.getAllChildrenNames().contains(path[0])) {
+          System.out.println("ok1." + currFolder.getName());
+          Object pathObject = fileSystem.getObject(path[0]);
           System.out.println("ok2.");
           System.out.println(String.valueOf(pathObject.getClass()));
           if (pathObject.getClass().equals(Folder.class)) {
