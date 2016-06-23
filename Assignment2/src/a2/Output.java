@@ -59,7 +59,7 @@ public class Output {
 
   public static void printContents(Vector<String> contents) {
     for (String content : contents) {
-      System.out.println(contents);
+      System.out.println(content);
     }
   }
 }
