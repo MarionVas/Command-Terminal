@@ -18,6 +18,11 @@ public class DirStack
     directoryStack.push(dir);
   }
   
+  public Stack<String> getStack()
+  {
+    return directoryStack;
+  }
+  
   public String popD()
   {
     return directoryStack.pop();
