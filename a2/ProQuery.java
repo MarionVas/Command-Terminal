@@ -6,9 +6,11 @@ import java.util.Hashtable;
 
 public class ProQuery {
   private JFileSystem jFileSystem;
+  private History commandHistory;
 
   public ProQuery(JFileSystem jFileSystem) {
     this.jFileSystem = jFileSystem;
+    this.commandHistory = new History();
   }
 
   public void sortQuery(String entry) {
@@ -21,17 +23,17 @@ public class ProQuery {
     singleCommandKeys.put("ls", "a2.LS");
     singleCommandKeys.put("exit", "a2.Exit");
     singleCommandKeys.put("pwd", "a2.PWD");
-    singleCommandKeys.put("history", "a2.History");
     singleCommandKeys.put("popd", "a2.PopD");
 
     commandKeys.put("cd", "a2.CD");
     commandKeys.put("cat", "a2.Cat");
-    commandKeys.put("echo", "");
+    commandKeys.put("echo", "a2.Echo");
     commandKeys.put("ls", "a2.LS");
     commandKeys.put("man", "a2.Man");
     commandKeys.put("mkdir", "a2.Mkdir");
-    commandKeys.put("history", "a2.History");
     commandKeys.put("pushd", "a2.PushD");
+
+    commandHistory.addInput(entry);
 
     while (entry.startsWith(" ")) {
       entry = entry.substring(1);
@@ -62,11 +64,14 @@ public class ProQuery {
         Output.printError();
       }
     } else if (splitEntry.length <= 1 && splitEntry[0].equals("history")) {
-      System.out.println("over here2 popd");
-    } else if (splitEntry.length > 1 && splitEntry[0].equals("history")){
+      commandHistory.getHistory();
+
+    } else if (splitEntry.length > 1 && splitEntry[0].equals("history")) {
       System.out.println("over here3 pushd");
-      String[] commandParameters =
-          Arrays.copyOfRange(splitEntry, 1, splitEntry.length);
+      commandHistory
+          .getHistory(Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
+
+
     } else {
       try {
         String commandName = commandKeys.get(splitEntry[0]);
