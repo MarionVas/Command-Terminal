@@ -22,7 +22,7 @@ public class ProQuery {
     singleCommandKeys.put("exit", "a2.Exit");
     singleCommandKeys.put("pwd", "a2.PWD");
     singleCommandKeys.put("history", "a2.History");
-    singleCommandKeys.put("popd", "a2.PushD");
+    singleCommandKeys.put("popd", "a2.PopD");
 
     commandKeys.put("cd", "a2.CD");
     commandKeys.put("cat", "a2.Cat");
@@ -31,61 +31,49 @@ public class ProQuery {
     commandKeys.put("man", "a2.Man");
     commandKeys.put("mkdir", "a2.Mkdir");
     commandKeys.put("history", "a2.History");
-    commandKeys.put("pushd", "a2.PopD");
+    commandKeys.put("pushd", "a2.PushD");
 
     while (entry.startsWith(" ")) {
       entry = entry.substring(1);
     }
 
     String[] splitEntry = entry.split(" ");
-    //System.out.println(Arrays.toString(splitEntry));
-    //System.out.println(splitEntry[0]);
+    // System.out.println(Arrays.toString(splitEntry));
+    // System.out.println(splitEntry[0]);
 
-    if (splitEntry.length <= 1) {
+    if (splitEntry.length <= 1 && !splitEntry[0].equals("history")) {
+      System.out.println("over here1");
       try {
         String commandName = singleCommandKeys.get(splitEntry[0]);
-        //System.out.println(commandName);
+        // System.out.println(commandName);
         try {
           CommandInterface commandInstance =
               (CommandInterface) Class.forName(commandName)
                   .getConstructor(JFileSystem.class).newInstance(jFileSystem);
           commandInstance.execute();
 
-        } catch (ClassNotFoundException e) {
-          // TODO Auto-generated catch block
-          Output.printError();
-        } catch (InstantiationException e) {
-          // TODO Auto-generated catch block
-          // e.printStackTrace();
-          Output.printError();
-        } catch (IllegalAccessException e) {
-          // TODO Auto-generated catch block
-          // e.printStackTrace();
-          Output.printError();
-        } catch (IllegalArgumentException e) {
-          // TODO Auto-generated catch block
-          Output.printError();
-        } catch (InvocationTargetException e) {
-          // TODO Auto-generated catch block
-          Output.printError();
-        } catch (NoSuchMethodException e) {
-          // TODO Auto-generated catch block
-          Output.printError();
-        } catch (SecurityException e) {
-          // TODO Auto-generated catch block
-          Output.printError();
+        } catch (ClassNotFoundException | InstantiationException
+            | IllegalAccessException | IllegalArgumentException
+            | InvocationTargetException | NoSuchMethodException
+            | SecurityException e) {
+          e.printStackTrace();
         }
       } catch (NullPointerException e) {
         Output.printError();
       }
-
+    } else if (splitEntry.length <= 1 && splitEntry[0].equals("history")) {
+      System.out.println("over here2 popd");
+    } else if (splitEntry.length > 1 && splitEntry[0].equals("history")){
+      System.out.println("over here3 pushd");
+      String[] commandParameters =
+          Arrays.copyOfRange(splitEntry, 1, splitEntry.length);
     } else {
       try {
         String commandName = commandKeys.get(splitEntry[0]);
         String[] commandParameters =
             Arrays.copyOfRange(splitEntry, 1, splitEntry.length);
-        //System.out.println(commandName);
-        //System.out.println(Arrays.toString(commandParameters));
+        // System.out.println(commandName);
+        // System.out.println(Arrays.toString(commandParameters));
         try {
           CommandInterface commandInstance =
               (CommandInterface) Class.forName(commandName)
@@ -93,27 +81,11 @@ public class ProQuery {
                   .newInstance(jFileSystem, commandParameters);
           commandInstance.execute();
 
-        } catch (ClassNotFoundException e) {
-          // TODO Auto-generated catch block
-          Output.printError();
-        } catch (IllegalArgumentException e) {
-          // TODO Auto-generated catch block
-          Output.printError();
-        } catch (InvocationTargetException e) {
-          // TODO Auto-generated catch block
-          Output.printError();
-        } catch (NoSuchMethodException e) {
-          // TODO Auto-generated catch block
-          Output.printError();
-        } catch (SecurityException e) {
-          // TODO Auto-generated catch block
-          Output.printError();
-        } catch (InstantiationException e) {
-          // TODO Auto-generated catch block
-          Output.printError();
-        } catch (IllegalAccessException e) {
-          // TODO Auto-generated catch block
-          Output.printError();
+        } catch (ClassNotFoundException | IllegalArgumentException
+            | InvocationTargetException | NoSuchMethodException
+            | SecurityException | InstantiationException
+            | IllegalAccessException e) {
+          e.printStackTrace();
         }
       } catch (NullPointerException e) {
         Output.printError();
