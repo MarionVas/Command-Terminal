@@ -92,7 +92,13 @@ public class JFileSystem implements FileSystem{
   
      } else { // If a local directory name is given
        // turning the local directory name into an absolute path
-       name = this.currDir + "/" + name;
+       if (!this.currDir.equals("/")) {
+         name = this.currDir + "/" + name;
+       }
+       else{
+         name = "/" + name;
+       }
+       
        result = getObjRecurs(name, "/", this.rootFolder);
        /*for (int i = 0; i < Manager.size(); i++) {
          if (result == null) {
