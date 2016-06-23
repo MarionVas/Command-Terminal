@@ -1,5 +1,6 @@
 package a2;
 
+import java.util.List;
 import java.util.Vector;
 
 public class Output {
@@ -44,9 +45,21 @@ public class Output {
    * 
    */
 
-
   public static void printString(String contents) {
     System.out.println(contents);
+  }
+  
+  /**
+   * This function display the contents of a given string List with each
+   * element on a new line
+   * 
+   * @param contents: The List to be output
+   */
+  public static void printContents(List<String> contents) 
+  {
+    for (String content : contents) {
+      System.out.println(content);
+    }
   }
 
 
@@ -55,7 +68,6 @@ public class Output {
    * element on a new line
    * 
    */
-
 
   public static void printContents(Vector<String> contents) {
     for (String content : contents) {
