@@ -41,6 +41,8 @@ public class JShell
   {
     // variable declaration
     JFileSystem jFileSystem = new JFileSystem();
+    Folder rootFolder = new Folder("/", "/");
+    jFileSystem.setRoot(rootFolder);
     ProQuery shellQuery = new ProQuery(jFileSystem);
     String input;
     try 
