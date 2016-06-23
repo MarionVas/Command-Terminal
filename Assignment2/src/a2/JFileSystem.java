@@ -256,10 +256,11 @@ public class JFileSystem implements FileSystem{
      }
      return valid;
    }
+   public DirStack getDirStack()
+   {
+     return this.dirStack;
+   }
    public void setDirStack(DirStack stack){
      this.dirStack = stack;
-   }
-   public void setHistory(History hist){
-     this.history = hist;
    }
 }
