@@ -4,29 +4,22 @@ import java.util.Stack;
 
 public class DirStack 
 {
-  public Stack<String> DirectoryStack;
-  private JFileSystem fileSystem;
+  public Stack<String> directoryStack;
 
   // Constructor for the DirStack
-  public DirStack(JFileSystem fileSystem)
+  public DirStack()
   {
     // make the directory stack
-    DirectoryStack = new Stack<String>();
-    this.fileSystem = fileSystem;
+    directoryStack = new Stack<String>();
   }
   
   public void pushD(String dir)
   {
-    DirectoryStack.push(dir);
-    CD location = new CD(fileSystem, dir);
-    location.execute();
+    directoryStack.push(dir);
   }
   
-  public void popD()
+  public String popD()
   {
-    String filePath = (String) DirectoryStack.pop();
-    CD location = new CD(fileSystem, filePath);
-    location.execute();
-    
+    return directoryStack.pop();
   }
 }
