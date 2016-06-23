@@ -61,7 +61,12 @@ public class Mkdir implements CommandInterface {
     for (int i = 1; i < Manager.getCurrPath().split("/").length
         - count; i++) {
       path = path + "/" + Manager.getCurrPath().split("/")[i];
-      name = name.substring(indexDots, name.length());
+      if (!name.startsWith("..")){
+        path = path + "/" + name.substring(0, indexDots);
+        i--;
+      }
+      name = name.substring(indexDots+1, name.length());
+      indexDots = name.indexOf("/");
 
     }
     System.out.println(path + name);
@@ -162,5 +167,7 @@ public class Mkdir implements CommandInterface {
     //System.out.println(((Folder) man.getObject(2)).getPath() + "  wdw" );
     Folder fold = (Folder) man.getObject("/wer");
     System.out.println(fold.getName());
+    man.setFullPath("/a/b/c/d/q/e");
+    
   }
 }
