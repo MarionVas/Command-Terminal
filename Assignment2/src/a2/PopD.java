@@ -19,12 +19,18 @@ public class PopD implements CommandInterface
      * save this in a string array to allow for the same type argument
      * to be placed in location
      */
-    location[0] = directoryStack.popD();
-    // updated the FileSystem DirStack object
-    Manager.setDirStack(directoryStack);
-    // change the current directory to the given location
-    CD changeDirectory = new CD(Manager, location);
-    changeDirectory.execute();
+    try 
+    {
+      location[0] = directoryStack.popD();
+      // updated the FileSystem DirStack object
+      Manager.setDirStack(directoryStack);
+      // change the current directory to the given location
+      CD changeDirectory = new CD(Manager, location);
+      changeDirectory.execute();
+    } catch (Exception e) {
+      Output.printError();
+    }
+
     
   }
 
