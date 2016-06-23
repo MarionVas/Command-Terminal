@@ -7,7 +7,6 @@ public class History implements CommandInterface //need execute method()
 {
   // variable declaration
   private Vector<String> inputHistory;
-  private int location;
   private Vector<String> output;
   private int commandNumber = 0;
   private int commandLocation;
@@ -52,12 +51,14 @@ public class History implements CommandInterface //need execute method()
    */
   public void getHistory(String[] strLocation)
   {
+    // create a location variable to store the location given by the user
+    int location;
     // Determine if the given string can be turned into an integer
     // If not, display an error message
     try
     {
       // convert the given string array into an integer
-      int location = Integer.parseInt(strLocation[0]);
+      location = Integer.parseInt(strLocation[0]);
       
       // if the user chose a location larger than the size of the history
       // vector, choose zero instead - as per command terminal functionality
@@ -66,35 +67,16 @@ public class History implements CommandInterface //need execute method()
       // creating a vector string to output that displays the history
       // appropriately from a location specified or 0 if need be
       
-      for (int i = commandLocation; i < inputHistory.size(); i++)
-      {
-        output.add(inputHistory.get(i));
-      }
-      
-      Output.printContents(output);
+      Output.printContents(inputHistory.subList
+          (inputHistory.size()-commandLocation, inputHistory.size()));
+
       
     } catch (Exception e){
-      Output.printNumberError();
-      
-
-      
+      Output.printNumberError();    
     }
-
-
-    
- 
   }
   
-  public static void main(String[] args) {
-    History h = new History();
-    h.addInput("hi");
-    h.addInput("my");
-    h.addInput("name");
-    h.addInput("Adnan");
-    h.getHistory();
-    String[] taco = {"2"};
-    h.getHistory(taco);
-  }
+
   @Override
   public void execute() {
     // TODO Auto-generated method stub
