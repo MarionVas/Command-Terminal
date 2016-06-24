@@ -194,7 +194,7 @@ public class LS implements CommandInterface {
       // be removed from the path at it should still be equivalent to if the 
       // "." was not there
       if (arg.contains("/./") || arg.endsWith("/.") || arg.startsWith("./")){
-        if (arg.startsWith("/.")){
+        if (arg.startsWith("./")){
           arg = arg.substring(2,arg.length());
         }
         CharSequence operator = "/./";
