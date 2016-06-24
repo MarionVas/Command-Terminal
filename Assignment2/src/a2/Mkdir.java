@@ -163,6 +163,21 @@ public class Mkdir implements CommandInterface {
       if (name.endsWith("/")) {
         name = name.substring(0, name.length() - 1);
       }
+      // Since the "." operator does not really do anything significant it can
+      // be removed from the path at it should still be equivalent to if the 
+      // "." was not there
+      if (name.contains("/./") || name.endsWith("/.") || name.startsWith("/.")){
+        if (name.startsWith("./")){
+          name = name.substring(2, name.length());
+        }
+        CharSequence operator = "/./";
+        while (name.contains(operator)){
+          name = name.replace(operator, "/");
+        }
+        if (name.endsWith("/.")){
+          name = name.substring(0, name.length()-2);
+        }
+      }
       // If an absolute path is given
       if (name.startsWith("/")) {
         // If the directory already exists
