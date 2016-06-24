@@ -150,6 +150,36 @@ public class Mkdir implements CommandInterface {
   }
 
   /**
+   * Removes any "."'s from the argument and handles multiple different cases
+   * involving it
+   * 
+   * @param name - the argument that needs to be created
+   * @return name - the argument but without any "."'s
+   */
+  public String removeSingleDots(String name) {
+    // Since the "." operator does not really do anything significant it can
+    // be removed from the path at it should still be equivalent to if the
+    // "." was not there
+    if (name.contains("/./") || name.endsWith("/.") || name.startsWith("/.")
+        || name.startsWith("./")) {
+      if (name.startsWith("./") && !this.Manager.getCurrPath().equals("/")) {
+        name = name.substring(2, name.length());
+      } else if (name.startsWith("./")
+          && this.Manager.getCurrPath().equals("/")) {
+        name = name.substring(1, name.length());
+      }
+      CharSequence operator = "/./";
+      while (name.contains(operator)) {
+        name = name.replace(operator, "/");
+      }
+      if (name.endsWith("/.")) {
+        name = name.substring(0, name.length() - 2);
+      }
+    }
+    return name;
+  }
+
+  /**
    * The method that will be called by ProQuery. Checks which kind of creation
    * is required and runs the appropriate method. Runs all arguments provided
    * Also print errors if the directory already exists
@@ -160,30 +190,15 @@ public class Mkdir implements CommandInterface {
       // Current argument
       String name = this.names[index];
       // Since the "." operator does not really do anything significant it can
-      // be removed from the path at it should still be equivalent to if the 
+      // be removed from the path at it should still be equivalent to if the
       // "." was not there
-      if (name.contains("/./") || name.endsWith("/.") || name.startsWith("/.")
-          || name.startsWith("./")) {
-        if (name.startsWith("./") && !this.Manager.getCurrPath().equals("/")) {
-          name = name.substring(2, name.length());
-        } else if (name.startsWith("./")
-            && this.Manager.getCurrPath().equals("/")) {
-          name = name.substring(1, name.length());
-        }
-        CharSequence operator = "/./";
-        while (name.contains(operator)) {
-          name = name.replace(operator, "/");
-        }
-        if (name.endsWith("/.")) {
-          name = name.substring(0, name.length() - 2);
-        }
-      }
-      
+      name = this.removeSingleDots(name);
+
       // Removing any "/" that is present at the end
       if (name.endsWith("/")) {
         name = name.substring(0, name.length() - 1);
       }
-      
+
       // If an absolute path is given
       if (name.startsWith("/")) {
         // If the directory already exists
