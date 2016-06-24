@@ -190,6 +190,22 @@ public class LS implements CommandInterface {
         slashAtEnd = true;
         arg = arg.substring(0, arg.length() - 1);
       }
+      // Since the "." operator does not really do anything significant it can
+      // be removed from the path at it should still be equivalent to if the 
+      // "." was not there
+      if (arg.contains("/./") || arg.endsWith("/.") || arg.startsWith("./")){
+        if (arg.startsWith("/.")){
+          arg = arg.substring(2,arg.length());
+        }
+        CharSequence operator = "/./";
+        while (arg.contains(operator)){
+          arg = arg.replace(operator, "/");
+        }
+        
+        if (arg.endsWith("/.")){
+          arg = arg.substring(0, arg.length()-2);
+        }
+      }
       // String representation of the children
       String contents = "";
       // If no argument was given
