@@ -76,7 +76,7 @@ public class LS implements CommandInterface {
    * @param arg - The absolute path
    * @return contents - A string representation of all the children
    */
-  public String executeFullPath(String arg) {
+  public String executeFullPath(String arg, boolean slashAtEnd) {
     String contents = "";
     // Checking if the path given is valid
     if (Manager.checkValidPath(arg)) {
@@ -105,7 +105,13 @@ public class LS implements CommandInterface {
         }
       } else {
         // If the path specified is to a file
-        contents = arg + "\n";
+        // If there must not be a slash at the end of the file name
+        if (!slashAtEnd){
+          contents = arg + "\n";
+        }
+        else{
+          Output.printPathError();
+        }
       }
     } else {
       // If an incorrect path is given
@@ -177,7 +183,13 @@ public class LS implements CommandInterface {
   public void execute() {
     // Runs all elements in the string array
     for (int indexarg = 0; indexarg < this.args.length; indexarg++) {
+      boolean slashAtEnd = false;
       this.arg = args[indexarg];
+      // Removing the slash at the end if one exists
+      if (arg.endsWith("/")) {
+        slashAtEnd = true;
+        arg = arg.substring(0, arg.length() - 1);
+      }
       // String representation of the children
       String contents = "";
       // If no argument was given
@@ -185,12 +197,12 @@ public class LS implements CommandInterface {
         contents = executeNoArg();
       } // If an absolute path was given
       else if (arg.startsWith("/")) {
-        contents = executeFullPath(arg);
+        contents = executeFullPath(arg, slashAtEnd);
       } // If a path containing ".." was given
       else if (arg.contains("..")) {
         // Turning arg into an absolute path
         arg = this.removeDots(arg);
-        contents = this.executeFullPath(arg);
+        contents = this.executeFullPath(arg, slashAtEnd);
       } // If a local path is given
       else if (arg.contains("/")) {
         // Creating an absolute path
@@ -199,7 +211,7 @@ public class LS implements CommandInterface {
         } else {
           arg = "/" + arg;
         }
-        contents = this.executeFullPath(arg);
+        contents = this.executeFullPath(arg, slashAtEnd);
       } // If a directory name is given
       else {
         // Building the absolute path
@@ -208,7 +220,7 @@ public class LS implements CommandInterface {
         } else {
           arg = Manager.getCurrPath() + "/" + arg;
         }
-        contents = this.executeFullPath(arg);
+        contents = this.executeFullPath(arg, slashAtEnd);
       }
       // Using the output class to print the string
       Output.printString(contents);
