@@ -159,25 +159,31 @@ public class Mkdir implements CommandInterface {
     for (int index = 0; index < this.names.length; index++) {
       // Current argument
       String name = this.names[index];
+      // Since the "." operator does not really do anything significant it can
+      // be removed from the path at it should still be equivalent to if the 
+      // "." was not there
+      if (name.contains("/./") || name.endsWith("/.") || name.startsWith("/.")
+          || name.startsWith("./")) {
+        if (name.startsWith("./") && !this.Manager.getCurrPath().equals("/")) {
+          name = name.substring(2, name.length());
+        } else if (name.startsWith("./")
+            && this.Manager.getCurrPath().equals("/")) {
+          name = name.substring(1, name.length());
+        }
+        CharSequence operator = "/./";
+        while (name.contains(operator)) {
+          name = name.replace(operator, "/");
+        }
+        if (name.endsWith("/.")) {
+          name = name.substring(0, name.length() - 2);
+        }
+      }
+      
       // Removing any "/" that is present at the end
       if (name.endsWith("/")) {
         name = name.substring(0, name.length() - 1);
       }
-      // Since the "." operator does not really do anything significant it can
-      // be removed from the path at it should still be equivalent to if the 
-      // "." was not there
-      if (name.contains("/./") || name.endsWith("/.") || name.startsWith("/.")){
-        if (name.startsWith("./")){
-          name = name.substring(2, name.length());
-        }
-        CharSequence operator = "/./";
-        while (name.contains(operator)){
-          name = name.replace(operator, "/");
-        }
-        if (name.endsWith("/.")){
-          name = name.substring(0, name.length()-2);
-        }
-      }
+      
       // If an absolute path is given
       if (name.startsWith("/")) {
         // If the directory already exists
@@ -213,7 +219,7 @@ public class Mkdir implements CommandInterface {
       } // If the argument is only a directory name
       else {
         // Check if the name already exists
-        if (Manager.checkValidPath(name)) {
+        if (Manager.checkValidPath(name) || name.equals("")) {
           Output.printError();
         } else {
           this.executeLocal(name);
