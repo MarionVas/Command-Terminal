@@ -96,9 +96,11 @@ public class LS implements CommandInterface {
           }
           int i = 0;
           // Adding the child names to a string and formating it
-          while (i < currFolder.getAllChildren().size()) {
-            contents = contents + "     " + childNames.get(i);
-            i++;
+          if (childNames != null){
+            while (i < currFolder.getAllChildren().size()) {
+              contents = contents + "     " + childNames.get(i);
+              i++;
+            }
           }
           // Finishing up the formating
           contents = arg + ": " + contents + "\n";
@@ -106,10 +108,9 @@ public class LS implements CommandInterface {
       } else {
         // If the path specified is to a file
         // If there must not be a slash at the end of the file name
-        if (!slashAtEnd){
+        if (!slashAtEnd) {
           contents = arg + "\n";
-        }
-        else{
+        } else {
           Output.printPathError();
         }
       }
@@ -172,9 +173,40 @@ public class LS implements CommandInterface {
 
     }
     // Returning the absolute path
+    if (name.equals("..") && !path.equals("")){
+      return path;
+    }
+    else if (path.equals("") && name.equals("..")){
+      return "/";
+    }
     return path + "/" + name;
   }
+  public String removeSingleDot(String arg){
+    if (arg.contains("/./") || arg.endsWith("/.") || arg.startsWith("./")
+        || arg.equals(".")) {
+      // If the current directory is specified
+      if (arg.equals("./") || arg.equals(".")) {
+        arg = this.Manager.getCurrPath();
+      } else {
+        if (arg.startsWith("./")) {
+          arg = arg.substring(2, arg.length());
+        }
+        CharSequence operator = "/./";
+        while (arg.contains(operator)) {
+          arg = arg.replace(operator, "/");
+        }
 
+        if (arg.endsWith("/.") && !arg.equals("/.")) {
+          arg = arg.substring(0, arg.length() - 2);
+        }
+        else if (arg.endsWith("/.") && arg.equals("/.")){
+          arg = "/";
+        }
+      }
+    
+    }
+    return arg;
+  }
   /**
    * The method that will be called by ProQuery. Determines what kind of
    * argument the user has entered; Runs all the arguments that the user has
@@ -185,26 +217,15 @@ public class LS implements CommandInterface {
     for (int indexarg = 0; indexarg < this.args.length; indexarg++) {
       boolean slashAtEnd = false;
       this.arg = args[indexarg];
+      // Since the "." operator does not really do anything significant it can
+      // be removed from the path at it should still be equivalent to if the
+      // "." was not there
+      arg = this.removeSingleDot(arg);
+      
       // Removing the slash at the end if one exists
-      if (arg.endsWith("/")) {
+      if (arg.endsWith("/") && !arg.equals("/")) {
         slashAtEnd = true;
         arg = arg.substring(0, arg.length() - 1);
-      }
-      // Since the "." operator does not really do anything significant it can
-      // be removed from the path at it should still be equivalent to if the 
-      // "." was not there
-      if (arg.contains("/./") || arg.endsWith("/.") || arg.startsWith("./")){
-        if (arg.startsWith("./")){
-          arg = arg.substring(2,arg.length());
-        }
-        CharSequence operator = "/./";
-        while (arg.contains(operator)){
-          arg = arg.replace(operator, "/");
-        }
-        
-        if (arg.endsWith("/.")){
-          arg = arg.substring(0, arg.length()-2);
-        }
       }
       // String representation of the children
       String contents = "";
@@ -217,8 +238,16 @@ public class LS implements CommandInterface {
       } // If a path containing ".." was given
       else if (arg.contains("..")) {
         // Turning arg into an absolute path
-        arg = this.removeDots(arg);
-        contents = this.executeFullPath(arg, slashAtEnd);
+        if (arg.equals("..")){
+          arg = this.Manager.getCurrPath().substring(0, Manager.getCurrPath().lastIndexOf("/"));
+          System.out.println(arg);
+          contents = this.executeFullPath(arg, slashAtEnd);
+        }
+        else {
+          arg = this.removeDots(arg);
+          contents = this.executeFullPath(arg, slashAtEnd);
+        }
+        
       } // If a local path is given
       else if (arg.contains("/")) {
         // Creating an absolute path
