@@ -55,18 +55,19 @@ public class CD implements CommandInterface {
       // check if the path given is valid
       boolean correctPath = fileSystem.checkValidPath(this.path[0]);
       if (!correctPath) {
-        System.out.println("okk." + currFolder.getName());
-        if (this.fileSystem.getCurrPath() == "/" && !path[0].contains("/")){
-          this.fileSystem.setFullPath("/" + path[0]);
-          this.fileSystem.setCurrFolder((Folder)fileSystem.getObject("/" + path[0]));
-        }
-        else if (currFolder.getAllChildrenNames().contains(path[0])) {
-          System.out.println("ok1." + currFolder.getName());
+        /*
+         * if (this.fileSystem.getCurrPath().equals("/") &&
+         * !path[0].contains("/")) { this.fileSystem.setFullPath("/" + path[0]);
+         * this.fileSystem .setCurrFolder((Folder) fileSystem.getObject("/" +
+         * path[0])); } else
+         */if (currFolder.getAllChildrenNames().contains(path[0])) {
           Object pathObject = fileSystem.getObject(path[0]);
-          System.out.println("ok2.");
-          System.out.println(String.valueOf(pathObject.getClass()));
           if (pathObject.getClass().equals(Folder.class)) {
-            fileSystem.setFullPath(currPath + "/" + path[0]);
+            if (this.fileSystem.getCurrPath().equals("/")) {
+              fileSystem.setFullPath("/" + path[0]);
+            } else {
+              fileSystem.setFullPath(currPath + "/" + path[0]);
+            }
             fileSystem.setCurrFolder((Folder) pathObject);
           } else {
             Output.printPathError();
@@ -77,9 +78,13 @@ public class CD implements CommandInterface {
 
         // if the path is valid, change the current path to the given path
       } else {
-        fileSystem.setFullPath(this.path[0]);
-        // change the current folder to the given folder at the given path
-        fileSystem.setCurrFolder((Folder) fileSystem.getObject(this.path[0]));
+        if (path[0].contains("..")) {
+
+        } else {
+          fileSystem.setFullPath(this.path[0]);
+          // change the current folder to the given folder at the given path
+          fileSystem.setCurrFolder((Folder) fileSystem.getObject(this.path[0]));
+        }
       }
     }
   }
