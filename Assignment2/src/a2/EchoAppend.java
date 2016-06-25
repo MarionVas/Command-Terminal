@@ -63,8 +63,9 @@ public class EchoAppend extends EchoOverwrite implements CommandInterface {
    */
 
 
-  public String man() {
-    return "modifies the outfile such that it appends an extra string\n"
-        + "line “STRING” to the end of the file. i.e. echo STRING >> OUTFILE";
+  public String manual() {
+    return "echo STRING >> OUTFILE - modifies the outfile such that it\n"
+        + "appends an extra string line “STRING” to the end of the file.\n";
+
   }
 }
