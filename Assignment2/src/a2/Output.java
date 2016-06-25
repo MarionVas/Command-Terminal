@@ -28,6 +28,16 @@ public class Output {
   public static void printPathError() {
     System.out.println("That was not a valid path.");
   }
+  
+  /**
+   * This function displays an error message when trying to retrieve an item
+   * from the directory stack when there are no items inside
+   * 
+   */
+
+  public static void printDirectoryStackError() {
+    System.out.println("The directory stack is empty.");
+  }
 
   /**
    * This function display an error message claiming the file name is invalid,
