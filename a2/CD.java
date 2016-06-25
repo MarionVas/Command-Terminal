@@ -141,6 +141,13 @@ public class CD implements CommandInterface {
       }
     }
   }
+
+  public String manual() {
+    return "cd DIR - Changes the current directory to DIR, which may be a"
+        + "specified full path or a path relative to the current directory."
+        + "'..' refers to the parent directory while '.' refers to the"
+        + " current.";
+  }
 }
 
 
