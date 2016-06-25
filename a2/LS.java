@@ -272,4 +272,9 @@ public class LS implements CommandInterface {
     }
   }
 
+  public String manual() {
+    return "ls [PATH   …] - Print the contents of the specified files or\n"
+        + "directories. If no path is given, print the contents of the\n"
+        + "current file or directory.\n";
+  }
 }
