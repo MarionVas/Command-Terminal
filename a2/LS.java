@@ -96,7 +96,7 @@ public class LS implements CommandInterface {
           }
           int i = 0;
           // Adding the child names to a string and formating it
-          if (childNames != null){
+          if (childNames != null) {
             while (i < currFolder.getAllChildren().size()) {
               contents = contents + "     " + childNames.get(i);
               i++;
@@ -173,15 +173,15 @@ public class LS implements CommandInterface {
 
     }
     // Returning the absolute path
-    if (name.equals("..") && !path.equals("")){
+    if (name.equals("..") && !path.equals("")) {
       return path;
-    }
-    else if (path.equals("") && name.equals("..")){
+    } else if (path.equals("") && name.equals("..")) {
       return "/";
     }
     return path + "/" + name;
   }
-  public String removeSingleDot(String arg){
+
+  public String removeSingleDot(String arg) {
     if (arg.contains("/./") || arg.endsWith("/.") || arg.startsWith("./")
         || arg.equals(".")) {
       // If the current directory is specified
@@ -198,15 +198,15 @@ public class LS implements CommandInterface {
 
         if (arg.endsWith("/.") && !arg.equals("/.")) {
           arg = arg.substring(0, arg.length() - 2);
-        }
-        else if (arg.endsWith("/.") && arg.equals("/.")){
+        } else if (arg.endsWith("/.") && arg.equals("/.")) {
           arg = "/";
         }
       }
-    
+
     }
     return arg;
   }
+
   /**
    * The method that will be called by ProQuery. Determines what kind of
    * argument the user has entered; Runs all the arguments that the user has
@@ -221,7 +221,7 @@ public class LS implements CommandInterface {
       // be removed from the path at it should still be equivalent to if the
       // "." was not there
       arg = this.removeSingleDot(arg);
-      
+
       // Removing the slash at the end if one exists
       if (arg.endsWith("/") && !arg.equals("/")) {
         slashAtEnd = true;
@@ -238,16 +238,16 @@ public class LS implements CommandInterface {
       } // If a path containing ".." was given
       else if (arg.contains("..")) {
         // Turning arg into an absolute path
-        if (arg.equals("..")){
-          arg = this.Manager.getCurrPath().substring(0, Manager.getCurrPath().lastIndexOf("/"));
+        if (arg.equals("..")) {
+          arg = this.Manager.getCurrPath().substring(0,
+              Manager.getCurrPath().lastIndexOf("/"));
           System.out.println(arg);
           contents = this.executeFullPath(arg, slashAtEnd);
-        }
-        else {
+        } else {
           arg = this.removeDots(arg);
           contents = this.executeFullPath(arg, slashAtEnd);
         }
-        
+
       } // If a local path is given
       else if (arg.contains("/")) {
         // Creating an absolute path
