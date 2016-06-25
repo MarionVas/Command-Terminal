@@ -57,7 +57,7 @@ public class Cat implements CommandInterface {
     }
   }
   public String manual() {
-    return "cat FILE1 [FILE2  …] - Displays the contents of the specified "
-        + "files concatenated within the shell.";
+    return "cat FILE1 [FILE2  …] - Displays the contents of the specified\n"
+        + "files concatenated within the shell.\n";
   }
 }
