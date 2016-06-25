@@ -109,12 +109,12 @@ public class EchoOverwrite implements CommandInterface {
    * @return a string telling users the how the command works
    */
 
-  public String man() {
-    return "Print a string on the shell. If a “> OUTFILE” parameter is\n"
-        + "specified within the command, modify the file such that it only\n"
-        + "contains the given string argument “STRING”. If the file does \n"
-        + "not exist, create a new file with the given string argument as the\n"
-        + "body. i.e. echo STRING > OUTFILE";
+  public String manual() {
+    return "echo STRING > OUTFILE - Print a string on the shell. If a\n"
+        + "“> OUTFILE” parameter is specified within the command, modify the\n"
+        + "file such that it only contains the given string argument\n"
+        + "“STRING”. If the file does not exist, create a new file with the\n"
+        + "given string argument as the body.\n";
   }
 
 }
