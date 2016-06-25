@@ -17,8 +17,8 @@ public class Exit implements CommandInterface {
 	   * @return a string telling users the how the command works
 	   */
 	
-	public String man(){
-	  return "terminates the session";
+	public String manual(){
+	  return "exit - Terminates the session/program.";
 	}
 
 }
