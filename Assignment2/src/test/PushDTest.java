@@ -11,12 +11,24 @@ public class PushDTest {
   PushD pushD;
   String[] location;
   DirStack dirStack;
+  Mkdir mkdir1;
+  Mkdir mkdir2;
+  Mkdir mkdir3;
 
   @Before
   public void setUp() throws Exception 
   {
+    String[] path = {"a", "b", "c"};
+    String[] path2 = {"/a/a1"};
+    String[] path3 = {"/a/a1/a2"};
     jFileSystem = new JFileSystem();
-    jFileSystem.setFullPath("/a/b/c");
+    mkdir1 = new Mkdir(jFileSystem, path);
+    mkdir1.execute();
+    mkdir2 = new Mkdir(jFileSystem, path2);
+    mkdir2.execute();
+    mkdir3 = new Mkdir(jFileSystem, path3);
+    mkdir3.execute();
+
     location = new String[1];
     dirStack = new DirStack();
   }
@@ -24,10 +36,10 @@ public class PushDTest {
   @Test
   public void testExecute() 
   {
-    location[0] = "/a/b/c";
+    location[0] = "/a/a1/a2";
     pushD = new PushD(jFileSystem, location);
     pushD.execute();
-    dirStack.pushD("/a/b/c");
+    dirStack.pushD("/a/a1/a2");
     assertEquals(dirStack, jFileSystem.getDirStack());
     
   }
