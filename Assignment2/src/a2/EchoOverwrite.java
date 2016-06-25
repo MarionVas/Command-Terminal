@@ -12,31 +12,33 @@ public class EchoOverwrite implements CommandInterface {
 
   /**
    * The constructor
+   * 
+   * @param jFileSystem - The JFileSystem with all the file and folder
+   * @param parameter - The string array with all the arguments the user enters
    */
 
   public EchoOverwrite(JFileSystem manager, String[] parameter) {
-    // fileSystem = FileSystem.createFileSystemInstance();
     this.fileSystem = manager;
     this.parameter = parameter;
   }
 
   /**
-   * This function will take the parameter passed into the constructor and
-   * display the string if no outfile is specified. If an outfile is specified,
-   * this function will replace the contents of the outfile with the string
-   * given.
+   * This method will replace the contents of the outfile given in the
+   * parameters of the constructor with the String given in the parameter
    */
 
   public void execute() {
-    // check if an outfile is specified
-    if (parameter.length == 1) {
-      // if an outfile is not specified, display the string
-      Output.printString(parameter[0]);
-    } else {
-      File replaceFile = findFile();
-      replace(replaceFile, parameter[0]);
-    }
+    // find the file that the user is going to be working with
+    File replaceFile = findFile();
+    // replace the contents of the file with the String
+    replace(replaceFile, parameter[0]);
   }
+
+  /**
+   * This method will return the outFile given in the parameters of the
+   * constructor, if the outfile specified does not exist, it will create a file
+   * with the name of the outfile and return the newly created file
+   */
 
   public File findFile() {
     // get the current working directory
@@ -47,13 +49,13 @@ public class EchoOverwrite implements CommandInterface {
     File file = currFolder.getFile(fileName);
     // check if the file exists
     if (file == null) {
-      // if the file does not exist display an error
+      // if the file does not exist make a new file
       file = new File(fileName);
+      // add the file to the current working directory
       currFolder.addChildren(file);
-      // if the file exists, replace the body of the file with the string
     }
+    // return the file
     return file;
-
   }
 
   /*
@@ -70,8 +72,8 @@ public class EchoOverwrite implements CommandInterface {
 
 
   /**
-   * This function will replace the body of the file with the string provided in
-   * the parameter
+   * This method will replace the body of the file with the string provided in
+   * the parameter given to the constructor
    */
 
   private void replace(File file, String body) {
