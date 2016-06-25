@@ -83,5 +83,12 @@ public class History implements CommandInterface //need execute method()
     // TODO Auto-generated method stub
     
   }
+  
+  public String manual() {
+    return "history [number] - Prints out past/recently input commands during\n"
+        + "the session. The given value specifies the last number of commands\n"
+        + "to output.\n";
+        
+  }
 
 }
