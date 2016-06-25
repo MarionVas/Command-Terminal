@@ -11,16 +11,18 @@ public class PopD implements CommandInterface
   {
     this.Manager = fileManager;
     this.directoryStack = Manager.getDirStack();
+    this.location = new String[1];
   }
 
   public void execute() 
   {
-    /* Get the previously input location from the DirStack as per LIFO
+    /* Get the last input location from the DirStack as per LIFO
      * save this in a string array to allow for the same type argument
      * to be placed in location
      */
     try 
     {
+      // pop the last saved location from the DirStack
       location[0] = directoryStack.popD();
       // updated the FileSystem DirStack object
       Manager.setDirStack(directoryStack);
@@ -28,7 +30,7 @@ public class PopD implements CommandInterface
       CD changeDirectory = new CD(Manager, location);
       changeDirectory.execute();
     } catch (Exception e) {
-      Output.printError();
+      Output.printDirectoryStackError();
     }
 
     
