@@ -63,12 +63,13 @@ public class History implements CommandInterface //need execute method()
       // if the user chose a location larger than the size of the history
       // vector, choose zero instead - as per command terminal functionality
       commandLocation = Math.max(inputHistory.size()-location, 0);
+      //System.out.println("The command location is: " + commandLocation + "the size is: " + inputHistory.size());
       
       // creating a vector string to output that displays the history
       // appropriately from a location specified or 0 if need be
       
       Output.printContents(inputHistory.subList
-          (inputHistory.size()-commandLocation, inputHistory.size()));
+          (commandLocation, inputHistory.size()));
 
       
     } catch (Exception e){
