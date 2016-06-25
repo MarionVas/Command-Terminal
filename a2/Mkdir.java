@@ -243,4 +243,9 @@ public class Mkdir implements CommandInterface {
     }
   }
 
+
+  public String manual() {
+    return "mkdir DIR … - Creates directories, each of which may be relative\n"
+        + "to the current directory or may be a full path.\n";
+  }
 }
