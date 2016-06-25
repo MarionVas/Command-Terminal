@@ -1,105 +1,129 @@
 package a2;
 
+import a2.FileSystem;
+import a2.Folder;
+import a2.JFileSystem;
+import a2.Output;
+
 public class CD implements CommandInterface {
-  // CD collaborates with FileSystem
   private FileSystem fileSystem; // del equals
   // initialize a string variable for the path given as parameter
-  private String[] path;
+  private String[] parameter;
+  private String path;
+  private Folder currFolder;
+  private String currPath;
 
   /**
    * The constructor
    */
 
-  public CD(JFileSystem manager, String[] path) {
-    // fileSystem = FileSystem.createFileSystemInstance();
-    this.path = path;
+  public CD(JFileSystem manager, String[] parameter) {
+    this.parameter = parameter;
     this.fileSystem = manager;
+    this.path = parameter[0];
+    this.currFolder = fileSystem.getCurrFolder();
+    this.currPath = fileSystem.getCurrPath();
   }
-
-  /**
-   * This function change current directory to the given directory. If the path
-   * is ".." traverse to the parent directory. If the path is "." stay on the
-   * current directory. If the path is valid traverse to the given directory and
-   * if the path is invalid return an error statement.
-   */
 
   public void execute() {
     // get the current path
-    Folder currFolder = fileSystem.getCurrFolder();
-    String currPath = fileSystem.getCurrPath();
-    // check if the user wants the parent directory
-    if (this.path[0].equals("..")) {
+    // get the current directory
+    if (this.parameter.length > 1) {
+      Output.printPathError();
+    } else if (this.path.startsWith("/") && (!this.path.contains(".."))
+        && (!this.path.contains("."))) {
+      traverseFullPath(this.path);
+    } else if (this.path.equals("..")) {
       // check if the user is at the root
-      if (currPath == "/") {
-        // do nothing
-      } else {
-        // get the path to the parent directory
-        int indexLastSymbol = currPath.lastIndexOf("/");
-
-        if (indexLastSymbol == 0) {
-          currPath = "/";
-          fileSystem.setFullPath(currPath);
-          fileSystem.setCurrFolder((Folder) fileSystem.getObject(currPath));
-        } else {
-          currPath = currPath.substring(0, indexLastSymbol);
-          // set the current path to the parent's directory
-          fileSystem.setFullPath(currPath);
-          // set the current folder to the parent's directory
-          fileSystem.setCurrFolder((Folder) fileSystem.getObject(currPath));
-        }
-      }
-      // check if the user wants to stay on the same directory
-    } else if (this.path[0].equals(".")) {
+      traverseParent();
+    } else if (this.path.equals(".")) {
       // do nothing
     } else {
-      // check if the path given is valid
-      boolean correctPath = fileSystem.checkValidPath(this.path[0]);
-      if (!correctPath) {
-        /*
-         * if (this.fileSystem.getCurrPath().equals("/") &&
-         * !path[0].contains("/")) { this.fileSystem.setFullPath("/" + path[0]);
-         * this.fileSystem .setCurrFolder((Folder) fileSystem.getObject("/" +
-         * path[0])); } else
-         */if (currFolder.getAllChildrenNames().contains(path[0])) {
-          Object pathObject = fileSystem.getObject(path[0]);
-          if (pathObject.getClass().equals(Folder.class)) {
-            if (this.fileSystem.getCurrPath().equals("/")) {
-              fileSystem.setFullPath("/" + path[0]);
-            } else {
-              fileSystem.setFullPath(currPath + "/" + path[0]);
-            }
-            fileSystem.setCurrFolder((Folder) pathObject);
-          } else {
-            Output.printPathError();
-          }
+      int slash = this.path.indexOf("/");
+      if (slash == -1) {
+        traverseSingleFolder(this.path);
+      } else if ((!(slash == 0)) && (!this.path.contains(".."))
+          && (!this.path.contains("."))) {
+        if (currPath.equals("/")) {
+          String fullPath = currPath + path;
+          traverseFullPath(fullPath);
         } else {
-          Output.printPathError();
+          String fullPath = currPath + "/" + path;
+          traverseFullPath(fullPath);
         }
-
-        // if the path is valid, change the current path to the given path
       } else {
-        if (path[0].contains("..")) {
-
-        } else {
-          fileSystem.setFullPath(this.path[0]);
-          // change the current folder to the given folder at the given path
-          fileSystem.setCurrFolder((Folder) fileSystem.getObject(this.path[0]));
+        String[] folderNames = path.split("/");
+        String fullPath = currPath;
+        for (String eachName : folderNames) {
+          if (eachName.equals("..")) {
+            traverseParent();
+            fullPath = fileSystem.getCurrPath();
+          } else if (eachName.equals(".")) {
+            continue;
+          } else {
+            if (fullPath.equals("/")) {
+              fullPath += eachName;
+              traverseFullPath(fullPath);
+            } else {
+              fullPath += "/" + eachName;
+              traverseFullPath(fullPath);
+            }
+          }
         }
+      }
+      // finish code here a/b/../b/c/../c/d
+    }
+  }
+
+  private void traverseFullPath(String path) {
+    boolean correctPath = fileSystem.checkValidPath(path);
+    if (correctPath) {
+      fileSystem.setFullPath(path);
+      // change the current folder to the given folder at the given path
+      fileSystem.setCurrFolder((Folder) fileSystem.getObject(path));
+    } else {
+      Output.printPathError();;
+    }
+  }
+
+  private void traverseParent() {
+    currPath = fileSystem.getCurrPath();
+    if (currPath == "/") {
+      // do nothing
+    } else {
+      // get the path to the parent directory
+      int indexLastSymbol = currPath.lastIndexOf("/");
+
+      if (indexLastSymbol == 0) {
+        currPath = "/";
+        fileSystem.setFullPath(currPath);
+        fileSystem.setCurrFolder((Folder) fileSystem.getObject(currPath));
+      } else {
+        currPath = currPath.substring(0, indexLastSymbol);
+        // set the current path to the parent's directory
+        fileSystem.setFullPath(currPath);
+        // set the current folder to the parent's directory
+        fileSystem.setCurrFolder((Folder) fileSystem.getObject(currPath));
       }
     }
   }
 
-  /**
-   * This function return the instructions on how to use the command CD.
-   * 
-   * @return a string telling users the how the command works
-   */
-
-  public String man() {
-    return "Traverse through nested directories using the “cd”\n"
-        + "command and a given directory “DIR” i.e. cd DIR. Instead of a\n"
-        + "directory the user can pass through “..” which represents the\n"
-        + "parent directory or “.” which represent the current directory";
+  private void traverseSingleFolder(String path) {
+    if (currFolder.getAllChildrenNames().contains(path)) {
+      Object pathObject = fileSystem.getObject(path);
+      if (pathObject.getClass().equals(Folder.class)) {
+        if (this.fileSystem.getCurrPath().equals("/")) {
+          fileSystem.setFullPath("/" + path);
+        } else {
+          fileSystem.setFullPath(currPath + "/" + path);
+        }
+        fileSystem.setCurrFolder((Folder) pathObject);
+      } else {
+        Output.printPathError();
+      }
+    } else {
+      Output.printPathError();
+    }
   }
-
 }
+
