@@ -12,11 +12,13 @@ public class PopD implements CommandInterface {
     this.location = new String[1];
   }
 
+  /**
+   * The purpose of this method is to do the PopD command, which
+   * gets a file path from the DirStack as per LIFO, removing it from the stack
+   * and changes the directory to that filepath
+   */
   public void execute() {
-    /*
-     * Get the last input location from the DirStack as per LIFO save this in a
-     * string array to allow for the same type argument to be placed in location
-     */
+
     try {
       // pop the last saved location from the DirStack
       location[0] = directoryStack.popD();
@@ -30,6 +32,10 @@ public class PopD implements CommandInterface {
     }
   }
 
+  /**
+   * The purpose of this method is to display the manual for this class for 
+   * the Man class
+   */
   public String manual() {
     return "popd - Removes the top directory on the directory stack and makes\n"
         + "it the current working directory. If no directory exists, an error\n"
