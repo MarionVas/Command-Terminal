@@ -7,13 +7,13 @@ import org.junit.Test;
 import a2.*;
 
 public class PushDTest {
-  JFileSystem jFileSystem;
-  PushD pushD;
-  String[] location;
-  DirStack dirStack;
-  Mkdir mkdir1;
-  Mkdir mkdir2;
-  Mkdir mkdir3;
+  private JFileSystem jFileSystem;
+  private PushD pushD;
+  private String[] location;
+  private DirStack dirStack;
+  private Mkdir mkdir1;
+  private Mkdir mkdir2;
+  private Mkdir mkdir3;
 
   @Before
   public void setUp() throws Exception 
