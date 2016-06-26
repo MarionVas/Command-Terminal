@@ -1,8 +1,11 @@
 package a2;
 
+import java.util.Vector;
+
 public class Cat implements CommandInterface {
   private FileSystem fileSystem;
   private String[] fileNames;
+  private String stringToOutput = "";
 
   /**
    * The constructor
@@ -34,7 +37,8 @@ public class Cat implements CommandInterface {
         Output.printFileNameError();
         // if the file does exist print the contents of the file
       } else {
-        Output.printContents(file.getBody());
+        stringToOutput = file.getBody();
+        Output.printString(stringToOutput);
       }
     } else {
       // get each file the user wants to print
@@ -47,15 +51,18 @@ public class Cat implements CommandInterface {
           Output.printFileNameError();
         } else {
           // if the file does exist print the contents of the file
-          Output.printContents(file.getBody());
           // print three lines to separate each file being read
-          Output.printString("");
-          Output.printString("");
-          Output.printString("");
+          stringToOutput += file.getBody() + "\n" + "\n" + "\n";
         }
       }
+      Output.printSingleLineString(stringToOutput);
     }
   }
+
+  public String getStringToOutput() {
+    return stringToOutput;
+  }
+
   public String manual() {
     return "cat FILE1 [FILE2  …] - Displays the contents of the specified\n"
         + "files concatenated within the shell.\n";
