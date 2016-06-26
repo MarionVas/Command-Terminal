@@ -18,10 +18,13 @@ public class PushDTest {
   @Before
   public void setUp() throws Exception 
   {
+    this.jFileSystem = new JFileSystem();
+    Folder rootFolder = new Folder("/", "/");
+    jFileSystem.setRoot(rootFolder);
+    jFileSystem.setCurrFolder(rootFolder);
     String[] path = {"a", "b", "c"};
     String[] path2 = {"/a/a1"};
     String[] path3 = {"/a/a1/a2"};
-    jFileSystem = new JFileSystem();
     mkdir1 = new Mkdir(jFileSystem, path);
     mkdir1.execute();
     mkdir2 = new Mkdir(jFileSystem, path2);
