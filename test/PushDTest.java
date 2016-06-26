@@ -33,7 +33,7 @@ public class PushDTest {
     mkdir3.execute();
 
     location = new String[1];
-    dirStack = new DirStack();
+    dirStack = jFileSystem.getDirStack();
   }
 
   @Test
