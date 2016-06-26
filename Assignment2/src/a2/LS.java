@@ -11,6 +11,7 @@ public class LS implements CommandInterface {
   private String[] args;
   private String arg = "";
   private String stringToOutput = "";
+  private String stringToOutputTest = "";
 
   /**
    * The constructor, taking ins a JFileSystem and a string array of arguments
@@ -29,7 +30,7 @@ public class LS implements CommandInterface {
    * @return stringToOutput
    */
   public String getStringToOutput() {
-    return this.stringToOutput;
+    return this.stringToOutputTest;
   }
 
   /**
@@ -96,7 +97,7 @@ public class LS implements CommandInterface {
         Folder currFolder = (Folder) Manager.getObject(arg);
         // If the folder does not exist
         if (currFolder.equals(null)) {
-          contents = "That was not a valid path.";
+          contents = "That was not a valid path.\n";
         } else {
           // All the children in the specified folder
           Vector childNames = currFolder.getAllChildrenNames();
@@ -121,12 +122,12 @@ public class LS implements CommandInterface {
         if (!slashAtEnd) {
           contents = arg + "\n";
         } else {
-          contents = "That was not a valid path.";
+          contents = "That was not a valid path.\n";
         }
       }
     } else {
       // If an incorrect path is given
-      contents = "That was not a valid path.";
+      contents = "That was not a valid path.\n";
     }
     return contents;
   }
@@ -227,6 +228,7 @@ public class LS implements CommandInterface {
     for (int indexarg = 0; indexarg < this.args.length; indexarg++) {
       boolean slashAtEnd = false;
       this.arg = args[indexarg];
+      this.stringToOutput = "";
       // Since the "." operator does not really do anything significant it can
       // be removed from the path at it should still be equivalent to if the
       // "." was not there
@@ -238,13 +240,12 @@ public class LS implements CommandInterface {
         arg = arg.substring(0, arg.length() - 1);
       }
       // String representation of the children
-      this.stringToOutput = "";
       // If no argument was given
       if (arg == "") {
-        this.stringToOutput = executeNoArg();
+        this.stringToOutput += executeNoArg();
       } // If an absolute path was given
       else if (arg.startsWith("/")) {
-        this.stringToOutput = executeFullPath(arg, slashAtEnd);
+        this.stringToOutput += executeFullPath(arg, slashAtEnd);
       } // If a path containing ".." was given
       else if (arg.contains("..")) {
         // Turning arg into an absolute path
@@ -252,10 +253,10 @@ public class LS implements CommandInterface {
           arg = this.Manager.getCurrPath().substring(0,
               Manager.getCurrPath().lastIndexOf("/"));
           System.out.println(arg);
-          this.stringToOutput = this.executeFullPath(arg, slashAtEnd);
+          this.stringToOutput += this.executeFullPath(arg, slashAtEnd);
         } else {
           arg = this.removeDots(arg);
-          this.stringToOutput = this.executeFullPath(arg, slashAtEnd);
+          this.stringToOutput += this.executeFullPath(arg, slashAtEnd);
         }
 
       } // If a local path is given
@@ -266,7 +267,7 @@ public class LS implements CommandInterface {
         } else {
           arg = "/" + arg;
         }
-        this.stringToOutput = this.executeFullPath(arg, slashAtEnd);
+        this.stringToOutput += this.executeFullPath(arg, slashAtEnd);
       } // If a directory name is given
       else {
         // Building the absolute path
@@ -275,9 +276,16 @@ public class LS implements CommandInterface {
         } else {
           arg = Manager.getCurrPath() + "/" + arg;
         }
-        this.stringToOutput = this.executeFullPath(arg, slashAtEnd);
+        this.stringToOutput += this.executeFullPath(arg, slashAtEnd);
       }
       // Using the output class to print the string
+      if (!this.stringToOutput.endsWith("\n")){
+        this.stringToOutputTest += this.stringToOutput + "\n";
+      }
+      else {
+        this.stringToOutputTest += this.stringToOutput;
+      }
+      
       Output.printString(this.stringToOutput);
     }
   }
