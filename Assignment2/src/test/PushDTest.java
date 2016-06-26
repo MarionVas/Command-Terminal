@@ -39,6 +39,12 @@ public class PushDTest {
   @Test
   public void testExecute() 
   {
+    /*
+     * Testing that the DirStack is changed after pushing a value in
+     * 
+     * Expected output is that the jFileSystem's DirStack contains the same
+     * values as the mock DirStack
+     */
     location[0] = "/a/a1/a2";
     pushD = new PushD(jFileSystem, location);
     pushD.execute();
@@ -50,6 +56,12 @@ public class PushDTest {
   @Test
   public void testExecute1() 
   {
+    /*
+     * Testing that the DirStack is changed after pushing multiple values in
+     * 
+     * Expected output is that the jFileSystem's DirStack contains the same
+     * values as the mock DirStack
+     */
     location[0] = "/a/a1/a2";
     pushD = new PushD(jFileSystem, location);
     pushD.execute();
@@ -68,6 +80,12 @@ public class PushDTest {
   @Test
   public void testExecute2() 
   {
+    /*
+     * Testing that the path is changed after pushing a path
+     * 
+     * Expected output is that the jFileSystem's path is changed to the pushed
+     * path
+     */
     location[0] = "/a/a1/a2";
     pushD = new PushD(jFileSystem, location);
     pushD.execute();
@@ -78,6 +96,12 @@ public class PushDTest {
   @Test
   public void testExecute3() 
   {
+    /*
+     * Testing pushing into a path that the user is already inside
+     * 
+     * Expected output is that the jFileSystem's path is changed to the pushed
+     * path (not changed at all)
+     */
     String[] filePath = {"/a/a1/a2"};
     CD cd = new CD(jFileSystem, filePath);
     cd.execute();
@@ -89,6 +113,12 @@ public class PushDTest {
   @Test
   public void testExecute4() 
   {
+    /*
+     * Testing pushing into a path from a different path inside the full path
+     * 
+     * Expected output is that the jFileSystem's path is changed to the pushed
+     * path
+     */
     String[] filePath = {"/a/a1/a2"};
     CD cd = new CD(jFileSystem, filePath);
     cd.execute();
@@ -100,6 +130,13 @@ public class PushDTest {
   
   public void testExecute5() 
   {
+    /*
+     * Testing pushing into a path from a different path inside the full path
+     * going down two levels
+     * 
+     * Expected output is that the jFileSystem's path is changed to the pushed
+     * path
+     */
     String[] filePath = {"/a/a1/a2"};
     CD cd = new CD(jFileSystem, filePath);
     cd.execute();
@@ -111,6 +148,13 @@ public class PushDTest {
   
   public void testExecute6() 
   {
+    /*
+     * Testing pushing into a path from a different path inside the full path
+     * going down three levels
+     * 
+     * Expected output is that the jFileSystem's path is changed to the pushed
+     * path
+     */
     String[] filePath = {"/a/a1/a2"};
     CD cd = new CD(jFileSystem, filePath);
     cd.execute();
