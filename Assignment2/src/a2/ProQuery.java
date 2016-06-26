@@ -98,6 +98,14 @@ public class ProQuery {
     }
 
   }
+  
+  /**
+   * The purpose of this method is return the JFileSystem of the ProQuery class
+   */
+  public JFileSystem getFileSystem()
+  {
+    return this.jFileSystem;
+  }
 
   public static void main(String[] args) {
     // TODO Auto-generated method stub
