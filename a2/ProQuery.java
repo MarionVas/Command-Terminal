@@ -39,9 +39,9 @@ public class ProQuery {
       entry = entry.substring(1);
     }
 
-    String[] splitEntry = entry.split(" ");
-    // System.out.println(Arrays.toString(splitEntry));
-    // System.out.println(splitEntry[0]);
+    String[] splitEntry = entry.split("\\s+");
+    System.out.println(Arrays.toString(splitEntry));
+    System.out.println(splitEntry[0]);
 
     if (splitEntry.length <= 1 && !splitEntry[0].equals("history")) {
       System.out.println("over here1");
