@@ -33,7 +33,7 @@ public class PushDTest {
     mkdir3.execute();
 
     location = new String[1];
-    dirStack = jFileSystem.getDirStack();
+    dirStack = new DirStack();
   }
 
   @Test
@@ -43,8 +43,84 @@ public class PushDTest {
     pushD = new PushD(jFileSystem, location);
     pushD.execute();
     dirStack.pushD("/a/a1/a2");
-    assertEquals(dirStack, jFileSystem.getDirStack());
+    assertEquals(dirStack.getStack(), jFileSystem.getDirStack().getStack());
     
   }
+  
+  @Test
+  public void testExecute1() 
+  {
+    location[0] = "/a/a1/a2";
+    pushD = new PushD(jFileSystem, location);
+    pushD.execute();
+    location[0] = "/a/a1";
+    pushD = new PushD(jFileSystem, location);
+    pushD.execute();
+    location[0] = "/";
+    pushD = new PushD(jFileSystem, location);
+    pushD.execute();
+    dirStack.pushD("/a/a1/a2");
+    dirStack.pushD("/a/a1");
+    dirStack.pushD("/");
+    assertEquals(dirStack.getStack(), jFileSystem.getDirStack().getStack());
+  }
+  
+  @Test
+  public void testExecute2() 
+  {
+    location[0] = "/a/a1/a2";
+    pushD = new PushD(jFileSystem, location);
+    pushD.execute();
+    dirStack.pushD("/a/a1/a2");
+    assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
+  }
+  
+  @Test
+  public void testExecute3() 
+  {
+    String[] filePath = {"/a/a1/a2"};
+    CD cd = new CD(jFileSystem, filePath);
+    cd.execute();
+    pushD = new PushD(jFileSystem, filePath);
+    pushD.execute();
+    assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
+  }
+  
+  @Test
+  public void testExecute4() 
+  {
+    String[] filePath = {"/a/a1/a2"};
+    CD cd = new CD(jFileSystem, filePath);
+    cd.execute();
+    location[0] = "/a/a1";
+    pushD = new PushD(jFileSystem, location);
+    pushD.execute();
+    assertEquals("/a/a1", jFileSystem.getCurrPath());
+  }
+  
+  public void testExecute5() 
+  {
+    String[] filePath = {"/a/a1/a2"};
+    CD cd = new CD(jFileSystem, filePath);
+    cd.execute();
+    location[0] = "/a";
+    pushD = new PushD(jFileSystem, location);
+    pushD.execute();
+    assertEquals("/a", jFileSystem.getCurrPath());
+  }
+  
+  public void testExecute6() 
+  {
+    String[] filePath = {"/a/a1/a2"};
+    CD cd = new CD(jFileSystem, filePath);
+    cd.execute();
+    location[0] = "/";
+    pushD = new PushD(jFileSystem, location);
+    pushD.execute();
+    assertEquals("/", jFileSystem.getCurrPath());
+  }
+  
+  
+  
 
 }
