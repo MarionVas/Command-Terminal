@@ -14,9 +14,6 @@ public class PushD implements CommandInterface
     this.location = location;
   }
   
-    
-
-    
 
   public void execute() {
     // push the location into the temporary directoryStack
@@ -29,4 +26,10 @@ public class PushD implements CommandInterface
     
   }
 
+  public String manual() {
+    return "pushd DIR - Saves the old current working directory in the\n"
+        + "directory stack so that it can be returned at a later time using\n"
+        + "the 'popd' command. The specified DIR becomes the new current\n"
+        + "working directory.\n";     
+  }
 }
