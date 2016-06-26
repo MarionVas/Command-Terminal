@@ -29,6 +29,6 @@ public class Echo implements CommandInterface {
         new EchoOverwrite(jFileSystem, echoParameters);
     EchoAppend appendFile = new EchoAppend(jFileSystem, echoParameters);
     
-    return overwriteFile.manual() + appendFile.manual();
+    return overwriteFile.manual() + "\n" + appendFile.manual();
   }
 }
