@@ -155,16 +155,6 @@ public class JFileSystem implements FileSystem {
   }
 
   /**
-   * Adds a file's absolute path into fullPaths. To be used only with
-   * EchoOverride.
-   * 
-   * @param newFolder - A File
-   */
-  public void addFilePath(String path) {
-    fullPaths.add(path);
-  }
-
-  /**
    * Returns a vector contained all the absolute paths in JShell
    * 
    * @return A vector containing all the absolute paths in JShell
@@ -192,6 +182,12 @@ public class JFileSystem implements FileSystem {
     this.currFolder = folder;
   }
 
+
+  /**
+   * Sets the root of the tree. ONLY DONE AT THE BEGINNING OF THE PROGRAM
+   * 
+   * @param root - A folder representing the root of the tree of Files
+   */
   public void setRoot(Folder root) {
     this.rootFolder = root;
   }
@@ -205,6 +201,11 @@ public class JFileSystem implements FileSystem {
     return this.currFolder;
   }
 
+  /**
+   * Gets the root folder
+   * 
+   * @return rootFolder - Represents the root of the tree
+   */
   public Folder getRootFolder() {
     return this.rootFolder;
   }
@@ -217,23 +218,6 @@ public class JFileSystem implements FileSystem {
    */
   public void addFullPath(String path) {
     this.fullPaths.addElement(path);
-  }
-
-  /**
-   * This function checks if the relative path is a valid one, by seeing if it's
-   * a substring of another larger path
-   * 
-   * @param path - A relative path relative to the current working directory
-   * @return A boolean representing validity
-   */
-  public boolean relativePathChecker(String path) {
-    boolean valid = false;
-    for (int i = 0; i < this.fullPaths.size(); i++) {
-      if (this.fullPaths.get(i).contains(path)) {
-        valid = true;
-      }
-    }
-    return valid;
   }
 
   /**
