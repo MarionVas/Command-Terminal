@@ -51,12 +51,21 @@ public class Output {
 
 
   /**
-   * This function display a given string
+   * This function display a given string on a new line
    * 
    */
 
   public static void printString(String contents) {
     System.out.println(contents);
+  }
+  
+  /**
+   * This function display a given string on a single line
+   * 
+   */
+
+  public static void printSingleLineString(String contents) {
+    System.out.print(contents);
   }
   
   /**
