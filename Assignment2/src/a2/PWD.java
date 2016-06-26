@@ -9,4 +9,8 @@ public class PWD implements CommandInterface{
   public void execute() {
     Output.printString(fileSystem.getCurrPath());
   }
+  
+  public String manual() {
+    return "pwd - Prints the current working directory with its whole path.\n";
+  }
 }
