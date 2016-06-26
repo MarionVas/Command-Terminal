@@ -10,6 +10,7 @@ public class LS implements CommandInterface {
   // The arguments that the user enters
   private String[] args;
   private String arg = "";
+  private String stringToOutput = "";
 
   /**
    * The constructor, taking ins a JFileSystem and a string array of arguments
@@ -20,6 +21,15 @@ public class LS implements CommandInterface {
   public LS(JFileSystem fileManager, String[] name) {
     this.Manager = fileManager;
     this.args = name;
+  }
+
+  /**
+   * Used to get the output of the command
+   * 
+   * @return stringToOutput
+   */
+  public String getStringToOutput() {
+    return this.stringToOutput;
   }
 
   /**
@@ -112,11 +122,13 @@ public class LS implements CommandInterface {
           contents = arg + "\n";
         } else {
           Output.printPathError();
+          contents = "That was not a valid path.";
         }
       }
     } else {
       // If an incorrect path is given
       Output.printPathError();
+      contents = "That was not a valid path.";
     }
     return contents;
   }
@@ -228,13 +240,13 @@ public class LS implements CommandInterface {
         arg = arg.substring(0, arg.length() - 1);
       }
       // String representation of the children
-      String contents = "";
+      this.stringToOutput = "";
       // If no argument was given
       if (arg == "") {
-        contents = executeNoArg();
+        this.stringToOutput = executeNoArg();
       } // If an absolute path was given
       else if (arg.startsWith("/")) {
-        contents = executeFullPath(arg, slashAtEnd);
+        this.stringToOutput = executeFullPath(arg, slashAtEnd);
       } // If a path containing ".." was given
       else if (arg.contains("..")) {
         // Turning arg into an absolute path
@@ -242,10 +254,10 @@ public class LS implements CommandInterface {
           arg = this.Manager.getCurrPath().substring(0,
               Manager.getCurrPath().lastIndexOf("/"));
           System.out.println(arg);
-          contents = this.executeFullPath(arg, slashAtEnd);
+          this.stringToOutput = this.executeFullPath(arg, slashAtEnd);
         } else {
           arg = this.removeDots(arg);
-          contents = this.executeFullPath(arg, slashAtEnd);
+          this.stringToOutput = this.executeFullPath(arg, slashAtEnd);
         }
 
       } // If a local path is given
@@ -256,7 +268,7 @@ public class LS implements CommandInterface {
         } else {
           arg = "/" + arg;
         }
-        contents = this.executeFullPath(arg, slashAtEnd);
+        this.stringToOutput = this.executeFullPath(arg, slashAtEnd);
       } // If a directory name is given
       else {
         // Building the absolute path
@@ -265,15 +277,15 @@ public class LS implements CommandInterface {
         } else {
           arg = Manager.getCurrPath() + "/" + arg;
         }
-        contents = this.executeFullPath(arg, slashAtEnd);
+        this.stringToOutput = this.executeFullPath(arg, slashAtEnd);
       }
       // Using the output class to print the string
-      Output.printString(contents);
+      Output.printString(this.stringToOutput);
     }
   }
 
   public String manual() {
-    return "ls [PATH …] - Print the contents of the specified files or\n"
+    return "ls [PATH  …] - Print the contents of the specified files or\n"
         + "directories. If no path is given, print the contents of the\n"
         + "current file or directory.\n";
   }
