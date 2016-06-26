@@ -23,4 +23,12 @@ public class Echo implements CommandInterface {
       Output.printError();
     }
   }
+  
+  public String manual() {
+    EchoOverwrite overwriteFile =
+        new EchoOverwrite(jFileSystem, echoParameters);
+    EchoAppend appendFile = new EchoAppend(jFileSystem, echoParameters);
+    
+    return overwriteFile.manual() + appendFile.manual();
+  }
 }
