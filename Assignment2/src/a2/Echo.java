@@ -33,4 +33,8 @@ public class Echo implements CommandInterface {
     
     return overwriteFile.manual() + "\n" + appendFile.manual();
   }
+  
+  public String getStringToOutput() {
+    return stringToOutput;
+  }
 }
