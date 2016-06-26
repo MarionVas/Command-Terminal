@@ -6,7 +6,10 @@ public class EchoOverwrite implements CommandInterface {
   // collaboration with fileSystem
   private FileSystem fileSystem; // del equals
   // initialize a variable to hold the index of ">"
-  private int indexOfSymbol;
+  private String[] specialChar = new String[] {"/", "!", "@", "$", "&", "#",
+      "*", "(", ")", "?", ":", "[", "]", "\"", "<", ">", "\'", "`", "\\", "|",
+      "=", "{", "}", "/", ";", " "};
+
   // initialize a variable to hold the parameter passed to the command
   private String[] parameter;
 
@@ -49,10 +52,21 @@ public class EchoOverwrite implements CommandInterface {
     File file = currFolder.getFile(fileName);
     // check if the file exists
     if (file == null) {
+      boolean valid = true;
+      for (int i = 0; i < specialChar.length; i++) {
+        if (fileName.contains(specialChar[i])) {
+          valid = false;
+        }
+      }
+      if (valid){
       // if the file does not exist make a new file
       file = new File(fileName);
       // add the file to the current working directory
       currFolder.addChildren(file);
+      }
+      else{
+        Output.printFileNameError();
+      }
     }
     // return the file
     return file;
