@@ -246,6 +246,7 @@ public class Mkdir implements CommandInterface {
 
   public String manual() {
     return "mkdir DIR … - Creates directories, each of which may be relative\n"
-        + "to the current directory or may be a full path.\n";
+        + "to the current directory or may be a full path. The names given\n"
+        + "to the specified directories cannot contain special characters.";
   }
 }
