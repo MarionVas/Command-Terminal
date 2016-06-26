@@ -11,6 +11,7 @@ public class Mkdir implements CommandInterface {
   private String[] specialChar =
       new String[] {"/", "!", "@", "$", "&", "#", "*", "(", ")", "?", ":", "[",
           "]", "\"", "<", ">", "\'", "`", "\\", "|", "=", "{", "}", "/", ";"};
+  private String stringToOutput = "";
 
   /**
    * The constructor
@@ -22,6 +23,15 @@ public class Mkdir implements CommandInterface {
     this.Manager = fileManager;
     this.names = arg;
 
+  }
+
+  /**
+   * Used to get the output of the command
+   * 
+   * @return stringToOutput
+   */
+  public String getStringToOutput() {
+    return this.stringToOutput;
   }
 
   /**
@@ -57,6 +67,7 @@ public class Mkdir implements CommandInterface {
 
     } else {
       // If it is an invalid parent path
+      this.stringToOutput = "That was not a valid path.";
       Output.printPathError();
     }
   }
@@ -145,6 +156,7 @@ public class Mkdir implements CommandInterface {
       Folder parentFolder = (Folder) Manager.getObject(Manager.getCurrPath());
       parentFolder.addChildren(newFolder);
     } else { // If and invalid name is entered
+      this.stringToOutput = "That was not a valid file name.";
       Output.printFileNameError();
     }
   }
@@ -203,6 +215,7 @@ public class Mkdir implements CommandInterface {
       if (name.startsWith("/")) {
         // If the directory already exists
         if (Manager.checkValidPath(name)) {
+          this.stringToOutput = "That was not a valid path.";
           Output.printError();
         } else {
           this.executeFullPath(name);
@@ -212,6 +225,7 @@ public class Mkdir implements CommandInterface {
         // Removing the ".." and building an absolute path
         name = this.removeDots(name);
         if (Manager.checkValidPath(name)) {
+          this.stringToOutput = "That was not a valid path.";
           Output.printError();
         } else {
           this.executeFullPath(name);
@@ -226,6 +240,7 @@ public class Mkdir implements CommandInterface {
         }
 
         if (Manager.checkValidPath(name)) {
+          this.stringToOutput = "That was not a valid path.";
           Output.printError();
         } else {
           this.executeFullPath(name);
@@ -235,6 +250,7 @@ public class Mkdir implements CommandInterface {
       else {
         // Check if the name already exists
         if (Manager.checkValidPath(name) || name.equals("")) {
+          this.stringToOutput = "That was not a valid path.";
           Output.printError();
         } else {
           this.executeLocal(name);
