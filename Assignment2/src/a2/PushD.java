@@ -19,15 +19,28 @@ public class PushD implements CommandInterface
    * a given string into a DirStack and changes the directory to the given
    * string path
    */
-  public void execute() {
-    // push the location into the temporary directoryStack
-    directoryStack.pushD(location[0]);
-    // send the new directory stack to the FileSystem
-    Manager.setDirStack(directoryStack);
-    // change the current directory to the given location
-    CD changeDirectory = new CD(Manager, location);
-    changeDirectory.execute();
-    
+  public void execute() 
+  {
+    // If the given location doesn't start with a slash, add the slash
+    if (location[0].charAt(0) != '/')
+    {
+      location[0] = "/" + location[0];
+    }
+    // makes sure the given path is valid before pushing
+    if (Manager.checkValidPath(location[0]))
+    {
+      // push the location into the temporary directoryStack
+      directoryStack.pushD(location[0]);
+      // send the new directory stack to the FileSystem
+      Manager.setDirStack(directoryStack);
+      // change the current directory to the given location
+      CD changeDirectory = new CD(Manager, location);
+      changeDirectory.execute();
+    }
+    else
+    {
+      Output.printPathError();
+    }   
   }
   
   /**
