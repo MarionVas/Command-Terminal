@@ -96,7 +96,7 @@ public class LS implements CommandInterface {
         Folder currFolder = (Folder) Manager.getObject(arg);
         // If the folder does not exist
         if (currFolder.equals(null)) {
-          Output.printPathError();
+          contents = "That was not a valid path.";
         } else {
           // All the children in the specified folder
           Vector childNames = currFolder.getAllChildrenNames();
@@ -121,13 +121,11 @@ public class LS implements CommandInterface {
         if (!slashAtEnd) {
           contents = arg + "\n";
         } else {
-          Output.printPathError();
           contents = "That was not a valid path.";
         }
       }
     } else {
       // If an incorrect path is given
-      Output.printPathError();
       contents = "That was not a valid path.";
     }
     return contents;
