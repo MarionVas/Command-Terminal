@@ -3,6 +3,7 @@ package a2;
 public class Echo implements CommandInterface {
   private JFileSystem jFileSystem;
   private String[] echoParameters;
+  private String stringToOutput;
 
   public Echo(JFileSystem jFileSystem, String[] echoParameters) {
     this.jFileSystem = jFileSystem;
@@ -18,7 +19,8 @@ public class Echo implements CommandInterface {
       EchoAppend appendFile = new EchoAppend(jFileSystem, echoParameters);
       appendFile.execute();
     } else if (echoParameters.length == 1) {
-      Output.printString(echoParameters[0]);
+      stringToOutput = echoParameters[0];
+      Output.printString(stringToOutput);
     } else {
       Output.printError();
     }
