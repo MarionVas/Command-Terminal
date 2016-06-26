@@ -172,5 +172,27 @@ public class CDTest {
     cd1.execute();
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
+  
+  @Test
+  public void testExecute11() 
+  {
+    location[0] = "a";
+    cd1 = new CD(jFileSystem, location);
+    cd1.execute();
+    location[0] = "../../../../../../";
+    cd1 = new CD(jFileSystem, location);
+    cd1.execute();
+    assertEquals("/", jFileSystem.getCurrPath());
+  }
+  
+  @Test
+  public void testExecute12() 
+  {
+    location[0] = "/a/a1//a2";
+    cd1 = new CD(jFileSystem, location);
+    cd1.execute();
+    assertEquals("/", jFileSystem.getCurrPath());
+  }
+
 
 }
