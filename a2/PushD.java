@@ -14,7 +14,11 @@ public class PushD implements CommandInterface
     this.location = location;
   }
   
-
+  /**
+   * The purpose of this method is to do the PushD command, which enters
+   * a given string into a DirStack and changes the directory to the given
+   * string path
+   */
   public void execute() {
     // push the location into the temporary directoryStack
     directoryStack.pushD(location[0]);
@@ -25,7 +29,11 @@ public class PushD implements CommandInterface
     changeDirectory.execute();
     
   }
-
+  
+  /**
+   * The purpose of this method is display the manual for the class - used
+   * for the Man class
+   */
   public String manual() {
     return "pushd DIR - Saves the old current working directory in the\n"
         + "directory stack so that it can be returned at a later time using\n"
