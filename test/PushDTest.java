@@ -164,6 +164,47 @@ public class PushDTest {
     assertEquals("/", jFileSystem.getCurrPath());
   }
   
+  @Test
+  public void testExecute7() 
+  {
+    /*
+     * Testing pushing an input that contains no / at the beginning
+     * 
+     * Expected output is that the jFileSystem's path is changed to the pushed
+     * path
+     */
+    String[] filePath = {"a/a1/a2"};
+    pushD = new PushD(jFileSystem, filePath);
+    pushD.execute();
+    assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
+  }
+  
+  @Test
+  public void testExecute8() 
+  {
+    /*
+     * Testing that the DirStack is not changed after giving the command
+     * to push an invalid file
+     * 
+     * Expected output is that the jFileSystem's DirStack contains the same
+     * values as the mock DirStack
+     */
+    location[0] = "/a/a1/a2";
+    pushD = new PushD(jFileSystem, location);
+    pushD.execute();
+    location[0] = "/a/a1";
+    pushD = new PushD(jFileSystem, location);
+    pushD.execute();
+    location[0] = "asdfghjytr";
+    pushD = new PushD(jFileSystem, location);
+    pushD.execute();
+    dirStack.pushD("/a/a1/a2");
+    dirStack.pushD("/a/a1");
+    assertEquals(dirStack.getStack(), jFileSystem.getDirStack().getStack());
+  }
+  
+  
+  
   
   
 
