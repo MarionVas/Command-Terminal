@@ -12,6 +12,7 @@ public class Mkdir implements CommandInterface {
       new String[] {"/", "!", "@", "$", "&", "#", "*", "(", ")", "?", ":", "[",
           "]", "\"", "<", ">", "\'", "`", "\\", "|", "=", "{", "}", "/", ";"};
   private String stringToOutput = "";
+  private String fullPath = "";
 
   /**
    * The constructor
@@ -142,7 +143,7 @@ public class Mkdir implements CommandInterface {
       }
     }
     if (valid) {
-      String fullPath = "";
+      this.fullPath = "";
       // Creating a full path based off the name argument
       // If the working directory is at root
       if (Manager.getCurrPath().equals("/")) {
@@ -248,10 +249,15 @@ public class Mkdir implements CommandInterface {
 
       } // If the argument is only a directory name
       else {
+        if (Manager.getCurrPath().equals("/")) {
+          fullPath = Manager.getCurrPath() + name;
+        } else {
+          fullPath = Manager.getCurrPath() + "/" + name;
+        }
         // Check if the name already exists
-        if (Manager.checkValidPath(name) || name.equals("")) {
+        if (Manager.checkValidPath(fullPath) || name.equals("")) {
           this.stringToOutput = "That was not a valid path.";
-          Output.printError();
+          Output.printPathError();
         } else {
           this.executeLocal(name);
         }
