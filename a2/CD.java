@@ -40,8 +40,8 @@ public class CD implements CommandInterface {
 
   public void execute() {
     // if the path ends with a slash remove the slash
-    if (path.endsWith("/")){
-      path = path.substring(0, path.length()-1);
+    if (path.endsWith("/")) {
+      path = path.substring(0, path.length() - 1);
     }
     // If more than one argument is passed into this command print an error
     if (this.parameter.length > 1) {
