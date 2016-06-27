@@ -16,8 +16,7 @@ public class PushDTest {
   private Mkdir mkdir3;
 
   @Before
-  public void setUp() throws Exception 
-  {
+  public void setUp() throws Exception {
     this.jFileSystem = new JFileSystem();
     Folder rootFolder = new Folder("/", "/");
     jFileSystem.setRoot(rootFolder);
@@ -37,8 +36,7 @@ public class PushDTest {
   }
 
   @Test
-  public void testExecute() 
-  {
+  public void testExecute() {
     /*
      * Testing that the DirStack is changed after pushing a value in
      * 
@@ -50,12 +48,11 @@ public class PushDTest {
     pushD.execute();
     dirStack.pushD("/a/a1/a2");
     assertEquals(dirStack.getStack(), jFileSystem.getDirStack().getStack());
-    
+
   }
-  
+
   @Test
-  public void testExecute1() 
-  {
+  public void testExecute1() {
     /*
      * Testing that the DirStack is changed after pushing multiple values in
      * 
@@ -76,10 +73,9 @@ public class PushDTest {
     dirStack.pushD("/");
     assertEquals(dirStack.getStack(), jFileSystem.getDirStack().getStack());
   }
-  
+
   @Test
-  public void testExecute2() 
-  {
+  public void testExecute2() {
     /*
      * Testing that the path is changed after pushing a path
      * 
@@ -92,10 +88,9 @@ public class PushDTest {
     dirStack.pushD("/a/a1/a2");
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute3() 
-  {
+  public void testExecute3() {
     /*
      * Testing pushing into a path that the user is already inside
      * 
@@ -109,10 +104,9 @@ public class PushDTest {
     pushD.execute();
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute4() 
-  {
+  public void testExecute4() {
     /*
      * Testing pushing into a path from a different path inside the full path
      * 
@@ -127,9 +121,8 @@ public class PushDTest {
     pushD.execute();
     assertEquals("/a/a1", jFileSystem.getCurrPath());
   }
-  
-  public void testExecute5() 
-  {
+
+  public void testExecute5() {
     /*
      * Testing pushing into a path from a different path inside the full path
      * going down two levels
@@ -145,9 +138,8 @@ public class PushDTest {
     pushD.execute();
     assertEquals("/a", jFileSystem.getCurrPath());
   }
-  
-  public void testExecute6() 
-  {
+
+  public void testExecute6() {
     /*
      * Testing pushing into a path from a different path inside the full path
      * going down three levels
@@ -163,10 +155,9 @@ public class PushDTest {
     pushD.execute();
     assertEquals("/", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute7() 
-  {
+  public void testExecute7() {
     /*
      * Testing pushing an input that contains no / at the beginning
      * 
@@ -178,13 +169,12 @@ public class PushDTest {
     pushD.execute();
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute8() 
-  {
+  public void testExecute8() {
     /*
-     * Testing that the DirStack is not changed after giving the command
-     * to push an invalid file
+     * Testing that the DirStack is not changed after giving the command to push
+     * an invalid file
      * 
      * Expected output is that the jFileSystem's DirStack contains the same
      * values as the mock DirStack
@@ -202,10 +192,7 @@ public class PushDTest {
     dirStack.pushD("/a/a1");
     assertEquals(dirStack.getStack(), jFileSystem.getDirStack().getStack());
   }
-  
-  
-  
-  
-  
+
+
 
 }
