@@ -5,14 +5,16 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import a2.*;
+import a2.CD;
+import a2.Folder;
+import a2.JFileSystem;
+import a2.Mkdir;
+
 
 public class CDTest {
 
   private JFileSystem jFileSystem;
   private CD cd1;
-  private CD cd2;
-  private CD cd3;
   private Mkdir mkdir1;
   private Mkdir mkdir2;
   private Mkdir mkdir3;
