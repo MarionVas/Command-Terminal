@@ -36,7 +36,7 @@ public class History implements CommandInterface // need execute method()
    * The purpose of this method is to output the command history through the
    * output class
    */
-  public void getHistory() {
+  public void execute() {
     output = inputHistory;
     Output.printContents(output);
   }
@@ -48,7 +48,7 @@ public class History implements CommandInterface // need execute method()
    * @param strLocation, will contain one value which will be the amount of
    *        previous commands the user wishes to see
    */
-  public void getHistory(String[] strLocation) {
+  public void execute(String[] strLocation) {
     // Determine if the given string can be turned into an integer
     // If not, display an error message
     try {
@@ -76,12 +76,11 @@ public class History implements CommandInterface // need execute method()
     }
   }
 
-
-  @Override
-  public void execute() {
-    // TODO Auto-generated method stub
-
+  public List getSubList() {
+    return this.history;
   }
+
+
 
   public String manual() {
     return "history [number] - Prints out past/recently input commands during\n"
