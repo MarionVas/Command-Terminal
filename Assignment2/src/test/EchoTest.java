@@ -23,16 +23,45 @@ public class EchoTest {
   // print a string
   @Test
   public void testExecute1() {
+    /*
+     * test to using Echo to print a string
+     * 
+     * Expected type of echo command to be called is null.
+     * 
+     * Expected output string should match the String given in the parameters of
+     * the constructor
+     */
     parameters = new String[1];
     parameters[0] = "\"This is a test.\"";
     echo = new Echo(jFileSystem, parameters);
     echo.execute();
     assertEquals(echo.getEchoType(), null);
+    assertEquals(echo.getStringToOutput(), "This is a test.");
   }
 
-  // overwrite
-  @Test
   public void testExecute2() {
+    /*
+     * test to using Echo to print an empty string
+     * 
+     * Expected type of echo command to be called is null.
+     * 
+     * Expected output string should be an empty String
+     */
+    parameters = new String[1];
+    parameters[0] = "\"\"";
+    echo = new Echo(jFileSystem, parameters);
+    echo.execute();
+    assertEquals(echo.getEchoType(), null);
+    assertEquals(echo.getStringToOutput(), "");
+  }
+
+  @Test
+  public void testExecute3() {
+    /*
+     * test to use Echo to call echoOverwrite class
+     * 
+     * Expected type of echo command to be called is overwrite.
+     */
     parameters = new String[3];
     parameters[0] = "\"test2 has passed.\"";
     parameters[1] = ">";
@@ -42,9 +71,13 @@ public class EchoTest {
     assertEquals(echo.getEchoType(), "overwrite");
   }
 
-  // overwrite
   @Test
-  public void testExecute3() {
+  public void testExecute4() {
+    /*
+     * test to use Echo to call echoAppend class
+     * 
+     * Expected type of echo command to be called is append.
+     */
     parameters = new String[3];
     parameters[0] = "\"test3 has passed.\"";
     parameters[1] = ">>";
@@ -54,10 +87,14 @@ public class EchoTest {
     assertEquals(echo.getEchoType(), "append");
   }
 
-  // invalid params (len > 1 and [1] =/= > || >>)
-  // this is fine, fixes params so that [1] == > || >>
   @Test
-  public void testExecute4() {
+  public void testExecute5() {
+    /*
+     * test to use Echo to call echoOverwrite class with Strings with spaces for
+     * String parameter
+     * 
+     * Expected type of echo command to be called is overwrite.
+     */
     parameters = new String[6];
     parameters[0] = "\"test4";
     parameters[1] = "has";
@@ -71,7 +108,13 @@ public class EchoTest {
   }
 
   @Test
-  public void testExecute5() {
+  public void testExecute6() {
+    /*
+     * test to use Echo to call echoAppend class with Strings with spaces for
+     * String parameter
+     * 
+     * Expected type of echo command to be called is append.
+     */
     parameters = new String[6];
     parameters[0] = "\"test4";
     parameters[1] = "has";
@@ -85,7 +128,13 @@ public class EchoTest {
   }
 
   @Test
-  public void testExecute6() {
+  public void testExecute7() {
+    /*
+     * test to use Echo to call echoOverwrite class with Strings with spaces for
+     * String parameter
+     * 
+     * Expected type of echo command to be called is overwrite.
+     */
     parameters = new String[3];
     parameters[0] = "\"test5 has passed.\"";
     parameters[1] = "&";
@@ -93,10 +142,18 @@ public class EchoTest {
     echo = new Echo(jFileSystem, parameters);
     echo.execute();
     assertEquals(echo.getEchoType(), null);
+    assertEquals(echo.getStringToOutput(), "");
   }
 
   @Test
-  public void testExecute7() {
+  public void testExecute8() {
+    /*
+     * test to use Echo to with invalid symbol as parameter
+     * 
+     * Expected type of echo command to be called is null.
+     * 
+     * Expected output string should be an empty String
+     */
     parameters = new String[3];
     parameters[0] = "\"test6 has passed.\"";
     parameters[1] = "<";
@@ -104,10 +161,18 @@ public class EchoTest {
     echo = new Echo(jFileSystem, parameters);
     echo.execute();
     assertEquals(echo.getEchoType(), null);
+    assertEquals(echo.getStringToOutput(), "");
   }
 
   @Test
-  public void testExecute8() {
+  public void testExecute9() {
+    /*
+     * test to use Echo to with invalid symbol as parameter
+     * 
+     * Expected type of echo command to be called is null.
+     * 
+     * Expected output string should be an empty String
+     */
     parameters = new String[3];
     parameters[0] = "\"test7 has passed.\"";
     parameters[1] = "<<";
@@ -115,5 +180,6 @@ public class EchoTest {
     echo = new Echo(jFileSystem, parameters);
     echo.execute();
     assertEquals(echo.getEchoType(), null);
+    assertEquals(echo.getStringToOutput(), "");
   }
 }

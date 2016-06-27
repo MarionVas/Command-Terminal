@@ -35,6 +35,12 @@ public class CatTest {
 
   @Test
   public void testExecute1() {
+    /*
+     * test to use cat to read an existing new file's contents
+     * 
+     * Expected String that would be outputed is an empty String
+     * 
+     */
     fileNames = new String[1];
     fileNames[0] = "test1";
     cat = new Cat(jFileSystem, fileNames);
@@ -44,6 +50,13 @@ public class CatTest {
 
   @Test
   public void testExecute2() {
+    /*
+     * test to use cat to read an existing file's contents that holds a String
+     * 
+     * Expected String that would be outputed is a String that is the file's
+     * body
+     * 
+     */
     fileNames = new String[1];
     fileNames[0] = "test2";
     cat = new Cat(jFileSystem, fileNames);
@@ -53,6 +66,14 @@ public class CatTest {
 
   @Test
   public void testExecute3() {
+    /*
+     * test to use cat to read an existing file's contents that hold multiple
+     * lines
+     * 
+     * Expected String that would be outputed is a String that is the file's
+     * body
+     * 
+     */
     fileNames = new String[1];
     fileNames[0] = "test3";
     cat = new Cat(jFileSystem, fileNames);
@@ -63,6 +84,11 @@ public class CatTest {
 
   @Test
   public void testExecute4() {
+    /*
+     * test to use cat to read an non-existing file's contents
+     * 
+     * Expected String that would be outputed is an empty String
+     */
     fileNames = new String[1];
     fileNames[0] = "test4";
     cat = new Cat(jFileSystem, fileNames);
@@ -70,8 +96,15 @@ public class CatTest {
     assertEquals(cat.getStringToOutput(), "");
   }
 
+  // read two existing files
   @Test
   public void testExecute5() {
+    /*
+     * test to use cat to read multiple existing file's contents
+     * 
+     * Expected String that would be outputed is a concatenation of test2's body
+     * and test3's body with 3 empty lines at the end of each files
+     */
     fileNames = new String[2];
     fileNames[0] = "test2";
     fileNames[1] = "test3";
@@ -79,11 +112,19 @@ public class CatTest {
     cat.execute();
     assertEquals(cat.getStringToOutput(),
         "This is a test in test2.\n\n\n\nThis is a test in test3,"
-        + "\nAnd it works.\n\n\n\n");
+            + "\nAnd it works.\n\n\n\n");
   }
-  
+
+  // read existing and non-existing files
   @Test
   public void testExecute6() {
+    /*
+     * test to use cat to read multiple existing and non-existing file's
+     * contents
+     * 
+     * Expected String that would be outputed is a concatenation of test2's body
+     * and test3's body with 3 empty lines at the end of each files
+     */
     fileNames = new String[3];
     fileNames[0] = "test2";
     fileNames[1] = "test4";
@@ -92,11 +133,18 @@ public class CatTest {
     cat.execute();
     assertEquals(cat.getStringToOutput(),
         "This is a test in test2.\n\n\n\nThis is a test in test3,"
-        + "\nAnd it works.\n\n\n\n");
+            + "\nAnd it works.\n\n\n\n");
   }
-  
+
   @Test
   public void testExecute7() {
+    /*
+     * test to use cat to read multiple existing and non-existing file's
+     * contents
+     * 
+     * Expected String that would be outputed is a concatenation of test2's body
+     * and test3's body with 3 empty lines at the end of each files
+     */
     fileNames = new String[4];
     fileNames[0] = "test1";
     fileNames[1] = "test2";
@@ -106,6 +154,6 @@ public class CatTest {
     cat.execute();
     assertEquals(cat.getStringToOutput(),
         "\n\n\n\nThis is a test in test2.\n\n\n\nThis is a test in test3,"
-        + "\nAnd it works.\n\n\n\n");
+            + "\nAnd it works.\n\n\n\n");
   }
 }
