@@ -87,7 +87,7 @@ public class LSTest {
     this.fileArg[0] = "..";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
-    assertEquals("/a/e:      v     x     z\n", this.ls.getStringToOutput());
+    assertEquals("..:      v     x     z\n", this.ls.getStringToOutput());
   }
 
   @Test
@@ -100,7 +100,7 @@ public class LSTest {
     this.fileArg[0] = "../../e/";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
-    assertEquals("/a/e:      v     x     z\n", this.ls.getStringToOutput());
+    assertEquals("../../e/:      v     x     z\n", this.ls.getStringToOutput());
   }
 
   @Test
@@ -114,7 +114,8 @@ public class LSTest {
     this.fileArg[0] = ".././../e/";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
-    assertEquals("/a/e:      v     x     z\n", this.ls.getStringToOutput());
+    assertEquals(".././../e/:      v     x     z\n",
+        this.ls.getStringToOutput());
   }
 
   @Test
@@ -127,7 +128,7 @@ public class LSTest {
     this.fileArg[0] = ".././../e/../../b";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
-    assertEquals("/b: \n", this.ls.getStringToOutput());
+    assertEquals(".././../e/../../b: \n", this.ls.getStringToOutput());
   }
 
   @Test
@@ -140,7 +141,7 @@ public class LSTest {
     this.fileArg[0] = "/a/e/";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
-    assertEquals("/a/e:      v     x     z\n", this.ls.getStringToOutput());
+    assertEquals("/a/e/:      v     x     z\n", this.ls.getStringToOutput());
   }
 
   @Test
@@ -157,7 +158,7 @@ public class LSTest {
     this.fileArg[0] = "e/";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
-    assertEquals("/a/e:      v     x     z\n", this.ls.getStringToOutput());
+    assertEquals("e/:      v     x     z\n", this.ls.getStringToOutput());
   }
 
   @Test
@@ -186,7 +187,7 @@ public class LSTest {
     this.ls = new LS(jFileSystem, this.fileArgs);
     ls.execute();
     boolean Equal = this.ls.getStringToOutput()
-        .equals("/a/e:      v     x     z\n/:      a     b\n/a/e/v:      "
+        .equals("/a/e/:      v     x     z\n/:      a     b\n/a/e/v/:      "
             + "TestCase\n");
     assertTrue(Equal);
   }
