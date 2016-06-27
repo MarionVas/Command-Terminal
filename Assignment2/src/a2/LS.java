@@ -279,13 +279,12 @@ public class LS implements CommandInterface {
         this.stringToOutput += this.executeFullPath(arg, slashAtEnd);
       }
       // Using the output class to print the string
-      if (!this.stringToOutput.endsWith("\n")){
+      if (!this.stringToOutput.endsWith("\n")) {
         this.stringToOutputTest += this.stringToOutput + "\n";
-      }
-      else {
+      } else {
         this.stringToOutputTest += this.stringToOutput;
       }
-      
+
       Output.printString(this.stringToOutput);
     }
   }
