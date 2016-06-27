@@ -83,6 +83,12 @@ public class Echo implements CommandInterface {
     return overwriteFile.manual() + "\n" + appendFile.manual();
   }
 
+  /**
+   * This method return the body of the file as a String to be printed on the
+   * console
+   * 
+   * @return stringToOutput - the body of the file that needs to be printed
+   */
   public String getStringToOutput() {
     return stringToOutput;
   }
