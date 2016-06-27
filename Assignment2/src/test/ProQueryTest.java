@@ -7,26 +7,23 @@ import org.junit.Test;
 
 import a2.*;
 
-public class ProQueryTest 
-{
+public class ProQueryTest {
   private JFileSystem jFileSystem;
   private ProQuery process;
   private String query;
 
   @Before
-  public void setUp() throws Exception 
-  {
+  public void setUp() throws Exception {
     this.jFileSystem = new JFileSystem();
     Folder rootFolder = new Folder("/", "/");
     jFileSystem.setRoot(rootFolder);
     jFileSystem.setCurrFolder(rootFolder);
-    
+
     process = new ProQuery(jFileSystem);
   }
 
   @Test
-  public void testSortQueryEmpty() 
-  {
+  public void testSortQueryEmpty() {
     /*
      * Testing entering a correct command no parameters
      * 
@@ -46,8 +43,7 @@ public class ProQueryTest
   }
 
   @Test
-  public void testSortQuery() 
-  {
+  public void testSortQuery() {
     /*
      * Testing entering a correct command with one parameter
      * 
@@ -58,10 +54,9 @@ public class ProQueryTest
     process.sortQuery(query);
     assertTrue(process.getFileSystem().checkValidPath("/bananas"));
   }
-  
+
   @Test
-  public void testSortQuery1() 
-  {
+  public void testSortQuery1() {
     /*
      * Testing entering a correct command with multiple parameters
      * 
@@ -72,14 +67,12 @@ public class ProQueryTest
     process.sortQuery(query);
     assertTrue(process.getFileSystem().checkValidPath("/tests"));
   }
-  
+
   @Test
-  public void testSortQuery2() 
-  {
+  public void testSortQuery2() {
     /*
-     * Testing entering a correct command with multiple parameters
-     * then testing a related command to make sure it affected the
-     * JFileSystem
+     * Testing entering a correct command with multiple parameters then testing
+     * a related command to make sure it affected the JFileSystem
      * 
      * Expected output is that the command functioned as wanted (in this case
      * made the directories) and changed the JFileSystem
@@ -90,14 +83,12 @@ public class ProQueryTest
     process.sortQuery(query);
     assertTrue(process.getFileSystem().checkValidPath("/bananas/potassium"));
   }
-  
+
   @Test
-  public void testSortQuery3() 
-  {
+  public void testSortQuery3() {
     /*
-     * Testing entering multiple correct commands with varying parameters
-     * then testing related commands to make sure it affected the
-     * JFileSystem
+     * Testing entering multiple correct commands with varying parameters then
+     * testing related commands to make sure it affected the JFileSystem
      * 
      * Expected output is that the commands functioned as wanted (in this case
      * made the directories) and changed the JFileSystem
@@ -110,10 +101,9 @@ public class ProQueryTest
     process.sortQuery(query);
     assertEquals("/a/a1", process.getFileSystem().getCurrPath());
   }
-  
+
   @Test
-  public void testSortQuery4() 
-  {
+  public void testSortQuery4() {
     /*
      * Testing entering a command which has invalid params for the command
      * itself
@@ -125,10 +115,9 @@ public class ProQueryTest
     process.sortQuery(query);
     assertFalse(process.getFileSystem().checkValidPath("/*******"));
   }
-  
+
   @Test
-  public void testSortQuery5() 
-  {
+  public void testSortQuery5() {
     /*
      * Testing entering an invalid command
      * 
@@ -138,28 +127,26 @@ public class ProQueryTest
     process.sortQuery(query);
     assertFalse(process.getFileSystem().checkValidPath("banana"));
   }
-  
+
   @Test
-  public void testSortQuery6() 
-  {
+  public void testSortQuery6() {
     /*
      * Testing entering correct commands, then an incorrect command
      * 
-     * Expected output is that the correct commands function as wanted
-     * and that the incorrect commands do not
+     * Expected output is that the correct commands function as wanted and that
+     * the incorrect commands do not
      */
     query = "mkdir bananas waka tests";
     process.sortQuery(query);
     query = "mkdir /bananas/potassium";
     process.sortQuery(query);
     query = "cf /bananas/potassium";
-    assertTrue("/" == process.getFileSystem().getCurrPath() &&
-        process.getFileSystem().checkValidPath("/bananas/potassium"));
+    assertTrue("/" == process.getFileSystem().getCurrPath()
+        && process.getFileSystem().checkValidPath("/bananas/potassium"));
   }
-  
+
   @Test
-  public void testSortQuery7() 
-  {
+  public void testSortQuery7() {
     /*
      * Testing if the class splits the commands properly with one parameter
      * 
@@ -172,10 +159,9 @@ public class ProQueryTest
     process.sortQuery(query);
     assertTrue(process.getFileSystem().checkValidPath("/bananas/potassium"));
   }
-  
+
   @Test
-  public void testSortQuery8() 
-  {
+  public void testSortQuery8() {
     /*
      * Testing if the class splits the commands properly with multiple
      * parameters
@@ -187,13 +173,12 @@ public class ProQueryTest
     process.sortQuery(query);
     assertTrue(process.getFileSystem().checkValidPath("/test"));
   }
-  
+
   @Test
-  public void testSortQuery9() 
-  {
+  public void testSortQuery9() {
     /*
-     * Testing if the class splits the commands properly with varying
-     * parameters and spaces in different areas
+     * Testing if the class splits the commands properly with varying parameters
+     * and spaces in different areas
      * 
      * Expected output is that the commands are done and it changes the
      * JFileSystem
