@@ -20,8 +20,7 @@ public class CDTest {
   private String[] location;
 
   @Before
-  public void setUp() throws Exception 
-  {
+  public void setUp() throws Exception {
     this.jFileSystem = new JFileSystem();
     Folder rootFolder = new Folder("/", "/");
     jFileSystem.setRoot(rootFolder);
@@ -39,19 +38,19 @@ public class CDTest {
     mkdir3.execute();
     mkdir4 = new Mkdir(jFileSystem, path4);
     mkdir4.execute();
-    
+
     location = new String[1];
-    
+
   }
 
   @Test
-  public void testExecute() 
-  {
-    /* test to determine if changing directory into a depth 1 relative
-     * file path works
+  public void testExecute() {
+    /*
+     * test to determine if changing directory into a depth 1 relative file path
+     * works
      * 
-     * Expected output of the path should be the full path of the directory
-     * cd'd into
+     * Expected output of the path should be the full path of the directory cd'd
+     * into
      * 
      */
     location[0] = "a";
@@ -59,56 +58,56 @@ public class CDTest {
     cd1.execute();
     assertEquals("/a", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute1() 
-  {
-    /* testing changing directory into a depth 1 full path
+  public void testExecute1() {
+    /*
+     * testing changing directory into a depth 1 full path
      * 
-     * Expected output of the path should be the full path of the directory
-     * cd'd into
+     * Expected output of the path should be the full path of the directory cd'd
+     * into
      */
     location[0] = "/a";
     cd1 = new CD(jFileSystem, location);
     cd1.execute();
     assertEquals("/a", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute2() 
-  {
-    /* Testing changing directory into a depth 2 full path
+  public void testExecute2() {
+    /*
+     * Testing changing directory into a depth 2 full path
      * 
-     * Expected output of the path should be the full path of the directory
-     * cd'd into
+     * Expected output of the path should be the full path of the directory cd'd
+     * into
      */
     location[0] = "/a/a1";
     cd1 = new CD(jFileSystem, location);
     cd1.execute();
     assertEquals("/a/a1", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute3() 
-  {
-    /* Testing changing directory into a depth 3 full path
+  public void testExecute3() {
+    /*
+     * Testing changing directory into a depth 3 full path
      * 
-     * Expected output of the path should be the full path of the directory
-     * cd'd into
+     * Expected output of the path should be the full path of the directory cd'd
+     * into
      */
     location[0] = "/a/a1/a2";
     cd1 = new CD(jFileSystem, location);
     cd1.execute();
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute4() 
-  {
-    /* Testing changing directory into a relative path 3 times
+  public void testExecute4() {
+    /*
+     * Testing changing directory into a relative path 3 times
      * 
-     * Expected output of the path should be the full path of the last 
-     * directory entered
+     * Expected output of the path should be the full path of the last directory
+     * entered
      */
     location[0] = "a";
     cd1 = new CD(jFileSystem, location);
@@ -121,11 +120,11 @@ public class CDTest {
     cd1.execute();
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute5() 
-  {
-    /* Testing entering a directory 3 levels deep and returning back on level
+  public void testExecute5() {
+    /*
+     * Testing entering a directory 3 levels deep and returning back on level
      * (testing the cd .. command)
      * 
      * Expected output of the path should be the full path of the 2nd level
@@ -145,11 +144,11 @@ public class CDTest {
     cd1.execute();
     assertEquals("/a/a1", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute6() 
-  {
-    /* Testing changing directory into a relative path that is 3 levels deep
+  public void testExecute6() {
+    /*
+     * Testing changing directory into a relative path that is 3 levels deep
      * 
      * Expected output of the path should be the full path of the directory
      * entered
@@ -159,11 +158,11 @@ public class CDTest {
     cd1.execute();
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute7() 
-  {
-    /* Testing the cd . command and making sure it doesn't change the file path 
+  public void testExecute7() {
+    /*
+     * Testing the cd . command and making sure it doesn't change the file path
      * 
      * Expected output of the path should be the full path of the directory
      * entered at the beginning
@@ -176,11 +175,11 @@ public class CDTest {
     cd1.execute();
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute8() 
-  {
-    /* Testing changing directory into a non existent path
+  public void testExecute8() {
+    /*
+     * Testing changing directory into a non existent path
      * 
      * Expected output is that the file path does not change
      */
@@ -189,11 +188,11 @@ public class CDTest {
     cd1.execute();
     assertEquals("/", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute9() 
-  {
-    /* Testing changing directory into a non existent path with concatenated
+  public void testExecute9() {
+    /*
+     * Testing changing directory into a non existent path with concatenated
      * commands
      * 
      * Expected output is that the file path does not change from the last
@@ -216,11 +215,11 @@ public class CDTest {
     cd1.execute();
     assertEquals("/a/a1", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute10() 
-  {
-    /* Testing changing directory into a 3 levels deep full path
+  public void testExecute10() {
+    /*
+     * Testing changing directory into a 3 levels deep full path
      * 
      * Expected output is the full path of the directory entered
      */
@@ -229,11 +228,11 @@ public class CDTest {
     cd1.execute();
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute11() 
-  {
-    /* Testing concatenated commands in one line
+  public void testExecute11() {
+    /*
+     * Testing concatenated commands in one line
      * 
      * Expected output is the full path of a2
      */
@@ -242,11 +241,11 @@ public class CDTest {
     cd1.execute();
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute12() 
-  {
-    /* Testing repeated return commands for the cd
+  public void testExecute12() {
+    /*
+     * Testing repeated return commands for the cd
      * 
      * Expected output is that the file path is the root folder
      */
@@ -258,11 +257,11 @@ public class CDTest {
     cd1.execute();
     assertEquals("/", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute13() 
-  {
-    /* Testing entering an invalid file path
+  public void testExecute13() {
+    /*
+     * Testing entering an invalid file path
      * 
      * Expected output is that the file path does not change
      */
@@ -271,11 +270,11 @@ public class CDTest {
     cd1.execute();
     assertEquals("/", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute14() 
-  {
-    /* Testing entering a location //
+  public void testExecute14() {
+    /*
+     * Testing entering a location //
      * 
      * Expected output is that the file path stays at /
      */
@@ -284,11 +283,11 @@ public class CDTest {
     cd1.execute();
     assertEquals("/", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute15() 
-  {
-    /* Testing entering the // location from a different file path
+  public void testExecute15() {
+    /*
+     * Testing entering the // location from a different file path
      * 
      * Expected output is that the file path changes to the root folder
      */
