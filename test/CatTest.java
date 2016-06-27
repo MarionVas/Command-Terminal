@@ -70,4 +70,42 @@ public class CatTest {
     assertEquals(cat.getStringToOutput(), "");
   }
 
+  @Test
+  public void testExecute5() {
+    fileNames = new String[2];
+    fileNames[0] = "test2";
+    fileNames[1] = "test3";
+    cat = new Cat(jFileSystem, fileNames);
+    cat.execute();
+    assertEquals(cat.getStringToOutput(),
+        "This is a test in test2.\n\n\n\nThis is a test in test3,"
+        + "\nAnd it works.\n\n\n\n");
+  }
+  
+  @Test
+  public void testExecute6() {
+    fileNames = new String[3];
+    fileNames[0] = "test2";
+    fileNames[1] = "test4";
+    fileNames[2] = "test3";
+    cat = new Cat(jFileSystem, fileNames);
+    cat.execute();
+    assertEquals(cat.getStringToOutput(),
+        "This is a test in test2.\n\n\n\nThis is a test in test3,"
+        + "\nAnd it works.\n\n\n\n");
+  }
+  
+  @Test
+  public void testExecute7() {
+    fileNames = new String[4];
+    fileNames[0] = "test1";
+    fileNames[1] = "test2";
+    fileNames[2] = "test4";
+    fileNames[3] = "test3";
+    cat = new Cat(jFileSystem, fileNames);
+    cat.execute();
+    assertEquals(cat.getStringToOutput(),
+        "\n\n\n\nThis is a test in test2.\n\n\n\nThis is a test in test3,"
+        + "\nAnd it works.\n\n\n\n");
+  }
 }
