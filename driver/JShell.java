@@ -52,7 +52,7 @@ public class JShell {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
       // Assess user input endlessly (intended to stop with the exit command)
-      // and send the input to the validator
+      // and send the input to into the ProQuery
       while (true) {
         input = br.readLine();
         shellQuery.sortQuery(input);
@@ -60,11 +60,9 @@ public class JShell {
       }
 
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
-    // TODO Auto-generated method stub
 
 
   }
