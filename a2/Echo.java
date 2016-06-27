@@ -6,14 +6,15 @@ public class Echo implements CommandInterface {
   private JFileSystem jFileSystem;
   private String[] echoParameters;
   private String stringToOutput;
+  private String echoType = null;
 
   public Echo(JFileSystem jFileSystem, String[] echoParameters) {
     this.jFileSystem = jFileSystem;
 
     if (java.util.Arrays.asList(echoParameters).contains(">")) {
-      this.echoParameters = Echo.fixEchoParameters(echoParameters, ">");
+      this.echoParameters = fixEchoParameters(echoParameters, ">");
     } else if (java.util.Arrays.asList(echoParameters).contains(">>")) {
-      this.echoParameters = Echo.fixEchoParameters(echoParameters, ">>");
+      this.echoParameters = fixEchoParameters(echoParameters, ">>");
     } else {
       this.echoParameters = echoParameters;
     }
@@ -25,11 +26,13 @@ public class Echo implements CommandInterface {
       stringToOutput = echoParameters[0];
       Output.printString(stringToOutput);
     } else if (echoParameters[1].equals(">")) {
+      setEchoType("overwrite");
       EchoOverwrite overwriteFile =
           new EchoOverwrite(jFileSystem, echoParameters);
       overwriteFile.execute();
 
     } else if (echoParameters[1].equals(">>")) {
+      setEchoType("append");
       EchoAppend appendFile = new EchoAppend(jFileSystem, echoParameters);
       appendFile.execute();
     } else {
@@ -37,7 +40,7 @@ public class Echo implements CommandInterface {
     }
   }
 
-  private static String[] fixEchoParameters(String[] echoParameters,
+  private String[] fixEchoParameters(String[] echoParameters,
       String echoSign) {
     String[] fixedEchoParameters = new String[3];
     int echoSignIndex =
@@ -47,14 +50,14 @@ public class Echo implements CommandInterface {
     String[] postSign = Arrays.copyOfRange(echoParameters, echoSignIndex + 1,
         echoParameters.length);
 
-    fixedEchoParameters[0] = Echo.joinStrWithSpace(preSign);
+    fixedEchoParameters[0] = joinStrWithSpace(preSign);
     fixedEchoParameters[1] = echoSign;
-    fixedEchoParameters[2] = Echo.joinStrWithSpace(postSign);
+    fixedEchoParameters[2] = joinStrWithSpace(postSign);
 
     return fixedEchoParameters;
   }
 
-  private static String joinStrWithSpace(String[] strPara) {
+  private String joinStrWithSpace(String[] strPara) {
     StringBuilder newString = new StringBuilder();
     for (int i = 0; i < strPara.length; i++) {
       if (i > 0) {
@@ -64,7 +67,15 @@ public class Echo implements CommandInterface {
     }
     return newString.toString();
   }
-
+  
+  private void setEchoType(String echoType){
+    this.echoType = echoType;
+  }
+  
+  public String getEchoType(){
+    return this.echoType;
+  }
+  
   public String manual() {
     EchoOverwrite overwriteFile =
         new EchoOverwrite(jFileSystem, echoParameters);
