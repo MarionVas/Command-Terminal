@@ -39,8 +39,7 @@ public class Echo implements CommandInterface {
     }
   }
 
-  private String[] fixEchoParameters(String[] echoParameters,
-      String echoSign) {
+  private String[] fixEchoParameters(String[] echoParameters, String echoSign) {
     String[] fixedEchoParameters = new String[3];
     int echoSignIndex =
         java.util.Arrays.asList(echoParameters).indexOf(echoSign);
@@ -66,15 +65,15 @@ public class Echo implements CommandInterface {
     }
     return newString.toString();
   }
-  
-  private void setEchoType(String echoType){
+
+  private void setEchoType(String echoType) {
     this.echoType = echoType;
   }
-  
-  public String getEchoType(){
+
+  public String getEchoType() {
     return this.echoType;
   }
-  
+
   public String manual() {
     EchoOverwrite overwriteFile =
         new EchoOverwrite(jFileSystem, echoParameters);
