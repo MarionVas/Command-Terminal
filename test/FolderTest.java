@@ -42,6 +42,8 @@ public class FolderTest {
   public void testgetPath() {
     /*
      * Seeing if the correct path can be retrieved
+     * 
+     * Expected output: The absolute path of the Folder
      */
     assertEquals("/Test", this.newFolder.getPath());
   }
@@ -50,6 +52,8 @@ public class FolderTest {
   public void testgetName() {
     /*
      * Seeing if the name of the folder can be properly retrieved
+     * 
+     * Expected output: The name of the Folder
      */
     assertEquals("Test", this.newFolder.getName());
   }
@@ -58,6 +62,8 @@ public class FolderTest {
   public void testgetChildren() {
     /*
      * Testing if the proper thing is returned if there are no children
+     * 
+     * Expected output: a null, since there are no children in the folder
      */
     assertEquals(null, this.newFolder.getChildren(1));
   }
@@ -66,6 +72,8 @@ public class FolderTest {
   public void testgetChildren2() {
     /*
      * Testing if a child of a folder can be retrieved
+     * 
+     * Expected output: A Folder object
      */
     assertEquals(this.newFolder, this.rootFolder.getChildren(0));
   }
@@ -74,6 +82,8 @@ public class FolderTest {
   public void testgetChildren3() {
     /*
      * Testing if a file can be retrieved
+     * 
+     * Expected output: A File object
      */
     assertEquals(this.newFile, this.rootFolder.getChildren(1));
   }
@@ -82,6 +92,8 @@ public class FolderTest {
   public void testgetFile() {
     /*
      * Determining if the getFile function works properly
+     * 
+     * Expected output: the name of the file
      */
     assertEquals(this.newFile, this.rootFolder.getFile("Test String"));
   }
@@ -91,6 +103,8 @@ public class FolderTest {
     /*
      * Testing if name of a child of a folder can be retrieved if there are not
      * children
+     * 
+     * Expected output:a null
      */
     assertEquals(null, this.newFolder.getChildrenName(1));
   }
@@ -99,6 +113,8 @@ public class FolderTest {
   public void testgetChildrenName2() {
     /*
      * Testing if a child (FOLDER) of a folder can be retrieved
+     * 
+     * Expected output: A name of one of the children of rootFolder
      */
     assertEquals(this.newFolder.getName(), this.rootFolder.getChildrenName(0));
   }
@@ -107,6 +123,8 @@ public class FolderTest {
   public void testgetChildrenName3() {
     /*
      * Testing if a child (FILE) of a folder can be retrieved
+     * 
+     * Expected output: A name of one of the children of rootFolder
      */
     assertEquals(this.newFile.getName(), this.rootFolder.getChildrenName(1));
   }
@@ -115,6 +133,8 @@ public class FolderTest {
   public void testGetAllChildren() {
     /*
      * Seeing if all the children can be retrieved at once
+     * 
+     * Expected output: A vector containing all the children
      */
     this.children.addElement(newFolder);
     this.children.addElement(newFile);
@@ -126,6 +146,8 @@ public class FolderTest {
     /*
      * Seeing if all the children can be retrieved at once if there are NO
      * children
+     * 
+     * Expected output: A null since there are no children
      */
     assertEquals(null, this.newFolder.getAllChildren());
   }
@@ -134,6 +156,8 @@ public class FolderTest {
   public void testGetAllChildrenNames() {
     /*
      * Seeing if all the children names can be retrieved at once
+     * 
+     * Expected output: A vector containing all the children names
      */
     this.childrenNames.addElement(newFolder.getName());
     this.childrenNames.addElement(newFile.getName());
@@ -145,6 +169,8 @@ public class FolderTest {
     /*
      * Seeing if all the children names can be retrieved at once if there are NO
      * children
+     * 
+     * Expected output: A null since there are no children
      */
     assertEquals(null, this.newFolder.getAllChildrenNames());
   }
