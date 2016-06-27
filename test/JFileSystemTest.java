@@ -39,6 +39,8 @@ public class JFileSystemTest {
   public void testgetCurrPath() {
     /*
      * Testing if proper path is returned
+     * 
+     * Expected output: the current working directories path
      */
     fileName[0] = "a";
     mkdir1 = new Mkdir(jFileSystem, fileName);
@@ -50,6 +52,8 @@ public class JFileSystemTest {
   public void testgetObject() {
     /*
      * Testing if proper object (either File or Folder or null) is returned
+     * 
+     * Expected output: The path of the retrieved object
      */
     fileNames = new String[5];
     fileNames[0] = "a";
@@ -67,6 +71,8 @@ public class JFileSystemTest {
   public void testgetObject2() {
     /*
      * Testing another case for get object with a LOCAL name instead
+     * 
+     * Expected output: the name of the retrieved object
      */
     fileNames = new String[5];
     fileNames[0] = "a";
@@ -83,6 +89,8 @@ public class JFileSystemTest {
   public void testgetObject4() {
     /*
      * Testing another case for get object with a FAIL case
+     * 
+     * Expected output: A null
      */
     fileNames = new String[5];
     fileNames[0] = "a";
@@ -99,6 +107,8 @@ public class JFileSystemTest {
   public void testSetFullPath() {
     /*
      * Seeing if the path is update properly
+     * 
+     * Expected output: The updated path as the current path
      */
     jFileSystem.setFullPath("/testPath");
     assertEquals("/testPath", jFileSystem.getCurrPath());
@@ -108,6 +118,8 @@ public class JFileSystemTest {
   public void testadd() {
     /*
      * Seeing if the folder is added properly
+     * 
+     * Expected output: The path of the added folder in JFileSystem
      */
     jFileSystem.add(newFolder);
     assertEquals("/Test", jFileSystem.getFullPaths().get(1));
@@ -117,6 +129,8 @@ public class JFileSystemTest {
   public void testaddFullPath() {
     /*
      * Testing if the path is added properly
+     * 
+     * Expected output: The path of the added folder in JFileSystem
      */
     jFileSystem.addFullPath(newFolder.getPath());
     assertEquals("/Test", jFileSystem.getFullPaths().get(1));
@@ -126,6 +140,8 @@ public class JFileSystemTest {
   public void testCheckValidPath() {
     /*
      * Seeing if it can confirm a valid path exists
+     * 
+     * Expected output: a True boolean
      */
     jFileSystem.addFullPath(newFolder.getPath());
     assertTrue(jFileSystem.checkValidPath("/Test"));
@@ -135,6 +151,8 @@ public class JFileSystemTest {
   public void testCheckValidPath1() {
     /*
      * Seeing if it can confirm a path does not exists
+     * 
+     * Expected output: a False boolean
      */
     jFileSystem.addFullPath(newFolder.getPath());
     assertFalse(jFileSystem.checkValidPath("/FAIL_CASE"));
@@ -144,6 +162,8 @@ public class JFileSystemTest {
   public void testSetCurrFolder() {
     /*
      * Seeing if the curr folder is set properly
+     * 
+     * Expected output: the path of the new current folder
      */
     jFileSystem.setCurrFolder(newFolder);
     assertEquals("/Test", jFileSystem.getCurrFolder().getPath());
@@ -154,6 +174,8 @@ public class JFileSystemTest {
     // Was set in the set up
     /*
      * Determining if root was set up properly
+     * 
+     * Expected output: The root folder
      */
     assertEquals(this.rootFolder, jFileSystem.getRootFolder());
   }
@@ -162,6 +184,8 @@ public class JFileSystemTest {
   public void testgetRootFolder() {
     /*
      * Seeing if the root folder can be properly retrieved
+     * 
+     * Expected output: The root folder
      */
     assertEquals(this.rootFolder, jFileSystem.getRootFolder());
   }
@@ -170,6 +194,8 @@ public class JFileSystemTest {
   public void testsetDirStack() {
     /*
      * Testing if the dirstack can be properly set
+     * 
+     * Expected output: The new DirStack
      */
     jFileSystem.setDirStack(testStack);
     assertEquals(testStack, jFileSystem.getDirStack());
@@ -179,6 +205,8 @@ public class JFileSystemTest {
   public void testgetDirStack() {
     /*
      * Testing whether the current dirstack can be retrieved
+     * 
+     * Expected output: The newTestStack
      */
     DirStack newTestStack = new DirStack();
     jFileSystem.setDirStack(newTestStack);
