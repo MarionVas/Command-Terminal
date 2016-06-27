@@ -24,8 +24,12 @@ public class EchoAppend extends EchoOverwrite implements CommandInterface {
   public void execute() {
     // run the super class' fileFile method to get the file to work with
     File appendFile = super.findFile();
-    // add the String to the file instead of replacing the file's content
-    append(appendFile, getParameter()[0]);
+    if (super.isFileNull()) {
+      Output.printFileNameError();
+    } else {
+      // add the String to the file instead of replacing the file's content
+      append(appendFile, getParameter()[0]);
+    }
   }
 
   /**
