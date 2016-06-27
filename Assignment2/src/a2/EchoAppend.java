@@ -28,7 +28,8 @@ public class EchoAppend extends EchoOverwrite implements CommandInterface {
       Output.printFileNameError();
     } else {
       // add the String to the file instead of replacing the file's content
-      append(appendFile, getParameter()[0]);
+      append(appendFile,
+          getParameter()[0].substring(1, getParameter()[0].length() - 1));
     }
   }
 

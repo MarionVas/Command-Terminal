@@ -37,7 +37,8 @@ public class EchoOverwrite implements CommandInterface {
       Output.printFileNameError();
     } else {
       // replace the contents of the file with the String
-      replace(replaceFile, parameter[0]);
+      replace(replaceFile,
+          parameter[0].substring(1, parameter[0].length() - 1));
     }
   }
 
