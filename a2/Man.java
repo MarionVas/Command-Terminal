@@ -114,4 +114,15 @@ public class Man implements CommandInterface {
   public String manual() {
     return "man CMD - Displays documentation regarding the specified command\n";
   }
+
+
+  /**
+   * The purpose of this method is to return a string containing the entry that
+   * was sent through the Output class to be printed on the shell.
+   * 
+   * @return stringToOutput String that is to be printed on the console/shell
+   */
+  public String getStringToOutput() {
+    return stringToOutput;
+  }
 }
