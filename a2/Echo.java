@@ -25,12 +25,13 @@ public class Echo implements CommandInterface {
     if (echoParameters.length == 1) {
       stringToOutput = echoParameters[0];
       Output.printString(stringToOutput);
-    } else if (echoParameters[1].equals(">") && echoParameters.length == 3) {
+    } else if (echoParameters[1].equals(">")) {
       setEchoType("overwrite");
       EchoOverwrite overwriteFile =
           new EchoOverwrite(jFileSystem, echoParameters);
       overwriteFile.execute();
-    } else if (echoParameters[1].equals(">>") && echoParameters.length == 3) {
+
+    } else if (echoParameters[1].equals(">>")) {
       setEchoType("append");
       EchoAppend appendFile = new EchoAppend(jFileSystem, echoParameters);
       appendFile.execute();
