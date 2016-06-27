@@ -22,7 +22,8 @@ public class Echo implements CommandInterface {
 
   public void execute() {
     if (echoParameters.length == 1) {
-      stringToOutput = echoParameters[0];
+      stringToOutput =
+          echoParameters[0].substring(1, echoParameters[0].length() - 1);
       Output.printString(stringToOutput);
     } else if (echoParameters[1].equals(">")) {
       setEchoType("overwrite");
