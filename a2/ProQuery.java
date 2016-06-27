@@ -12,8 +12,8 @@ public class ProQuery {
 
 
   /**
-   * Constructs a ProQuery object which takes a JFileSystem for
-   * commands to act upon.
+   * Constructs a ProQuery object which takes a JFileSystem for commands to act
+   * upon.
    * 
    * @param jFileSystem FileSystem that the commands will act upon.
    */
