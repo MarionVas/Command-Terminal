@@ -10,6 +10,7 @@ public class LS implements CommandInterface {
   // The arguments that the user enters
   private String[] args;
   private String arg = "";
+  private String fileOriginalArg = "";
   private String stringToOutput = "";
   private String stringToOutputTest = "";
 
@@ -114,13 +115,13 @@ public class LS implements CommandInterface {
             }
           }
           // Finishing up the formating
-          contents = arg + ": " + contents + "\n";
+          contents = this.fileOriginalArg + ": " + contents + "\n";
         }
       } else {
         // If the path specified is to a file
         // If there must not be a slash at the end of the file name
-        if (!slashAtEnd) {
-          contents = arg + "\n";
+        if (slashAtEnd) {
+          contents = this.fileOriginalArg + "\n";
         } else {
           contents = "That was not a valid path.\n";
         }
@@ -228,6 +229,7 @@ public class LS implements CommandInterface {
     for (int indexarg = 0; indexarg < this.args.length; indexarg++) {
       boolean slashAtEnd = false;
       this.arg = args[indexarg];
+      this.fileOriginalArg = args[indexarg];
       this.stringToOutput = "";
       // Since the "." operator does not really do anything significant it can
       // be removed from the path at it should still be equivalent to if the
