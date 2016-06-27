@@ -1,6 +1,6 @@
 // **********************************************************
 // Assignment2:
-// Student1: 
+// Student1:
 // UTORID user_name: gaoxu1
 // UT Student #: 1002309502
 // Author: Xu Sheng Gao
@@ -34,11 +34,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import a2.*;
 
-public class JShell 
-{
+public class JShell {
 
-  public static void main(String[] args) 
-  {
+  public static void main(String[] args) {
     // variable declaration
     JFileSystem jFileSystem = new JFileSystem();
     Folder rootFolder = new Folder("/", "/");
@@ -46,32 +44,28 @@ public class JShell
     jFileSystem.setCurrFolder(rootFolder);
     ProQuery shellQuery = new ProQuery(jFileSystem);
     String input;
-    
-        
-        
-        
-        
-    try 
-    {
+
+
+
+    try {
       // Create a line reader
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-      
+
       // Assess user input endlessly (intended to stop with the exit command)
       // and send the input to the validator
-      while(true)
-      {
+      while (true) {
         input = br.readLine();
         shellQuery.sortQuery(input);
-        
+
       }
-      
+
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
     // TODO Auto-generated method stub
-    
+
 
   }
 
