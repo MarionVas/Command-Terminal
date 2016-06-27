@@ -252,9 +252,13 @@ public class LS implements CommandInterface {
       else if (arg.contains("..")) {
         // Turning arg into an absolute path
         if (arg.equals("..")) {
-          arg = this.Manager.getCurrPath().substring(0,
-              Manager.getCurrPath().lastIndexOf("/"));
-          System.out.println(arg);
+          if ((arg.split("/").length > 2)){
+            arg = this.Manager.getCurrPath().substring(0,
+                Manager.getCurrPath().lastIndexOf("/"));
+          }
+          else{
+            arg = "/";
+          }
           this.stringToOutput += this.executeFullPath(arg, slashAtEnd);
         } else {
           arg = this.removeDots(arg);
