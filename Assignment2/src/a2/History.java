@@ -2,7 +2,7 @@ package a2;
 
 import java.util.Vector;
 
-public class History implements CommandInterface //need execute method()
+public class History implements CommandInterface // need execute method()
 {
   // variable declaration
   private Vector<String> inputHistory;
@@ -12,87 +12,78 @@ public class History implements CommandInterface //need execute method()
   private int location;
 
   // Default constructor
-  public History()
-  {
+  public History() {
     // make a new list
     this.inputHistory = new Vector<String>();
   }
-  
+
   /**
    * The purpose of this method is to add an element to the list
    * 
    * @param input, the string value of the item to be added to the list
    */
-  public void addInput(String input)
-  {
+  public void addInput(String input) {
     // iterate the command number
     commandNumber++;
     // add the command input with the appropriate formatting
     this.inputHistory.add(commandNumber + ". " + input);
-    
+
   }
-    
+
   /**
-   * The purpose of this method is to output the command history
-   * through the output class
+   * The purpose of this method is to output the command history through the
+   * output class
    */
-  public void getHistory()
-  {
+  public void getHistory() {
     output = inputHistory;
     Output.printContents(output);
   }
-  
+
   /**
    * The purpose of this method is to output the previous strLocation commands
    * as given by the user and output using the output class
    * 
-   * @param strLocation, will contain one value which will be the amount
-   *        of previous commands the user wishes to see
+   * @param strLocation, will contain one value which will be the amount of
+   *        previous commands the user wishes to see
    */
-  public void getHistory(String[] strLocation)
-  {
-
+  public void getHistory(String[] strLocation) {
     // Determine if the given string can be turned into an integer
     // If not, display an error message
-    try
-    {
+    try {
       // convert the given string array into an integer
       location = Integer.parseInt(strLocation[0]);
-      
+
       // makes sure the user cannot enter a negative number
-      if (location >= 0)
-      {
+      if (location >= 0) {
         // if the user chose a location larger than the size of the history
         // vector, choose zero instead - as per command terminal functionality
-        commandLocation = Math.max(inputHistory.size()-location, 0);
-        
+        commandLocation = Math.max(inputHistory.size() - location, 0);
+
         // creating a vector string to output that displays the history
         // appropriately from a location specified or 0 if need be
-        
-        Output.printContents(inputHistory.subList
-            (commandLocation, inputHistory.size()));
-      }
-      else
-      {
+
+        Output.printContents(
+            inputHistory.subList(commandLocation, inputHistory.size()));
+      } else {
         Output.printError();
-      }  
-    } catch (Exception e){
-      Output.printNumberError();    
+      }
+    } catch (Exception e) {
+      Output.printNumberError();
     }
   }
-  
+
 
   @Override
   public void execute() {
     // TODO Auto-generated method stub
-    
+
   }
-  
+
   public String manual() {
     return "history [number] - Prints out past/recently input commands during\n"
         + "the session. The given value specifies the last number of commands\n"
         + "to output.\n";
-        
+
   }
 
 }
