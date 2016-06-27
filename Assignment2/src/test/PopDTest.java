@@ -7,8 +7,7 @@ import org.junit.Test;
 
 import a2.*;
 
-public class PopDTest 
-{
+public class PopDTest {
   private JFileSystem jFileSystem;
   private PopD popD;
   private PushD pushD;
@@ -19,10 +18,9 @@ public class PopDTest
   private Mkdir mkdir3;
   private Mkdir mkdir4;
   private CD cd;
- 
+
   @Before
-  public void setUp() throws Exception 
-  {
+  public void setUp() throws Exception {
     this.jFileSystem = new JFileSystem();
     Folder rootFolder = new Folder("/", "/");
     jFileSystem.setRoot(rootFolder);
@@ -39,20 +37,19 @@ public class PopDTest
     mkdir3.execute();
     mkdir4 = new Mkdir(jFileSystem, path4);
     mkdir4.execute();
-    
+
     dirStack = new DirStack();
     location = new String[1];
 
   }
 
   @Test
-  public void testExecute() 
-  {
+  public void testExecute() {
     /*
      * Testing that the JFileSystems DirStack was changed after popping
      * 
-     * Expected output is that the DirStack contains the same items as
-     * the mock DirStack
+     * Expected output is that the DirStack contains the same items as the mock
+     * DirStack
      */
     location[0] = "/a/a1/a2";
     pushD = new PushD(jFileSystem, location);
@@ -61,15 +58,13 @@ public class PopDTest
     popD.execute();
     assertEquals(dirStack.getStack(), jFileSystem.getDirStack().getStack());
   }
-  
+
   @Test
-  public void testExecute1() 
-  {
+  public void testExecute1() {
     /*
      * Testing that the path was changed to the location that was popped
      * 
-     * Expected output is that the current path is the same as the popped
-     * string
+     * Expected output is that the current path is the same as the popped string
      */
     location[0] = "/a/a1/a2";
     pushD = new PushD(jFileSystem, location);
@@ -78,16 +73,14 @@ public class PopDTest
     popD.execute();
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute2() 
-  {
+  public void testExecute2() {
     /*
-     * Testing if, after entering a different path,
-     * the path was changed to the path that was popped
+     * Testing if, after entering a different path, the path was changed to the
+     * path that was popped
      * 
-     * Expected output is that the current path is the same as the popped
-     * string
+     * Expected output is that the current path is the same as the popped string
      */
     location[0] = "/a/a1/a2";
     pushD = new PushD(jFileSystem, location);
@@ -99,16 +92,15 @@ public class PopDTest
     popD.execute();
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute3() 
-  {
+  public void testExecute3() {
     /*
-     * Testing that after pushing multiple paths, the last entered path was
-     * the one that was popped to as per LIFO
+     * Testing that after pushing multiple paths, the last entered path was the
+     * one that was popped to as per LIFO
      * 
-     * Expected output is that the current path is the same as the popped
-     * string or the last pushed string
+     * Expected output is that the current path is the same as the popped string
+     * or the last pushed string
      */
     location[0] = "/a/a1/a2";
     pushD = new PushD(jFileSystem, location);
@@ -123,13 +115,12 @@ public class PopDTest
     popD.execute();
     assertEquals("/a/a1/alternate", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute4() 
-  {
+  public void testExecute4() {
     /*
-     * Testing popping multiple lines and that the current path is the last
-     * path popped
+     * Testing popping multiple lines and that the current path is the last path
+     * popped
      * 
      * Expected output is that the current path is the same as the last popped
      * string
@@ -146,10 +137,9 @@ public class PopDTest
     popD.execute();
     assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute5() 
-  {
+  public void testExecute5() {
     /*
      * Testing popping an empty DirStack
      * 
@@ -159,10 +149,9 @@ public class PopDTest
     popD.execute();
     assertEquals("/", jFileSystem.getCurrPath());
   }
-  
+
   @Test
-  public void testExecute6() 
-  {
+  public void testExecute6() {
     /*
      * Testing popping an empty DirStack making sure contents remain the same
      * 
@@ -172,6 +161,6 @@ public class PopDTest
     popD.execute();
     assertEquals(dirStack.getStack(), jFileSystem.getDirStack().getStack());
   }
-  
+
 
 }
