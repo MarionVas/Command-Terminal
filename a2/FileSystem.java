@@ -9,7 +9,7 @@ public interface FileSystem {
 
   public Object getObject(String name);
 
-  public Object getObjRecurs(String name, String currName, Folder dirrOrFile);
+  public Object getObjRecurs(String name, String currName, Object dirrOrFile);
 
   public void add(Folder newFolder);
 
