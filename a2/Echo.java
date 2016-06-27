@@ -7,10 +7,11 @@ public class Echo implements CommandInterface {
   private String[] echoParameters;
   private String stringToOutput;
   private String echoType = null;
+  private String string;
 
   public Echo(JFileSystem jFileSystem, String[] echoParameters) {
     this.jFileSystem = jFileSystem;
-
+    string = echoParameters[0].substring(1, echoParameters[0].length() - 1);
     if (java.util.Arrays.asList(echoParameters).contains(">")) {
       this.echoParameters = fixEchoParameters(echoParameters, ">");
     } else if (java.util.Arrays.asList(echoParameters).contains(">>")) {
@@ -22,8 +23,7 @@ public class Echo implements CommandInterface {
 
   public void execute() {
     if (echoParameters.length == 1) {
-      stringToOutput =
-          echoParameters[0].substring(1, echoParameters[0].length() - 1);
+      stringToOutput = string;
       Output.printString(stringToOutput);
     } else if (echoParameters[1].equals(">")) {
       setEchoType("overwrite");

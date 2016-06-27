@@ -28,8 +28,7 @@ public class EchoAppend extends EchoOverwrite implements CommandInterface {
       Output.printFileNameError();
     } else {
       // add the String to the file instead of replacing the file's content
-      append(appendFile,
-          getParameter()[0].substring(1, getParameter()[0].length() - 1));
+      append(appendFile, super.getString());
     }
   }
 
@@ -44,24 +43,9 @@ public class EchoAppend extends EchoOverwrite implements CommandInterface {
     file.addToBody(body);
   }
 
-  /*
-   * /** This function will return the name of the outfile given the parameter
-   * given to the constructor
-   * 
-   * @return fileName - The name of the outfile
-   * 
-   * private String findFileName() { String fileName =
-   * getParameter().substring(getIndexOfSymbol() + 3, getParameter().length());
-   * return fileName; }
-   * 
-   * /** This function will add string provided in the parameter to the body of
-   * the outfile
-   * 
-   * private void replace(File file, String body) { file.addToBody(body); }
-   */
 
   /**
-   * This function return the instructions on how to use the command echo STRING
+   * This method returns the instructions on how to use the command echo STRING
    * [>> OUTFILE].
    * 
    * @return a string telling users the how the command works

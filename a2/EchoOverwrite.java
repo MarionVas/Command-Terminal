@@ -12,6 +12,8 @@ public class EchoOverwrite implements CommandInterface {
 
   // initialize a variable to hold the parameter passed to the command
   private String[] parameter;
+  //initialize a variable to hold the String passed to the command
+  private String string;
 
   /**
    * The constructor
@@ -23,6 +25,7 @@ public class EchoOverwrite implements CommandInterface {
   public EchoOverwrite(JFileSystem manager, String[] parameter) {
     this.fileSystem = manager;
     this.parameter = parameter;
+    this.string = parameter[0].substring(1, parameter[0].length() - 1);
   }
 
   /**
@@ -37,13 +40,13 @@ public class EchoOverwrite implements CommandInterface {
       Output.printFileNameError();
     } else {
       // replace the contents of the file with the String
-      replace(replaceFile,
-          parameter[0].substring(1, parameter[0].length() - 1));
+      replace(replaceFile, string);
     }
   }
 
+
   /**
-   * This method will return the outFile given in the parameters of the
+   * This method will returns the outFile given in the parameters of the
    * constructor, if the outfile specified does not exist, it will create a file
    * with the name of the outfile and return the newly created file
    */
@@ -69,6 +72,7 @@ public class EchoOverwrite implements CommandInterface {
         file = new File(fileName);
         // add the file to the current working directory
         currFolder.addChildren(file);
+        fileSystem.addFullPath(fileSystem.getCurrPath() + "/" + parameter[2]);
       }
     } else {
       file = null;
@@ -76,18 +80,6 @@ public class EchoOverwrite implements CommandInterface {
     // return the file
     return file;
   }
-
-  /*
-   * /** This function will return the name of the outfile given the parameter
-   * given to the constructor
-   * 
-   * @return fileName - The name of the outfile
-   * 
-   * 
-   * private String findFileName() { // find the name of the outfile String
-   * fileName = this.parameter.substring(this.indexOfSymbol + 2,
-   * this.parameter.length()); return fileName; }
-   */
 
 
   /**
@@ -99,26 +91,26 @@ public class EchoOverwrite implements CommandInterface {
     file.setBody(body);
   }
 
-  /*
-   * /** This function return the index of the symbol ">".
-   * 
-   * @return indexOfSymbol - The index of the symbol ">" provided in the
-   * constructor
-   * 
-   * 
-   * public int getIndexOfSymbol() { return indexOfSymbol; }
-   */
-
-
 
   /**
-   * This function return the parameter provided to the constructor
+   * This method returns the parameter provided to the constructor
    * 
    * @return parameter - The parameter provided to the constructor
    */
 
   public String[] getParameter() {
     return parameter;
+  }
+
+  /**
+   * This method returns the String provided in the parameter provided to the
+   * constructor
+   * 
+   * @return parameter - The parameter provided to the constructor
+   */
+
+  public String getString() {
+    return string;
   }
 
   /**
