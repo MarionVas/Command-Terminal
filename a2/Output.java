@@ -14,7 +14,7 @@ public class Output {
   public static void printError() {
     System.out.println("That was not a recognized command.");
   }
-  
+
   public static void printNumberError() {
     System.out.println("A numeric arguement is required.");
   }
@@ -28,7 +28,7 @@ public class Output {
   public static void printPathError() {
     System.out.println("That was not a valid path.");
   }
-  
+
   /**
    * This function displays an error message when trying to retrieve an item
    * from the directory stack when there are no items inside
@@ -58,7 +58,7 @@ public class Output {
   public static void printString(String contents) {
     System.out.println(contents);
   }
-  
+
   /**
    * This function display a given string on a single line
    * 
@@ -67,15 +67,14 @@ public class Output {
   public static void printSingleLineString(String contents) {
     System.out.print(contents);
   }
-  
+
   /**
-   * This function display the contents of a given string List with each
-   * element on a new line
+   * This function display the contents of a given string List with each element
+   * on a new line
    * 
    * @param contents: The List to be output
    */
-  public static void printContents(List<String> contents) 
-  {
+  public static void printContents(List<String> contents) {
     for (String content : contents) {
       System.out.println(content);
     }
