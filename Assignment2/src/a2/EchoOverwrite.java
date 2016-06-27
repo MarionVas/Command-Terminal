@@ -33,8 +33,12 @@ public class EchoOverwrite implements CommandInterface {
   public void execute() {
     // find the file that the user is going to be working with
     File replaceFile = findFile();
-    // replace the contents of the file with the String
-    replace(replaceFile, parameter[0]);
+    if (isFileNull()) {
+      Output.printFileNameError();
+    } else {
+      // replace the contents of the file with the String
+      replace(replaceFile, parameter[0]);
+    }
   }
 
   /**
@@ -49,24 +53,24 @@ public class EchoOverwrite implements CommandInterface {
     // find the name of the outfile
     String fileName = parameter[2];
     // get the outfile
-    File file = currFolder.getFile(fileName);
-    // check if the file exists
-    if (file == null) {
-      boolean valid = true;
-      for (int i = 0; i < specialChar.length; i++) {
-        if (fileName.contains(specialChar[i])) {
-          valid = false;
-        }
+    File file;
+    boolean valid = true;
+    for (String eachChar : specialChar) {
+      if (fileName.contains(eachChar)) {
+        valid = false;
       }
-      if (valid){
-      // if the file does not exist make a new file
-      file = new File(fileName);
-      // add the file to the current working directory
-      currFolder.addChildren(file);
+    }
+    if (valid) {
+      file = currFolder.getFile(fileName);
+      // check if the file exists
+      if (file == null) {
+        // if the file does not exist make a new file
+        file = new File(fileName);
+        // add the file to the current working directory
+        currFolder.addChildren(file);
       }
-      else{
-        Output.printFileNameError();
-      }
+    } else {
+      file = null;
     }
     // return the file
     return file;
@@ -114,6 +118,17 @@ public class EchoOverwrite implements CommandInterface {
 
   public String[] getParameter() {
     return parameter;
+  }
+
+  /**
+   * This function return if no files are created because of an invalid name
+   * 
+   * @return file == null a boolean to check if a file is created
+   */
+
+  public boolean isFileNull() {
+    File file = findFile();
+    return file == null;
   }
 
   /**
