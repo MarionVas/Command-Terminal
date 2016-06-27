@@ -24,46 +24,98 @@ public class FileTest {
     file = new File("testFile");
   }
 
-  // add nothing to body
   @Test
   public void testAddToBody1() {
+    /*
+     * test to using addToBody() method to add an empty string to an empty body
+     * of an existing file
+     * 
+     * Expected body of the file is an empty String
+     * 
+     */
     file.addToBody(body);
     assertEquals(file.getBody(), "");
   }
 
   @Test
   public void testAddToBody2() {
+    /*
+     * test to using addToBody() method to add a string to an empty body of an
+     * existing file
+     * 
+     * Expected body of the file is the String passed into addToBody()
+     * 
+     */
     file.addToBody("test");
     assertEquals(file.getBody(), "test");
   }
 
   @Test
   public void testAddToBody3() {
+    /*
+     * test to using addToBody() method to add a string to an empty body of an
+     * existing file. use addToBody() method again to add the string to the
+     * modified body of the existing file
+     * 
+     * Expected body of the file is the String passed into the addToBody()
+     * method and the String passed into second addToBody() method
+     * 
+     */
     file.addToBody("testing testing ");
     file.addToBody("123");
     assertEquals(file.getBody(), "testing testing 123");
   }
-  
+
   @Test
   public void testGetName() {
+    /*
+     * test to using getName() method to get the name of the file
+     * 
+     * Expected return should be equal to the name of the file
+     * 
+     */
     assertEquals(file.getName(), "testFile");
   }
 
-  // set body to nothing
   @Test
   public void testSetBody1() {
+    /*
+     * test to using setBody() method to make the contents of the existing file
+     * an empty String
+     * 
+     * Expected body of the file is an empty String
+     * 
+     */
     file.setBody(body);
     assertEquals(file.getBody(), "");
   }
 
   @Test
   public void testSetBody2() {
+    /*
+     * test to using setBody() method to make the contents of the existing file
+     * the String passed into the parameters of setBody() method.
+     * 
+     * Expected body of the file is the String passed into the parameters of the
+     * setBody() method.
+     * 
+     */
     file.setBody("test");
     assertEquals(file.getBody(), "test");
   }
 
   @Test
   public void testSetBody3() {
+    /*
+     * test to using setBody() method to make the contents of the existing file
+     * the String passed into the parameters of setBody() method. Use setBody()
+     * method again with a different String to make the contents of the existing
+     * file the String of the second setBody() parameter.
+     * 
+     * Expected body of the file is the String passed into the parameters of the
+     * second setBody() method.
+     * 
+     */
     file.setBody("testing testing ");
     file.setBody("123");
     assertEquals(file.getBody(), "123");
