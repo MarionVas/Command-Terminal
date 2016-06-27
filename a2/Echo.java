@@ -39,7 +39,7 @@ public class Echo implements CommandInterface {
     }
   }
   
-  public static String[] fixEchoParameters(String[] echoParameters, String echoSign) {
+  private static String[] fixEchoParameters(String[] echoParameters, String echoSign) {
     String[] fixedEchoParameters = new String[3];
     int echoSignIndex = java.util.Arrays.asList(echoParameters).indexOf(echoSign);
     
@@ -53,7 +53,7 @@ public class Echo implements CommandInterface {
     return fixedEchoParameters;
   }
   
-  public static String joinStrWithSpace(String[] strPara) {
+  private static String joinStrWithSpace(String[] strPara) {
     StringBuilder newString = new StringBuilder();
     for (int i=0; i<strPara.length; i++) {
       if (i > 0) {
