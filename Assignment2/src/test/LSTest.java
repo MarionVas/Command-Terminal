@@ -67,6 +67,9 @@ public class LSTest {
 
   @Test
   public void testExecute1() {
+    /*
+     * Testing a basic no argument call to ls; prints contents of current dir
+     */
     this.ls = new LS(jFileSystem);
     ls.execute();
     assertEquals("\n", this.ls.getStringToOutput());
@@ -74,6 +77,9 @@ public class LSTest {
 
   @Test
   public void testExecute2() {
+    /*
+     * Testing the "..", which should return the contents of the parent dir
+     */
     this.fileArg[0] = "..";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
@@ -82,6 +88,9 @@ public class LSTest {
 
   @Test
   public void testExecute3() {
+    /*
+     * Testing a local path with both ".." and a name specification
+     */
     this.fileArg[0] = "../../e/";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
@@ -90,6 +99,10 @@ public class LSTest {
 
   @Test
   public void testExecute4() {
+    /*
+     * Testing to see if proper out put is given when a "." is added (which does
+     * nothing)
+     */
     this.fileArg[0] = ".././../e/";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
@@ -98,6 +111,9 @@ public class LSTest {
 
   @Test
   public void testExecute5() {
+    /*
+     * Testing a local path with names in between ".."'s
+     */
     this.fileArg[0] = ".././../e/../../b";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
@@ -106,6 +122,9 @@ public class LSTest {
 
   @Test
   public void testExecute6() {
+    /*
+     * Testing an absolute file path
+     */
     this.fileArg[0] = "/a/e/";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
@@ -114,6 +133,9 @@ public class LSTest {
 
   @Test
   public void testExecute7() {
+    /*
+     * Testing a local with a "/" at the end
+     */
     String[] a = new String[1];
     a[0] = "/a";
     cd = new CD(jFileSystem, a);
@@ -126,6 +148,9 @@ public class LSTest {
 
   @Test
   public void testExecute8() {
+    /*
+     * A failure case
+     */
     this.fileArg[0] = "FAIL_ARG";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
@@ -134,14 +159,17 @@ public class LSTest {
 
   @Test
   public void testExecute9() {
+    /*
+     * Testing multiple arguments at once
+     */
     this.fileArgs[0] = "/a/e/";
     this.fileArgs[1] = "/";
     this.fileArgs[2] = "/a/e/v/";
     this.ls = new LS(jFileSystem, this.fileArgs);
     ls.execute();
-    boolean Equal = this.ls.getStringToOutput().equals(
-        "/a/e:      v     x     z\n/:      a     b\n/a/e/v:      " + 
-        "TestCase\n");
+    boolean Equal = this.ls.getStringToOutput()
+        .equals("/a/e:      v     x     z\n/:      a     b\n/a/e/v:      "
+            + "TestCase\n");
     assertTrue(Equal);
   }
 }
