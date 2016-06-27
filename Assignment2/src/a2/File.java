@@ -46,7 +46,7 @@ public class File extends JFileSystem {
   /**
    * This method returns the body of the file
    */
-  
+
   public String getBody() {
     return this.body;
   }
