@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Echo implements CommandInterface {
   private JFileSystem jFileSystem;
   private String[] echoParameters;
-  private String stringToOutput;
+  private String stringToOutput = "";
   private String echoType = null;
   private String string;
 
