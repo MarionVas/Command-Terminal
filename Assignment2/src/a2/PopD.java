@@ -13,9 +13,9 @@ public class PopD implements CommandInterface {
   }
 
   /**
-   * The purpose of this method is to do the PopD command, which
-   * gets a file path from the DirStack as per LIFO, removing it from the stack
-   * and changes the directory to that filepath
+   * The purpose of this method is to do the PopD command, which gets a file
+   * path from the DirStack as per LIFO, removing it from the stack and changes
+   * the directory to that filepath
    */
   public void execute() {
 
@@ -33,8 +33,8 @@ public class PopD implements CommandInterface {
   }
 
   /**
-   * The purpose of this method is to display the manual for this class for 
-   * the Man class
+   * The purpose of this method is to display the manual for this class for the
+   * Man class
    */
   public String manual() {
     return "popd - Removes the top directory on the directory stack and makes\n"
