@@ -30,7 +30,7 @@ public class EchoOverwriteTest {
   @Test
   public void testExecute1() {
     /*
-     * test to using echo to replace the contents of an existing file with the
+     * test to use echo to replace the contents of an existing file with the
      * String passed into the echo command
      * 
      * Expected body of the file is the String passed into echo command
@@ -50,7 +50,7 @@ public class EchoOverwriteTest {
   @Test
   public void testExecute2() {
     /*
-     * test to using echo to create a new file with the string as the contents
+     * test to use echo to create a new file with the string as the contents
      * 
      * Expected body of the file is the String passed into echo command
      * 
@@ -68,7 +68,7 @@ public class EchoOverwriteTest {
   @Test
   public void testExecute3() {
     /*
-     * test to using echo to create a new file with String as the contents. use
+     * test to use echo to create a new file with String as the contents. use
      * another echo to overwrite the existing file's with the second echo's
      * String.
      * 
@@ -95,7 +95,7 @@ public class EchoOverwriteTest {
   @Test
   public void testExecute4() {
     /*
-     * test to using echo to create a new file with an invalid OUTFILE name
+     * test to use echo to create a new file with an invalid OUTFILE name
      * 
      * Expected the OUTFILE after echo has executed is null
      * 
@@ -111,8 +111,7 @@ public class EchoOverwriteTest {
   @Test
   public void testExecute5() {
     /*
-     * test to using echo to create an new file with an empty String as the
-     * contents
+     * use echo to create an new file with an empty String as the contents
      * 
      * Expected body of the file is an empty String passed into echo command
      * 
@@ -130,7 +129,7 @@ public class EchoOverwriteTest {
   @Test
   public void testExecute6() {
     /*
-     * test to using echo to replace the contents of an existing file with an
+     * test to use echo to replace the contents of an existing file with an
      * empty String
      * 
      * Expected body of the file is an empty String passed into echo command
