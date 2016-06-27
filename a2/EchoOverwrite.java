@@ -12,7 +12,7 @@ public class EchoOverwrite implements CommandInterface {
 
   // initialize a variable to hold the parameter passed to the command
   private String[] parameter;
-  //initialize a variable to hold the String passed to the command
+  // initialize a variable to hold the String passed to the command
   private String string;
 
   /**
@@ -72,7 +72,11 @@ public class EchoOverwrite implements CommandInterface {
         file = new File(fileName);
         // add the file to the current working directory
         currFolder.addChildren(file);
-        fileSystem.addFullPath(fileSystem.getCurrPath() + "/" + parameter[2]);
+        if (fileSystem.getCurrPath().equals("/")) {
+          fileSystem.addFullPath(fileSystem.getCurrPath() + parameter[2]);
+        } else {
+          fileSystem.addFullPath(fileSystem.getCurrPath() + "/" + parameter[2]);
+        }
       }
     } else {
       file = null;
