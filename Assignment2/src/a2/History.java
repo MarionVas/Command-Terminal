@@ -1,5 +1,6 @@
 package a2;
 
+import java.util.List;
 import java.util.Vector;
 
 public class History implements CommandInterface // need execute method()
@@ -10,6 +11,7 @@ public class History implements CommandInterface // need execute method()
   private int commandNumber = 0;
   private int commandLocation;
   private int location;
+  private List history;
 
   // Default constructor
   public History() {
@@ -59,11 +61,13 @@ public class History implements CommandInterface // need execute method()
         // vector, choose zero instead - as per command terminal functionality
         commandLocation = Math.max(inputHistory.size() - location, 0);
 
+        // storing history from given command number to the end of the
+        // history
+        history = inputHistory.subList(commandLocation, inputHistory.size());
+
         // creating a vector string to output that displays the history
         // appropriately from a location specified or 0 if need be
-
-        Output.printContents(
-            inputHistory.subList(commandLocation, inputHistory.size()));
+        Output.printContents(history);
       } else {
         Output.printError();
       }
