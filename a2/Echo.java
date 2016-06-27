@@ -18,7 +18,6 @@ public class Echo implements CommandInterface {
     } else {
       this.echoParameters = echoParameters;
     }
-    System.out.println(Arrays.toString(this.echoParameters));
   }
 
   public void execute() {
