@@ -69,6 +69,8 @@ public class LSTest {
   public void testExecute1() {
     /*
      * Testing a basic no argument call to ls; prints contents of current dir
+     * 
+     * Expected output: a \n since there is nothing in the current working dir
      */
     this.ls = new LS(jFileSystem);
     ls.execute();
@@ -79,6 +81,8 @@ public class LSTest {
   public void testExecute2() {
     /*
      * Testing the "..", which should return the contents of the parent dir
+     * 
+     * Expected output: The contents of the current working dir
      */
     this.fileArg[0] = "..";
     this.ls = new LS(jFileSystem, this.fileArg);
@@ -90,6 +94,8 @@ public class LSTest {
   public void testExecute3() {
     /*
      * Testing a local path with both ".." and a name specification
+     * 
+     * Expected output: The contents of the specified directory
      */
     this.fileArg[0] = "../../e/";
     this.ls = new LS(jFileSystem, this.fileArg);
@@ -102,6 +108,8 @@ public class LSTest {
     /*
      * Testing to see if proper out put is given when a "." is added (which does
      * nothing)
+     * 
+     * Expected output: The contents of the specified directory
      */
     this.fileArg[0] = ".././../e/";
     this.ls = new LS(jFileSystem, this.fileArg);
@@ -113,6 +121,8 @@ public class LSTest {
   public void testExecute5() {
     /*
      * Testing a local path with names in between ".."'s
+     * 
+     * Expected output: The contents of the specified directory
      */
     this.fileArg[0] = ".././../e/../../b";
     this.ls = new LS(jFileSystem, this.fileArg);
@@ -124,6 +134,8 @@ public class LSTest {
   public void testExecute6() {
     /*
      * Testing an absolute file path
+     * 
+     * Expected output: The contents of the specified directory
      */
     this.fileArg[0] = "/a/e/";
     this.ls = new LS(jFileSystem, this.fileArg);
@@ -135,6 +147,8 @@ public class LSTest {
   public void testExecute7() {
     /*
      * Testing a local with a "/" at the end
+     * 
+     * Expected output: The contents of the specified directory
      */
     String[] a = new String[1];
     a[0] = "/a";
@@ -150,6 +164,8 @@ public class LSTest {
   public void testExecute8() {
     /*
      * A failure case
+     * 
+     * Expected output: An error message for an invalid path
      */
     this.fileArg[0] = "FAIL_ARG";
     this.ls = new LS(jFileSystem, this.fileArg);
@@ -161,6 +177,8 @@ public class LSTest {
   public void testExecute9() {
     /*
      * Testing multiple arguments at once
+     * 
+     * Expected output: The contents of the specified directories
      */
     this.fileArgs[0] = "/a/e/";
     this.fileArgs[1] = "/";
