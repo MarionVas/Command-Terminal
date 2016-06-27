@@ -52,7 +52,7 @@ public class Cat implements CommandInterface {
         } else {
           // if the file does exist print the contents of the file
           // print three lines to separate each file being read
-          stringToOutput += file.getBody() + "\n" + "\n" + "\n";
+          stringToOutput += file.getBody() + "\n\n\n";
         }
       }
       Output.printSingleLineString(stringToOutput);
