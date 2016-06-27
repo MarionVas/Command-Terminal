@@ -94,13 +94,13 @@ public class ProQuery {
       }
       // If the one key word string is "history", execute the history class
     } else if (splitEntry.length <= 1 && splitEntry[0].equals("history")) {
-      commandHistory.getHistory();
+      commandHistory.execute();
 
       // If the given string is history with additional parameters
     } else if (splitEntry.length > 1 && splitEntry[0].equals("history")) {
       // Execute the history class with the additional parameters
       commandHistory
-          .getHistory(Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
+          .execute(Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
 
 
     } else {
