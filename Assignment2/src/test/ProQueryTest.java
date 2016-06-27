@@ -5,7 +5,12 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import a2.*;
+import a2.DirStack;
+import a2.Folder;
+import a2.JFileSystem;
+import a2.Mkdir;
+import a2.ProQuery;
+
 
 public class ProQueryTest {
   private JFileSystem jFileSystem;
