@@ -11,7 +11,7 @@ public class History implements CommandInterface // need execute method()
   private int commandNumber = 0;
   private int commandLocation;
   private int location;
-  private List<String> history;
+  private List<String> subHistory;
 
   // Default constructor
   public History() {
@@ -63,11 +63,11 @@ public class History implements CommandInterface // need execute method()
 
         // storing history from given command number to the end of the
         // history
-        history = inputHistory.subList(commandLocation, inputHistory.size());
+        subHistory = inputHistory.subList(commandLocation, inputHistory.size());
 
         // creating a vector string to output that displays the history
         // appropriately from a location specified or 0 if need be
-        Output.printContents(history);
+        Output.printContents(subHistory);
       } else {
         Output.printError();
       }
@@ -76,8 +76,23 @@ public class History implements CommandInterface // need execute method()
     }
   }
 
+  /**
+   * A method to get the full inputHistory solely for testing
+   * 
+   * @return a vector<String> containing the history
+   */
+  public Vector<String> getList() {
+    return this.inputHistory;
+  }
+
+  /**
+   * A method to get the input history sublist solely for testing WILL NOT WORK
+   * unless the history variable is instantiated
+   * 
+   * @return a List<String> containing the sublist history
+   */
   public List<String> getSubList() {
-    return this.history;
+    return this.subHistory;
   }
 
 
