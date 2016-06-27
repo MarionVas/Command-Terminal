@@ -64,8 +64,6 @@ public class ProQuery {
     // Split the string entry into a string array with whitespace acting as
     // the separator
     String[] splitEntry = entry.split("\\s+");
-    System.out.println(Arrays.toString(splitEntry));
-    System.out.println(splitEntry[0]);
 
     // If the given string entry is only one key word and not history
     if (splitEntry.length <= 1 && !splitEntry[0].equals("history")) {
