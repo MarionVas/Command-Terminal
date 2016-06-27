@@ -11,7 +11,7 @@ public class History implements CommandInterface // need execute method()
   private int commandNumber = 0;
   private int commandLocation;
   private int location;
-  private List history;
+  private List<String> history;
 
   // Default constructor
   public History() {
@@ -76,7 +76,7 @@ public class History implements CommandInterface // need execute method()
     }
   }
 
-  public List getSubList() {
+  public List<String> getSubList() {
     return this.history;
   }
 
