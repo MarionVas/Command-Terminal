@@ -94,18 +94,18 @@ public class JFileSystem implements FileSystem {
    * @param dirrOrFile
    * @return result - Can either be the desired object or a null type
    */
-  public Object getObjRecurs(String name, String currName, Folder dirrOrFile) {
+  public Object getObjRecurs(String name, String currName, Object dirrOrFile) {
     // Base case if the desired name matches the name built by the recursive
     // steps
     if (currName.equals(name)) {
       return dirrOrFile;
     }
     // If the end of the subtree is reached
-    else if (dirrOrFile == null) {
+    else if (dirrOrFile == null || dirrOrFile.equals(File.class)) {
       Object result = null;
     }
     // A vector representing all the children in the tree
-    Vector allChildren = dirrOrFile.getAllChildren();
+    Vector allChildren = ((Folder) dirrOrFile).getAllChildren();
     // Object representing the result of the recursive step
     Object result = null;
     // Runs for all children of the node and while an object is not found and
@@ -132,10 +132,11 @@ public class JFileSystem implements FileSystem {
         // Sending in a null as the child since, files have no children
         if (currName.equals("/")) {
           result = getObjRecurs(name,
-              "/" + ((File) allChildren.get(i)).getName(), null);
+              "/" + ((File) allChildren.get(i)).getName(), allChildren.get(i));
         } else {
           result = getObjRecurs(name,
-              currName + "/" + ((File) allChildren.get(i)).getName(), null);
+              currName + "/" + ((File) allChildren.get(i)).getName(),
+              allChildren.get(i));
         }
 
       }
