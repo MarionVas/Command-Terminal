@@ -9,21 +9,18 @@ import org.junit.Test;
 
 import a2.DirStack;
 
-public class DirStackTest 
-{
+public class DirStackTest {
   private DirStack dStack;
   private Stack<String> testStack;
 
   @Before
-  public void setUp() throws Exception 
-  {
+  public void setUp() throws Exception {
     dStack = new DirStack();
     testStack = new Stack<String>();
   }
 
   @Test
-  public void testPushD() 
-  {
+  public void testPushD() {
     /*
      * Testing the pushD command for change in size
      * 
@@ -32,9 +29,8 @@ public class DirStackTest
     dStack.pushD("taco");
     assertEquals(1, dStack.getStack().size());
   }
-  
-  public void testPushD1() 
-  {
+
+  public void testPushD1() {
     /*
      * Testing the pushD command for change in size 3 times in a row
      * 
@@ -45,9 +41,8 @@ public class DirStackTest
     dStack.pushD("taco2");
     assertEquals(3, dStack.getStack().size());
   }
-  
-  public void testPushD2() 
-  {
+
+  public void testPushD2() {
     /*
      * Testing the pushD command for correct information
      * 
@@ -62,10 +57,9 @@ public class DirStackTest
     testStack.push("taco2");
     assertEquals(testStack, dStack.getStack());
   }
-  
+
   @Test
-  public void testPopD() 
-  {
+  public void testPopD() {
     /*
      * Testing the popD command for change in size
      * 
@@ -75,10 +69,9 @@ public class DirStackTest
     dStack.popD();
     assertEquals(0, dStack.getStack().size());
   }
-  
+
   @Test
-  public void testPopD1() 
-  {
+  public void testPopD1() {
     /*
      * Testing the popD command for correct information popped (as per LIFO)
      * 
@@ -89,9 +82,8 @@ public class DirStackTest
     String popped = dStack.popD();
     assertEquals("correct", popped);
   }
-  
-  public void testPopD2() 
-  {
+
+  public void testPopD2() {
     /*
      * Testing the popD command for consecutive pops and ensuring it has the
      * correct information
