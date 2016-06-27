@@ -14,6 +14,13 @@ public class Output {
   public static void printError() {
     System.out.println("That was not a recognized command.");
   }
+  
+  /**
+   * This function display an error message claiming the number entered is
+   * invalid, if an invalid number is given
+   * 
+   */
+
 
   public static void printNumberError() {
     System.out.println("A numeric arguement is required.");

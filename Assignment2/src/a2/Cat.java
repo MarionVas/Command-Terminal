@@ -10,8 +10,8 @@ public class Cat implements CommandInterface {
   /**
    * The constructor
    * 
-   * @param jFileSystem - The JFileSystem with all the file and folder
-   * @param parameter - The string array with all the file names the user enters
+   * @param manager - The JFileSystem with all the file and folder
+   * @param files - The string array with all the file names the user enters
    */
 
   public Cat(JFileSystem manager, String[] files) {
@@ -59,9 +59,21 @@ public class Cat implements CommandInterface {
     }
   }
 
+  /**
+   * This method return the body of the file as a String to be printed on the
+   * console
+   * 
+   * @return stringToOutput - the body of the file that needs to be printed
+   */
   public String getStringToOutput() {
     return stringToOutput;
   }
+  
+  /**
+   * This function return the instructions on how to use the command cat.
+   * 
+   * @return a string telling users the how the command works
+   */
 
   public String manual() {
     return "cat FILE1 [FILE2  …] - Displays the contents of the specified\n"

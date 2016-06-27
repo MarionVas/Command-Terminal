@@ -17,7 +17,7 @@ public class CD implements CommandInterface {
   /**
    * The constructor
    * 
-   * @param jFileSystem - The JFileSystem with all the file and folder
+   * @param manager - The JFileSystem with all the file and folder
    * @param parameter - The string array with all the arguments the user enters
    */
 
@@ -145,6 +145,12 @@ public class CD implements CommandInterface {
       }
     }
   }
+  
+  /**
+   * This function return the instructions on how to use the command cat.
+   * 
+   * @return a string telling users the how the command works
+   */
 
   public String manual() {
     return "cd DIR - Changes the current directory to DIR, which may be a\n"
@@ -153,15 +159,3 @@ public class CD implements CommandInterface {
         + " current.\n";
   }
 }
-
-
-/*
- * private void traverseSingleFolder(String path) { if
- * (currFolder.getAllChildrenNames().contains(path)) { Object pathObject =
- * fileSystem.getObject(path); if (pathObject.getClass().equals(Folder.class)) {
- * if (this.fileSystem.getCurrPath().equals("/")) { fileSystem.setFullPath("/" +
- * path); } else { fileSystem.setFullPath(currPath + "/" + path); }
- * fileSystem.setCurrFolder((Folder) pathObject); } else {
- * Output.printPathError(); } } else { Output.printPathError(); } } }
- */ // to be del
-
