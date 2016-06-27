@@ -7,8 +7,7 @@ import org.junit.Test;
 
 import a2.*;
 
-public class MkdirTest 
-{
+public class MkdirTest {
   private JFileSystem jFileSystem;
   private String[] fileName;
   private String[] fileNames;
@@ -16,8 +15,7 @@ public class MkdirTest
   private CD cd;
 
   @Before
-  public void setUp() throws Exception 
-  {
+  public void setUp() throws Exception {
     this.jFileSystem = new JFileSystem();
     Folder rootFolder = new Folder("/", "/");
     jFileSystem.setRoot(rootFolder);
@@ -28,8 +26,7 @@ public class MkdirTest
   }
 
   @Test
-  public void testExecute1() 
-  {
+  public void testExecute1() {
     /*
      * Testing if the given directory is made inside of the JFileSystem
      * 
@@ -40,10 +37,9 @@ public class MkdirTest
     mkdir1.execute();
     assertTrue(jFileSystem.checkValidPath("/a"));
   }
-  
+
   @Test
-  public void testExecute2() 
-  {
+  public void testExecute2() {
     /*
      * Testing creating multiple directories inside of the JFileSystem
      * 
@@ -54,13 +50,13 @@ public class MkdirTest
     fileNames[2] = "a2";
     mkdir1 = new Mkdir(jFileSystem, fileNames);
     mkdir1.execute();
-    assertTrue(jFileSystem.checkValidPath("/a") &&
-        jFileSystem.checkValidPath("/a1") && jFileSystem.checkValidPath("/a2"));
+    assertTrue(
+        jFileSystem.checkValidPath("/a") && jFileSystem.checkValidPath("/a1")
+            && jFileSystem.checkValidPath("/a2"));
   }
-  
+
   @Test
-  public void testExecute3() 
-  {
+  public void testExecute3() {
     /*
      * Testing creating directories by giving relative paths
      * 
@@ -77,10 +73,9 @@ public class MkdirTest
     mkdir1.execute();
     assertTrue(jFileSystem.checkValidPath("/a/a1/a2"));
   }
-  
+
   @Test
-  public void testExecute4() 
-  {
+  public void testExecute4() {
     /*
      * Testing creating a directory with an invalid special character
      * 
@@ -91,10 +86,9 @@ public class MkdirTest
     mkdir1.execute();
     assertFalse(jFileSystem.checkValidPath("/a****dsda"));
   }
-  
+
   @Test
-  public void testExecute5() 
-  {
+  public void testExecute5() {
     /*
      * Testing creating a directory with both an invalid and valid special
      * character
@@ -106,10 +100,9 @@ public class MkdirTest
     mkdir1.execute();
     assertFalse(jFileSystem.checkValidPath("/a_as&%dsda"));
   }
-  
+
   @Test
-  public void testExecute6() 
-  {
+  public void testExecute6() {
     /*
      * Testing creating a directory with a valid special character
      * 
@@ -120,10 +113,9 @@ public class MkdirTest
     mkdir1.execute();
     assertTrue(jFileSystem.checkValidPath("/a__________dsda"));
   }
-  
+
   @Test
-  public void testExecute7() 
-  {
+  public void testExecute7() {
     /*
      * Testing creating a mix of directories with some being valid names and
      * some being invalid names
@@ -139,13 +131,12 @@ public class MkdirTest
     fileName[0] = "x_y";
     mkdir1 = new Mkdir(jFileSystem, fileName);
     mkdir1.execute();
-    assertTrue(jFileSystem.checkValidPath("/a") &&
-        jFileSystem.checkValidPath("/x_y"));
+    assertTrue(
+        jFileSystem.checkValidPath("/a") && jFileSystem.checkValidPath("/x_y"));
   }
-  
+
   @Test
-  public void testExecute8() 
-  {
+  public void testExecute8() {
     /*
      * Testing making a directory inside of a relative path
      * 
@@ -161,13 +152,12 @@ public class MkdirTest
     mkdir1.execute();
     assertTrue(jFileSystem.checkValidPath("/a/a1"));
   }
-  
-  public void testExecute9() 
-  {
+
+  public void testExecute9() {
     /*
      * Testing making a directory inside of a relative path of depth 2
      * 
-     *  Expected output is that the directory was made and the full path exists
+     * Expected output is that the directory was made and the full path exists
      */
     fileName[0] = "a";
     mkdir1 = new Mkdir(jFileSystem, fileName);
@@ -183,8 +173,7 @@ public class MkdirTest
     mkdir1.execute();
     assertTrue(jFileSystem.checkValidPath("/a/a1/a2"));
   }
-  
-  
-  
+
+
 
 }
