@@ -271,6 +271,38 @@ public class CDTest {
     cd1.execute();
     assertEquals("/", jFileSystem.getCurrPath());
   }
+  
+  @Test
+  public void testExecute14() 
+  {
+    /* Testing entering a location //
+     * 
+     * Expected output is that the file path stays at /
+     */
+    location[0] = "/";
+    cd1 = new CD(jFileSystem, location);
+    cd1.execute();
+    assertEquals("/", jFileSystem.getCurrPath());
+  }
+  
+  @Test
+  public void testExecute15() 
+  {
+    /* Testing entering the // location from a different file path
+     * 
+     * Expected output is that the file path changes to the root folder
+     */
+    location[0] = "a";
+    cd1 = new CD(jFileSystem, location);
+    cd1.execute();
+    location[0] = "a1";
+    cd1 = new CD(jFileSystem, location);
+    cd1.execute();
+    location[0] = "//";
+    cd1 = new CD(jFileSystem, location);
+    cd1.execute();
+    assertEquals("/", jFileSystem.getCurrPath());
+  }
 
 
 }
