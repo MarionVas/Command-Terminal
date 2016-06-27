@@ -4,7 +4,13 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import a2.*;
+
+import a2.CD;
+import a2.DirStack;
+import a2.Folder;
+import a2.JFileSystem;
+import a2.Mkdir;
+import a2.PushD;
 
 public class PushDTest {
   private JFileSystem jFileSystem;
