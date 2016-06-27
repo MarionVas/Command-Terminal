@@ -12,7 +12,7 @@ public class ProQuery {
 
 
   /**
-   * Constructs a ProQuery object which takes initializes a JFileSystem for
+   * Constructs a ProQuery object which takes a JFileSystem for
    * commands to act upon.
    * 
    * @param jFileSystem FileSystem that the commands will act upon.
@@ -123,7 +123,7 @@ public class ProQuery {
           // Run the execute method of the instance created
           commandInstance.execute();
 
-          // catch any unwanted cases/exceptions
+          // Catch any unwanted cases/exceptions
         } catch (ClassNotFoundException | IllegalArgumentException
             | InvocationTargetException | NoSuchMethodException
             | SecurityException | InstantiationException
