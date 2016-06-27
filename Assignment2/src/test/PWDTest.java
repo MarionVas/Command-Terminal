@@ -11,9 +11,11 @@ public class PWDTest {
   private JFileSystem jFileSystem;
   private PWD printWorkingDir;
   private ProQuery runCommand;
-  
+
   @Before
-  public void setUp() throws Exception {} {
+  public void setUp() throws Exception {}
+
+  {
     this.jFileSystem = new JFileSystem();
     Folder rootFolder = new Folder("/", "/");
     jFileSystem.setRoot(rootFolder);
@@ -24,7 +26,8 @@ public class PWDTest {
 
   @Test
   public void testPWDRootFolder() {
-    /* Test to determine if printing the current directory of the root folder
+    /*
+     * Test to determine if printing the current directory of the root folder
      * works
      * 
      * Expected output should be a string containing the path of the current
@@ -33,11 +36,12 @@ public class PWDTest {
     printWorkingDir.execute();
     assertEquals("/", printWorkingDir.getStringToOutput());
   }
-  
+
   @Test
   public void testPWDNewFolder() {
-    /* Test to determine if printing the current directory of a newly
-     * created folder with depth 1 works
+    /*
+     * Test to determine if printing the current directory of a newly created
+     * folder with depth 1 works
      * 
      * Expected output should be a string containing the path of the newly
      * created working directory ("/a")
@@ -48,11 +52,12 @@ public class PWDTest {
     printWorkingDir.execute();
     assertEquals("/a", printWorkingDir.getStringToOutput());
   }
-  
+
   @Test
   public void testPWDBranchingNewFolder() {
-    /* Test to determine if printing the current directory of a newly
-     * created folder with depth 1 works alongside a branching folder
+    /*
+     * Test to determine if printing the current directory of a newly created
+     * folder with depth 1 works alongside a branching folder
      * 
      * Expected output should be a string containing the path of the newly
      * created working directory ("/a")
@@ -67,8 +72,9 @@ public class PWDTest {
 
   @Test
   public void testPWDDeepNewFolder() {
-    /* Test to determine if printing the current directory of a newly
-     * created folder with depth 2 works
+    /*
+     * Test to determine if printing the current directory of a newly created
+     * folder with depth 2 works
      * 
      * Expected output should be a string containing the path of the newly
      * created working directory ("/a/b")
@@ -84,8 +90,9 @@ public class PWDTest {
 
   @Test
   public void testPWDBranchingDeepNewFolder() {
-    /* Test to determine if printing the current directory of a newly
-     * created folder with depth 1 works alongside a branching folder
+    /*
+     * Test to determine if printing the current directory of a newly created
+     * folder with depth 1 works alongside a branching folder
      * 
      * Expected output should be a string containing the path of the newly
      * created working directory ("/a")
