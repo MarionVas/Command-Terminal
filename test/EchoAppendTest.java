@@ -32,7 +32,7 @@ public class EchoAppendTest {
   @Test
   public void testExecute1() {
     /*
-     * test to using echo to add the String passed into the echo command to the
+     * test to use echo to add the String passed into the echo command to the
      * end of the existing file's contents
      * 
      * Expected body of the file is the contents of the existing file and the
@@ -52,7 +52,7 @@ public class EchoAppendTest {
   @Test
   public void testExecute2() {
     /*
-     * test to using echo to create a new file with the string as the contents
+     * test to use echo to create a new file with the string as the contents
      * 
      * Expected body of the file is the String passed into echo command
      * 
@@ -70,7 +70,7 @@ public class EchoAppendTest {
   @Test
   public void testExecute3() {
     /*
-     * test to using echo to create a new file with String as the contents. use
+     * test to use echo to create a new file with String as the contents. use
      * another echo to add the String passed into the second echo command to the
      * end of the existing file's contents
      * 
@@ -97,7 +97,7 @@ public class EchoAppendTest {
   @Test
   public void testExecute4() {
     /*
-     * test to using echo to create a new file with an invalid OUTFILE name
+     * test to use echo to create a new file with an invalid OUTFILE name
      * 
      * Expected the OUTFILE after echo has executed is null
      * 
@@ -113,7 +113,7 @@ public class EchoAppendTest {
   @Test
   public void testExecute5() {
     /*
-     * test to using echo to create an new file with an empty String as the
+     * test to use echo to create an new file with an empty String as the
      * contents
      * 
      * Expected body of the file is an empty String passed into echo command
@@ -132,7 +132,7 @@ public class EchoAppendTest {
   @Test
   public void testExecute6() {
     /*
-     * test to using echo to add an empty String to the contents of an existing
+     * test to use echo to add an empty String to the contents of an existing
      * file
      * 
      * Expected body of the file is an empty String

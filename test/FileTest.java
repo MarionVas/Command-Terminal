@@ -27,7 +27,7 @@ public class FileTest {
   @Test
   public void testAddToBody1() {
     /*
-     * test to using addToBody() method to add an empty string to an empty body
+     * test to use addToBody() method to add an empty string to an empty body
      * of an existing file
      * 
      * Expected body of the file is an empty String
@@ -40,7 +40,7 @@ public class FileTest {
   @Test
   public void testAddToBody2() {
     /*
-     * test to using addToBody() method to add a string to an empty body of an
+     * test to use addToBody() method to add a string to an empty body of an
      * existing file
      * 
      * Expected body of the file is the String passed into addToBody()
@@ -53,7 +53,7 @@ public class FileTest {
   @Test
   public void testAddToBody3() {
     /*
-     * test to using addToBody() method to add a string to an empty body of an
+     * test to use addToBody() method to add a string to an empty body of an
      * existing file. use addToBody() method again to add the string to the
      * modified body of the existing file
      * 
@@ -69,7 +69,7 @@ public class FileTest {
   @Test
   public void testGetName() {
     /*
-     * test to using getName() method to get the name of the file
+     * test to use getName() method to get the name of the file
      * 
      * Expected return should be equal to the name of the file
      * 
@@ -80,7 +80,7 @@ public class FileTest {
   @Test
   public void testSetBody1() {
     /*
-     * test to using setBody() method to make the contents of the existing file
+     * test to use setBody() method to make the contents of the existing file
      * an empty String
      * 
      * Expected body of the file is an empty String
@@ -93,7 +93,7 @@ public class FileTest {
   @Test
   public void testSetBody2() {
     /*
-     * test to using setBody() method to make the contents of the existing file
+     * test to use setBody() method to make the contents of the existing file
      * the String passed into the parameters of setBody() method.
      * 
      * Expected body of the file is the String passed into the parameters of the
@@ -107,7 +107,7 @@ public class FileTest {
   @Test
   public void testSetBody3() {
     /*
-     * test to using setBody() method to make the contents of the existing file
+     * test to use setBody() method to make the contents of the existing file
      * the String passed into the parameters of setBody() method. Use setBody()
      * method again with a different String to make the contents of the existing
      * file the String of the second setBody() parameter.
