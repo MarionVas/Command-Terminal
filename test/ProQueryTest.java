@@ -25,6 +25,27 @@ public class ProQueryTest
   }
 
   @Test
+  public void testSortQueryEmpty() 
+  {
+    /*
+     * Testing entering a correct command no parameters
+     * 
+     * Expected output is that the command functioned as wanted, in this case
+     * enters the correct path popped from the DirStack
+     */
+    String[] location = new String[1];
+    location[0] = "mockfolder";
+    Mkdir mkdir = new Mkdir(jFileSystem, location);
+    mkdir.execute();
+    DirStack dirStack = new DirStack();
+    dirStack.pushD("/mockfolder");
+    jFileSystem.setDirStack(dirStack);
+    query = "popd";
+    process.sortQuery(query);
+    assertEquals("/mockfolder", process.getFileSystem().getCurrPath());
+  }
+
+  @Test
   public void testSortQuery() 
   {
     /*
