@@ -10,19 +10,22 @@ import a2.*;
 public class ManTest {
 
   private JFileSystem jFileSystem;
-  
+
   @Before
-  public void setUp() throws Exception {} {
+  public void setUp() throws Exception {}
+
+  {
     this.jFileSystem = new JFileSystem();
     Folder rootFolder = new Folder("/", "/");
     jFileSystem.setRoot(rootFolder);
     jFileSystem.setCurrFolder(rootFolder);
   }
-  
+
   @Test
   public void testManMan() {
-    /* Test to determine if the Man object behaves appropriately with the
-     * string array element "man" inserted as a parameter
+    /*
+     * Test to determine if the Man object behaves appropriately with the string
+     * array element "man" inserted as a parameter
      * 
      * Expected output should be the string output of the manual method of the
      * "Man" class
@@ -31,14 +34,15 @@ public class ManTest {
     Man commandManual = new Man(jFileSystem, commandName);
     Man testManual = new Man(jFileSystem, commandName);
     commandManual.execute();
-    
+
     assertEquals(testManual.manual(), commandManual.getStringToOutput());
   }
-  
+
   @Test
   public void testManLS() {
-    /* Test to determine if the Man object behaves appropriately with the
-     * string array element  "ls" inserted as a parameter
+    /*
+     * Test to determine if the Man object behaves appropriately with the string
+     * array element "ls" inserted as a parameter
      * 
      * Expected output should be the string output of the manual method of the
      * "LS" class
@@ -47,14 +51,15 @@ public class ManTest {
     Man commandManual = new Man(jFileSystem, commandName);
     LS testLS = new LS(jFileSystem);
     commandManual.execute();
-    
+
     assertEquals(testLS.manual(), commandManual.getStringToOutput());
   }
-  
+
   @Test
   public void testManPWD() {
-    /* Test to determine if the Man object behaves appropriately with the
-     * string array element  "pwd" inserted as a parameter
+    /*
+     * Test to determine if the Man object behaves appropriately with the string
+     * array element "pwd" inserted as a parameter
      * 
      * Expected output should be the string output of the manual method of the
      * "PWD" class
@@ -63,14 +68,15 @@ public class ManTest {
     Man commandManual = new Man(jFileSystem, commandName);
     PWD testPWD = new PWD(jFileSystem);
     commandManual.execute();
-    
+
     assertEquals(testPWD.manual(), commandManual.getStringToOutput());
   }
-  
+
   @Test
   public void testManPopD() {
-    /* Test to determine if the Man object behaves appropriately with the
-     * string array element  "popd" inserted as a parameter
+    /*
+     * Test to determine if the Man object behaves appropriately with the string
+     * array element "popd" inserted as a parameter
      * 
      * Expected output should be the string output of the manual method of the
      * "PopD" class
@@ -79,14 +85,15 @@ public class ManTest {
     Man commandManual = new Man(jFileSystem, commandName);
     PopD testPopD = new PopD(jFileSystem);
     commandManual.execute();
-    
+
     assertEquals(testPopD.manual(), commandManual.getStringToOutput());
   }
-  
+
   @Test
   public void testManExit() {
-    /* Test to determine if the Man object behaves appropriately with the
-     * string array element  "exit" inserted as a parameter
+    /*
+     * Test to determine if the Man object behaves appropriately with the string
+     * array element "exit" inserted as a parameter
      * 
      * Expected output should be the string output of the manual method of the
      * "Exit" class
@@ -95,14 +102,15 @@ public class ManTest {
     Man commandManual = new Man(jFileSystem, commandName);
     Exit testExit = new Exit(jFileSystem);
     commandManual.execute();
-    
+
     assertEquals(testExit.manual(), commandManual.getStringToOutput());
   }
-  
+
   @Test
   public void testManCD() {
-    /* Test to determine if the Man object behaves appropriately with the
-     * string array element  "cd" inserted as a parameter
+    /*
+     * Test to determine if the Man object behaves appropriately with the string
+     * array element "cd" inserted as a parameter
      * 
      * Expected output should be the string output of the manual method of the
      * "CD" class
@@ -111,14 +119,15 @@ public class ManTest {
     Man commandManual = new Man(jFileSystem, commandName);
     CD testCD = new CD(jFileSystem, commandName);
     commandManual.execute();
-    
+
     assertEquals(testCD.manual(), commandManual.getStringToOutput());
   }
-  
+
   @Test
   public void testManCat() {
-    /* Test to determine if the Man object behaves appropriately with the
-     * string array element  "cat" inserted as a parameter
+    /*
+     * Test to determine if the Man object behaves appropriately with the string
+     * array element "cat" inserted as a parameter
      * 
      * Expected output should be the string output of the manual method of the
      * "Cat" class
@@ -127,14 +136,15 @@ public class ManTest {
     Man commandManual = new Man(jFileSystem, commandName);
     Cat testCat = new Cat(jFileSystem, commandName);
     commandManual.execute();
-    
+
     assertEquals(testCat.manual(), commandManual.getStringToOutput());
   }
 
   @Test
   public void testManEcho() {
-    /* Test to determine if the Man object behaves appropriately with the
-     * string array element  "echo" inserted as a parameter
+    /*
+     * Test to determine if the Man object behaves appropriately with the string
+     * array element "echo" inserted as a parameter
      * 
      * Expected output should be the string output of the manual method of the
      * "Echo" class
@@ -143,14 +153,15 @@ public class ManTest {
     Man commandManual = new Man(jFileSystem, commandName);
     Echo testEcho = new Echo(jFileSystem, commandName);
     commandManual.execute();
-    
+
     assertEquals(testEcho.manual(), commandManual.getStringToOutput());
   }
-  
+
   @Test
   public void testManMkdir() {
-    /* Test to determine if the Man object behaves appropriately with the
-     * string array element  "mkdir" inserted as a parameter
+    /*
+     * Test to determine if the Man object behaves appropriately with the string
+     * array element "mkdir" inserted as a parameter
      * 
      * Expected output should be the string output of the manual method of the
      * "Mkdir" class
@@ -159,14 +170,15 @@ public class ManTest {
     Man commandManual = new Man(jFileSystem, commandName);
     Mkdir testMkdir = new Mkdir(jFileSystem, commandName);
     commandManual.execute();
-    
+
     assertEquals(testMkdir.manual(), commandManual.getStringToOutput());
   }
-  
+
   @Test
   public void testManPushD() {
-    /* Test to determine if the Man object behaves appropriately with the
-     * string array element  "pushd" inserted as a parameter
+    /*
+     * Test to determine if the Man object behaves appropriately with the string
+     * array element "pushd" inserted as a parameter
      * 
      * Expected output should be the string output of the manual method of the
      * "PushD" class
@@ -175,37 +187,39 @@ public class ManTest {
     Man commandManual = new Man(jFileSystem, commandName);
     PushD testPushD = new PushD(jFileSystem, commandName);
     commandManual.execute();
-    
+
     assertEquals(testPushD.manual(), commandManual.getStringToOutput());
   }
-  
+
   @Test
   public void testManMultipleCommands() {
-    /* Test to determine if the Man object behaves appropriately when multiple
+    /*
+     * Test to determine if the Man object behaves appropriately when multiple
      * string array elements are inserted as the parameter
      * 
-     * Expected behaviour should consist of no string (null) being sent to
-     * the output class to be printed
+     * Expected behaviour should consist of no string (null) being sent to the
+     * output class to be printed
      */
     String[] commandName = {"pushd exit popd"};
     Man commandManual = new Man(jFileSystem, commandName);
     commandManual.execute();
-    
+
     assertEquals(null, commandManual.getStringToOutput());
   }
-  
+
   @Test
   public void testManInvalidCommand() {
-    /* Test to determine if the Man object behaves appropriately when an
-     * invalid string array element is inserted as the parameter
+    /*
+     * Test to determine if the Man object behaves appropriately when an invalid
+     * string array element is inserted as the parameter
      * 
-     * Expected behaviour should consist of no string (null) being sent to
-     * the output class to be printed
+     * Expected behaviour should consist of no string (null) being sent to the
+     * output class to be printed
      */
     String[] commandName = {"thisisnotavalidparameter"};
     Man commandManual = new Man(jFileSystem, commandName);
     commandManual.execute();
-    
+
     assertEquals(null, commandManual.getStringToOutput());
   }
 }
