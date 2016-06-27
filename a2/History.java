@@ -10,6 +10,7 @@ public class History implements CommandInterface //need execute method()
   private Vector<String> output;
   private int commandNumber = 0;
   private int commandLocation;
+  private int location;
 
   // Default constructor
   public History()
@@ -51,8 +52,7 @@ public class History implements CommandInterface //need execute method()
    */
   public void getHistory(String[] strLocation)
   {
-    // create a location variable to store the location given by the user
-    int location;
+
     // Determine if the given string can be turned into an integer
     // If not, display an error message
     try
@@ -60,18 +60,23 @@ public class History implements CommandInterface //need execute method()
       // convert the given string array into an integer
       location = Integer.parseInt(strLocation[0]);
       
-      // if the user chose a location larger than the size of the history
-      // vector, choose zero instead - as per command terminal functionality
-      commandLocation = Math.max(inputHistory.size()-location, 0);
-      //System.out.println("The command location is: " + commandLocation + "the size is: " + inputHistory.size());
-      
-      // creating a vector string to output that displays the history
-      // appropriately from a location specified or 0 if need be
-      
-      Output.printContents(inputHistory.subList
-          (commandLocation, inputHistory.size()));
-
-      
+      // makes sure the user cannot enter a negative number
+      if (location >= 0)
+      {
+        // if the user chose a location larger than the size of the history
+        // vector, choose zero instead - as per command terminal functionality
+        commandLocation = Math.max(inputHistory.size()-location, 0);
+        
+        // creating a vector string to output that displays the history
+        // appropriately from a location specified or 0 if need be
+        
+        Output.printContents(inputHistory.subList
+            (commandLocation, inputHistory.size()));
+      }
+      else
+      {
+        Output.printError();
+      }  
     } catch (Exception e){
       Output.printNumberError();    
     }
