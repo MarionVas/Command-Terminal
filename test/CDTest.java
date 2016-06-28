@@ -280,7 +280,7 @@ public class CDTest {
      * 
      * Expected output is that the file path stays at /
      */
-    location[0] = "/";
+    location[0] = "//";
     cd1 = new CD(jFileSystem, location);
     cd1.execute();
     assertEquals("/", jFileSystem.getCurrPath());
