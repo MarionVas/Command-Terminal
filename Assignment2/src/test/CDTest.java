@@ -327,7 +327,8 @@ public class CDTest {
   @Test
   public void testExecute17() {
     /*
-     * testing changing directory into a depth 1 full path
+     * testing changing directory into a depth 1 full path with /'s on both
+     * sides
      * 
      * Expected output of the path should be the full path of the directory cd'd
      * into
