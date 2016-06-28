@@ -324,4 +324,18 @@ public class CDTest {
     assertEquals("/", jFileSystem.getCurrPath());
   }
 
+  @Test
+  public void testExecute17() {
+    /*
+     * testing changing directory into a depth 1 full path
+     * 
+     * Expected output of the path should be the full path of the directory cd'd
+     * into
+     */
+    location[0] = "/a/";
+    cd1 = new CD(jFileSystem, location);
+    cd1.execute();
+    assertEquals("/a", jFileSystem.getCurrPath());
+  }
+
 }
