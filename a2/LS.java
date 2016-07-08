@@ -13,6 +13,7 @@ public class LS implements CommandInterface {
   private String fileOriginalArg = "";
   private String stringToOutput = "";
   private String stringToOutputTest = "";
+  private Boolean recursive = false;
 
   /**
    * The constructor, taking ins a JFileSystem and a string array of arguments
@@ -115,7 +116,11 @@ public class LS implements CommandInterface {
             }
           }
           // Finishing up the formating
-          contents = this.fileOriginalArg + ": " + contents + "\n";
+          if (!this.recursive) {
+            contents = this.fileOriginalArg + ": " + contents + "\n";
+          } else {
+            contents = "\n" + currFolder.getPath() + ": " + contents + "\n";
+          }
         }
       } else {
         // If the path specified is to a file
@@ -219,6 +224,30 @@ public class LS implements CommandInterface {
     return arg;
   }
 
+  public String recurseLS(int childIndex, Object dirrOrFile) {
+    // If the end of the subtree is reached
+    String result = "";
+    if (dirrOrFile == null || dirrOrFile.equals(File.class)) {
+      result = "";
+    } else {
+      Vector allChildren = ((Folder) dirrOrFile).getAllChildren();
+      if (allChildren != null) {
+        if (childIndex == 0) {
+          result = this.executeFullPath(((Folder) dirrOrFile).getPath(), true)
+              + this.recurseLS(childIndex, allChildren.get(childIndex))
+              + this.recurseLS(childIndex + 1, dirrOrFile);
+        } else if (childIndex < allChildren.size()) {
+          result = this.recurseLS(0, allChildren.get(childIndex))
+              + this.recurseLS(childIndex + 1, dirrOrFile);
+        }
+      } else {
+        result = this.executeFullPath(((Folder) dirrOrFile).getPath(), true);
+      }
+    }
+
+    return result;
+  }
+
   /**
    * The method that will be called by ProQuery. Determines what kind of
    * argument the user has entered; Runs all the arguments that the user has
@@ -230,6 +259,12 @@ public class LS implements CommandInterface {
       boolean slashAtEnd = false;
       this.arg = args[indexarg];
       this.fileOriginalArg = args[indexarg];
+      if (this.arg.equals("-r") || this.arg.equals("-R")) {
+        indexarg++;
+        this.arg = args[indexarg];
+        this.fileOriginalArg = args[indexarg];
+        this.recursive = true;
+      }
       this.stringToOutput = "";
       // Since the "." operator does not really do anything significant it can
       // be removed from the path at it should still be equivalent to if the
@@ -244,10 +279,18 @@ public class LS implements CommandInterface {
       // String representation of the children
       // If no argument was given
       if (arg == "") {
-        this.stringToOutput += executeNoArg();
+        if (!this.recursive) {
+          this.stringToOutput += executeNoArg();
+        } else {
+          this.stringToOutput += recurseLS(0, this.Manager.getRootFolder());
+        }
       } // If an absolute path was given
       else if (arg.startsWith("/")) {
-        this.stringToOutput += executeFullPath(arg, slashAtEnd);
+        if (!this.recursive) {
+          this.stringToOutput += executeFullPath(arg, slashAtEnd);
+        } else {
+          this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
+        }
       } // If a path containing ".." was given
       else if (arg.contains("..")) {
         // Turning arg into an absolute path
@@ -258,10 +301,18 @@ public class LS implements CommandInterface {
           } else {
             arg = "/";
           }
-          this.stringToOutput += this.executeFullPath(arg, slashAtEnd);
+          if (!this.recursive) {
+            this.stringToOutput += executeFullPath(arg, slashAtEnd);
+          } else {
+            this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
+          }
         } else {
           arg = this.removeDots(arg);
-          this.stringToOutput += this.executeFullPath(arg, slashAtEnd);
+          if (!this.recursive) {
+            this.stringToOutput += executeFullPath(arg, slashAtEnd);
+          } else {
+            this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
+          }
         }
 
       } // If a local path is given
@@ -272,7 +323,11 @@ public class LS implements CommandInterface {
         } else {
           arg = "/" + arg;
         }
-        this.stringToOutput += this.executeFullPath(arg, slashAtEnd);
+        if (!this.recursive) {
+          this.stringToOutput += executeFullPath(arg, slashAtEnd);
+        } else {
+          this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
+        }
       } // If a directory name is given
       else {
         // Building the absolute path
@@ -281,7 +336,11 @@ public class LS implements CommandInterface {
         } else {
           arg = Manager.getCurrPath() + "/" + arg;
         }
-        this.stringToOutput += this.executeFullPath(arg, slashAtEnd);
+        if (!this.recursive) {
+          this.stringToOutput += executeFullPath(arg, slashAtEnd);
+        } else {
+          this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
+        }
       }
       // Using the output class to print the string
       if (!this.stringToOutput.endsWith("\n")) {
@@ -299,4 +358,5 @@ public class LS implements CommandInterface {
         + "directories. If no path is given, print the contents of the\n"
         + "current file or directory.\n";
   }
+
 }
