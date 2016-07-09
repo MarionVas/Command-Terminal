@@ -5,7 +5,12 @@ public class PushD implements CommandInterface {
   private DirStack directoryStack;
   private String[] location;
 
-  // basic constructor for the PushD class
+  /**
+   * basic constructor for the PushD class
+   * 
+   * @param fileManager takes in a fileManager to manipulate its DirStack
+   * @param location takes a location to cd into
+   */
   public PushD(JFileSystem fileManager, String[] location) {
     this.Manager = fileManager;
     this.directoryStack = fileManager.getDirStack();
@@ -22,8 +27,7 @@ public class PushD implements CommandInterface {
       location[0] = "/" + location[0];
     }
     // makes sure the given path is valid before pushing
-    if (Manager.checkValidPath(location[0])) 
-    {
+    if (Manager.checkValidPath(location[0])) {
       // get the current location and store it
       String savedDirectory = Manager.getCurrPath();
       // push the current location into the temporary directoryStack
