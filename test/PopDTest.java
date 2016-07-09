@@ -78,7 +78,7 @@ public class PopDTest {
     pushD.execute();
     popD = new PopD(jFileSystem);
     popD.execute();
-    assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
+    assertEquals("/", jFileSystem.getCurrPath());
   }
 
   @Test
@@ -97,7 +97,7 @@ public class PopDTest {
     cd.execute();
     popD = new PopD(jFileSystem);
     popD.execute();
-    assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
+    assertEquals("/", jFileSystem.getCurrPath());
   }
 
   @Test
@@ -120,7 +120,7 @@ public class PopDTest {
     cd.execute();
     popD = new PopD(jFileSystem);
     popD.execute();
-    assertEquals("/a/a1/alternate", jFileSystem.getCurrPath());
+    assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
   }
 
   @Test
@@ -142,7 +142,7 @@ public class PopDTest {
     popD.execute();
     popD = new PopD(jFileSystem);
     popD.execute();
-    assertEquals("/a/a1/a2", jFileSystem.getCurrPath());
+    assertEquals("/", jFileSystem.getCurrPath());
   }
 
   @Test
