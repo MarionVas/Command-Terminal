@@ -5,7 +5,11 @@ public class PopD implements CommandInterface {
   private DirStack directoryStack;
   private String[] location;
 
-  // basic constructor for the PushD class
+  /** 
+   * basic constructor for the PushD class
+   * 
+   * @param fileManager takes in a fileManager to manipulate the DirStack
+   */
   public PopD(JFileSystem fileManager) {
     this.Manager = fileManager;
     this.directoryStack = Manager.getDirStack();
