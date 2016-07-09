@@ -143,5 +143,10 @@ public class ProQuery {
   public JFileSystem getFileSystem() {
     return this.jFileSystem;
   }
+  
+  public History getHistory()
+  {
+    return this.commandHistory;
+  }
 
 }
