@@ -7,7 +7,6 @@ public class PopD implements CommandInterface {
 
   /** 
    * basic constructor for the PushD class
-   * 
    * @param fileManager takes in a fileManager to manipulate the DirStack
    */
   public PopD(JFileSystem fileManager) {
