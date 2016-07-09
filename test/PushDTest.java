@@ -52,7 +52,7 @@ public class PushDTest {
     location[0] = "/a/a1/a2";
     pushD = new PushD(jFileSystem, location);
     pushD.execute();
-    dirStack.pushD("/a/a1/a2");
+    dirStack.pushD("/");
     assertEquals(dirStack.getStack(), jFileSystem.getDirStack().getStack());
 
   }
@@ -74,9 +74,9 @@ public class PushDTest {
     location[0] = "/";
     pushD = new PushD(jFileSystem, location);
     pushD.execute();
+    dirStack.pushD("/");
     dirStack.pushD("/a/a1/a2");
     dirStack.pushD("/a/a1");
-    dirStack.pushD("/");
     assertEquals(dirStack.getStack(), jFileSystem.getDirStack().getStack());
   }
 
@@ -194,8 +194,8 @@ public class PushDTest {
     location[0] = "asdfghjytr";
     pushD = new PushD(jFileSystem, location);
     pushD.execute();
+    dirStack.pushD("/");
     dirStack.pushD("/a/a1/a2");
-    dirStack.pushD("/a/a1");
     assertEquals(dirStack.getStack(), jFileSystem.getDirStack().getStack());
   }
 
