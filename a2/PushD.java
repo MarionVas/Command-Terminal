@@ -22,9 +22,12 @@ public class PushD implements CommandInterface {
       location[0] = "/" + location[0];
     }
     // makes sure the given path is valid before pushing
-    if (Manager.checkValidPath(location[0])) {
-      // push the location into the temporary directoryStack
-      directoryStack.pushD(location[0]);
+    if (Manager.checkValidPath(location[0])) 
+    {
+      // get the current location and store it
+      String savedDirectory = Manager.getCurrPath();
+      // push the current location into the temporary directoryStack
+      directoryStack.pushD(savedDirectory);
       // send the new directory stack to the FileSystem
       Manager.setDirStack(directoryStack);
       // change the current directory to the given location
