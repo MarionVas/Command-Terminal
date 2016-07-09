@@ -5,7 +5,9 @@ import java.util.Stack;
 public class DirStack {
   public Stack<String> directoryStack;
 
-  // Constructor for the DirStack
+  /**
+   * Constructor for the DirStack
+   */
   public DirStack() {
     // make the directory stack
     directoryStack = new Stack<String>();
