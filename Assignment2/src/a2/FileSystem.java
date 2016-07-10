@@ -23,9 +23,9 @@ public interface FileSystem {
 
   public void addFullPath(String path);
 
-  public void setRoot(Item root);
+  public void setRoot(Folder root);
 
-  public Item getRootFolder();
+  public Folder getRootFolder();
 
   public DirStack getDirStack();
 
