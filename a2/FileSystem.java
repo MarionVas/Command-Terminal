@@ -7,9 +7,9 @@ public interface FileSystem {
 
   public void setFullPath(String newDir);
 
-  public Object getObject(String name);
+  public Item getObject(String name);
 
-  public Object getObjRecurs(String name, String currName, Object dirrOrFile);
+  public Item getObjRecurs(String name, String currName, Item dirrOrFile);
 
   public void add(Folder newFolder);
 
@@ -23,9 +23,9 @@ public interface FileSystem {
 
   public void addFullPath(String path);
 
-  public void setRoot(Folder root);
+  public void setRoot(Item root);
 
-  public Folder getRootFolder();
+  public Item getRootFolder();
 
   public DirStack getDirStack();
 
