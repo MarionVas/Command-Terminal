@@ -15,7 +15,7 @@ public class JFileSystem implements FileSystem {
   // The current working folder
   private Folder currFolder;
   // The head of the tree which contains all Folders and Files
-  private Item rootFolder;
+  private Folder rootFolder;
   // A DirStack
   private DirStack dirStack;
 
@@ -189,7 +189,7 @@ public class JFileSystem implements FileSystem {
    * 
    * @param root - A folder representing the root of the tree of Files
    */
-  public void setRoot(Item root) {
+  public void setRoot(Folder root) {
     this.rootFolder = root;
   }
 
@@ -207,7 +207,7 @@ public class JFileSystem implements FileSystem {
    * 
    * @return rootFolder - Represents the root of the tree
    */
-  public Item getRootFolder() {
+  public Folder getRootFolder() {
     return this.rootFolder;
   }
 
