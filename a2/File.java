@@ -2,8 +2,7 @@ package a2;
 
 import java.util.Vector;
 
-public class File extends JFileSystem {
-  private String name;
+public class File extends Item {
   private String body = "";
 
   /**
@@ -11,7 +10,7 @@ public class File extends JFileSystem {
    */
 
   public File(String name) {
-    this.name = name;
+    super(name,"somePath", null, null);
   }
 
   /**
@@ -32,15 +31,6 @@ public class File extends JFileSystem {
 
   public void setBody(String body) {
     this.body = body;
-  }
-
-  /**
-   * This method returns the name of the file
-   */
-
-  public String getName() {
-
-    return this.name;
   }
 
   /**
