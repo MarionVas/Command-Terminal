@@ -15,7 +15,7 @@ public class JFileSystem implements FileSystem {
   // The current working folder
   private Folder currFolder;
   // The head of the tree which contains all Folders and Files
-  private Folder rootFolder;
+  private Item rootFolder;
   // A DirStack
   private DirStack dirStack;
 
@@ -64,9 +64,9 @@ public class JFileSystem implements FileSystem {
    *        directory/file
    * @return - An object at the location of the specified absolute path
    */
-  public Object getObject(String name) {
+  public Item getObject(String name) {
     // The object that is to be returned
-    Object result = null;
+    Item result = null;
     // If an absolute path is provided
     if (name.startsWith("/")) {
       result = getObjRecurs(name, "/", this.rootFolder);
@@ -94,7 +94,7 @@ public class JFileSystem implements FileSystem {
    * @param dirrOrFile
    * @return result - Can either be the desired object or a null type
    */
-  public Object getObjRecurs(String name, String currName, Object dirrOrFile) {
+  public Item getObjRecurs(String name, String currName, Item dirrOrFile) {
     // Base case if the desired name matches the name built by the recursive
     // steps
     if (currName.equals(name)) {
@@ -102,12 +102,12 @@ public class JFileSystem implements FileSystem {
     }
     // If the end of the subtree is reached
     else if (dirrOrFile == null || dirrOrFile.equals(File.class)) {
-      Object result = null;
+      Item result = null;
     }
     // A vector representing all the children in the tree
-    Vector allChildren = ((Folder) dirrOrFile).getAllChildren();
+    Vector<Item> allChildren = dirrOrFile.getChildren();
     // Object representing the result of the recursive step
-    Object result = null;
+    Item result = null;
     // Runs for all children of the node and while an object is not found and
     // iff the node has children
     for (int i = 0; result == null && allChildren != null
@@ -118,12 +118,12 @@ public class JFileSystem implements FileSystem {
         // the current path
         if (currName.equals("/")) {
           result =
-              getObjRecurs(name, "/" + ((Folder) allChildren.get(i)).getName(),
-                  (Folder) allChildren.get(i));
+              getObjRecurs(name, "/" + allChildren.get(i).getName(),
+                  allChildren.get(i));
         } else {
           result = getObjRecurs(name,
-              currName + "/" + ((Folder) allChildren.get(i)).getName(),
-              (Folder) allChildren.get(i));
+              currName + "/" + allChildren.get(i).getName(),
+              allChildren.get(i));
         }
 
       }
@@ -132,10 +132,10 @@ public class JFileSystem implements FileSystem {
         // Sending in a null as the child since, files have no children
         if (currName.equals("/")) {
           result = getObjRecurs(name,
-              "/" + ((File) allChildren.get(i)).getName(), allChildren.get(i));
+              "/" + allChildren.get(i).getName(), allChildren.get(i));
         } else {
           result = getObjRecurs(name,
-              currName + "/" + ((File) allChildren.get(i)).getName(),
+              currName + "/" + allChildren.get(i).getName(),
               allChildren.get(i));
         }
 
@@ -189,7 +189,7 @@ public class JFileSystem implements FileSystem {
    * 
    * @param root - A folder representing the root of the tree of Files
    */
-  public void setRoot(Folder root) {
+  public void setRoot(Item root) {
     this.rootFolder = root;
   }
 
@@ -207,7 +207,7 @@ public class JFileSystem implements FileSystem {
    * 
    * @return rootFolder - Represents the root of the tree
    */
-  public Folder getRootFolder() {
+  public Item getRootFolder() {
     return this.rootFolder;
   }
 
