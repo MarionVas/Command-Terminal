@@ -120,12 +120,17 @@ public class ProQuery {
   }
 
   /**
-   * The purpose of this method is return the JFileSystem of the ProQuery class
+   * The purpose of this method is return the JFileSystem of the ProQuery object
+   * @return jFileSystem
    */
   public JFileSystem getFileSystem() {
     return this.jFileSystem;
   }
 
+  /**
+   * The purpose of this method is to return the History of the ProQuery object
+   * @return commandHistory
+   */
   public History getHistory() {
     return this.commandHistory;
   }
