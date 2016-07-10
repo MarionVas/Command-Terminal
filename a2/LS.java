@@ -65,7 +65,7 @@ public class LS implements CommandInterface {
       childNames = null;
     } else {
       // Getting the string vector of all the children stored in the folder
-      childNames = currFolder.getAllChildrenNames();
+      childNames = currFolder.getChildrenNames();
     }
     // Sorts the child names in alphabetical order
     if (childNames != null) {
@@ -102,7 +102,7 @@ public class LS implements CommandInterface {
           contents = "That was not a valid path.\n";
         } else {
           // All the children in the specified folder
-          Vector childNames = currFolder.getAllChildrenNames();
+          Vector childNames = currFolder.getChildrenNames();
           if (childNames != null) {
             // Sorting them alphabetically
             java.util.Collections.sort(childNames);
@@ -110,7 +110,7 @@ public class LS implements CommandInterface {
           int i = 0;
           // Adding the child names to a string and formating it
           if (childNames != null) {
-            while (i < currFolder.getAllChildren().size()) {
+            while (i < currFolder.getChildren().size()) {
               contents = contents + "     " + childNames.get(i);
               i++;
             }
@@ -224,14 +224,14 @@ public class LS implements CommandInterface {
     return arg;
   }
 
-  public String recurseLS(int childIndex, Object dirrOrFile) {
+  public String recurseLS(int childIndex, Item dirrOrFile) {
     // If the end of the subtree is reached
     String result = "";
     if (dirrOrFile == null || dirrOrFile.equals(File.class)) {
       result = "";
     } else {
-      Vector allChildren = ((Folder) dirrOrFile).getAllChildren();
-      if (allChildren != null) {
+      Vector<Item> allChildren = dirrOrFile.getChildren();
+      if (allChildren != null && allChildren.size() != 0) {
         if (childIndex == 0) {
           result = this.executeFullPath(((Folder) dirrOrFile).getPath(), true)
               + this.recurseLS(childIndex, allChildren.get(childIndex))
@@ -261,8 +261,14 @@ public class LS implements CommandInterface {
       this.fileOriginalArg = args[indexarg];
       if (this.arg.equals("-r") || this.arg.equals("-R")) {
         indexarg++;
-        this.arg = args[indexarg];
-        this.fileOriginalArg = args[indexarg];
+        if (args.length != 1){
+          this.arg = args[indexarg];
+          this.fileOriginalArg = args[indexarg];
+        }
+        else{
+          this.arg = "";
+          this.fileOriginalArg = "";
+        }
         this.recursive = true;
       }
       this.stringToOutput = "";
@@ -279,10 +285,11 @@ public class LS implements CommandInterface {
       // String representation of the children
       // If no argument was given
       if (arg == "") {
+        slashAtEnd = true;
         if (!this.recursive) {
           this.stringToOutput += executeNoArg();
         } else {
-          this.stringToOutput += recurseLS(0, this.Manager.getRootFolder());
+          this.stringToOutput += recurseLS(0, this.Manager.getCurrFolder());
         }
       } // If an absolute path was given
       else if (arg.startsWith("/")) {
@@ -293,6 +300,7 @@ public class LS implements CommandInterface {
         }
       } // If a path containing ".." was given
       else if (arg.contains("..")) {
+        slashAtEnd = true;
         // Turning arg into an absolute path
         if (arg.equals("..")) {
           if ((Manager.getCurrPath().split("/").length > 2)) {
@@ -317,6 +325,7 @@ public class LS implements CommandInterface {
 
       } // If a local path is given
       else if (arg.contains("/")) {
+        slashAtEnd = true;
         // Creating an absolute path
         if (!Manager.getCurrPath().equals("/")) {
           arg = Manager.getCurrPath() + "/" + arg;
@@ -330,6 +339,7 @@ public class LS implements CommandInterface {
         }
       } // If a directory name is given
       else {
+        slashAtEnd = true;
         // Building the absolute path
         if (Manager.getCurrPath().equals("/")) {
           arg = Manager.getCurrPath() + arg;
