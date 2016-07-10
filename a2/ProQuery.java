@@ -9,7 +9,12 @@ public class ProQuery {
   private JFileSystem jFileSystem;
   // This is a History object which will save given entries
   private History commandHistory;
-
+  private String[] singleCommandKeysList = new String[] {"ls", "exit", "pwd", "popd"};
+  private String[] singleCommandValuesList = new String[] {"a2.LS", "a2.Exit", "a2.PWD", "a2.PopD"};
+  private String[] commandKeysList = new String[] {"cd", "cat", "echo", "ls", "man", "mkdir", "pushd"};
+  private String[] commandValuesList = new String[] {"a2.CD", "a2.Cat", "a2.Echo", "a2.LS", "a2.Man", "a2.Mkdir", "a2.PushD"};
+  private Hashtable<String, String> singleCommandKeys = new Hashtable<String, String>();
+  private Hashtable<String, String> commandKeys = new Hashtable<String, String>();
 
   /**
    * Constructs a ProQuery object which takes a JFileSystem for commands to act
@@ -21,7 +26,16 @@ public class ProQuery {
     this.jFileSystem = jFileSystem;
     this.commandHistory = new History();
   }
-
+  
+  private void populateHashtables() {
+    for (int i=0; i<singleCommandKeysList.length; i++) {
+      singleCommandKeys.put(singleCommandKeysList[i], singleCommandValuesList[i]);
+    }
+    for (int i=0; i<commandKeysList.length; i++) {
+      commandKeys.put(commandKeysList[i], commandValuesList[i]);
+    }
+  }
+  
   /**
    * The purpose of this method is to allow user to pass in a string entry which
    * the ProQuery will then appropriately differentiate and call upon the
@@ -30,13 +44,13 @@ public class ProQuery {
    * @param entry A command (valid or invalid) issued by the user.
    */
   public void sortQuery(String entry) {
+   /*
     // Initialize a Hashtable for command classes whose constructors require
     // no parameters (the entry will only be a single key word)
-    Hashtable<String, String> singleCommandKeys =
-        new Hashtable<String, String>();
+    singleCommandKeys = new Hashtable<String, String>();
     // Initialize a Hashtable for command classes whose constructors will
     // require parameters
-    Hashtable<String, String> commandKeys = new Hashtable<String, String>();
+    commandKeys = new Hashtable<String, String>();
 
     // Populate the singleCommandKeys hashtable with keys/values
     singleCommandKeys.put("ls", "a2.LS");
@@ -52,7 +66,9 @@ public class ProQuery {
     commandKeys.put("man", "a2.Man");
     commandKeys.put("mkdir", "a2.Mkdir");
     commandKeys.put("pushd", "a2.PushD");
-
+    */
+    this.populateHashtables();
+    
     // Save string entries inserted to the History object
     commandHistory.addInput(entry);
 
