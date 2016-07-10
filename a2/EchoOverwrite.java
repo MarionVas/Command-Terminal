@@ -74,8 +74,10 @@ public class EchoOverwrite implements CommandInterface {
         currFolder.addChildren(file);
         if (fileSystem.getCurrPath().equals("/")) {
           fileSystem.addFullPath(fileSystem.getCurrPath() + parameter[2]);
+          file.setPath(fileSystem.getCurrPath() + parameter[2]);
         } else {
           fileSystem.addFullPath(fileSystem.getCurrPath() + "/" + parameter[2]);
+          file.setPath(fileSystem.getCurrPath() + "/" + parameter[2]);
         }
       }
     } else {
