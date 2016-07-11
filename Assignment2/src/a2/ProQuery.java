@@ -126,7 +126,16 @@ public class ProQuery {
   public JFileSystem getFileSystem() {
     return this.jFileSystem;
   }
-
+  
+  /**
+   * A method to set the history of the ProQuery object
+   * @param history, the history object to replace the current one
+   */
+  public void setHistory(History history)
+  {
+    this.commandHistory = history;
+  }
+  
   /**
    * The purpose of this method is to return the History of the ProQuery object
    * @return commandHistory
@@ -134,5 +143,6 @@ public class ProQuery {
   public History getHistory() {
     return this.commandHistory;
   }
+  
 
 }
