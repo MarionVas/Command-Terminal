@@ -18,6 +18,15 @@ public class History implements CommandInterface // need execute method()
     // make a new list
     this.inputHistory = new Vector<String>();
   }
+  
+  /**
+   * The purpose of this method is to set the vector history
+   * @param history, a vector<String> that represents the history
+   */
+  public void setHistory(Vector<String> history)
+  {
+    this.inputHistory = history;
+  }
 
   /**
    * The purpose of this method is to add an element to the list
@@ -94,9 +103,11 @@ public class History implements CommandInterface // need execute method()
   public List<String> getSubList() {
     return this.subHistory;
   }
-
-
-
+  
+  /**
+   * A method to return the manual of the history command and what it does
+   * @return String, this string contains the manual
+   */
   public String manual() {
     return "history [number] - Prints out past/recently input commands during\n"
         + "the session. The given value specifies the last number of commands\n"
