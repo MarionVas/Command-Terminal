@@ -145,9 +145,9 @@ public class CD implements CommandInterface {
       }
     }
   }
-  
+
   /**
-   * This function return the instructions on how to use the command cat.
+   * This function returns the instructions on how to use the command cat.
    * 
    * @return a string telling users the how the command works
    */
