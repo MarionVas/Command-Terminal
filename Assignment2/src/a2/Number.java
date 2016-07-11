@@ -21,7 +21,7 @@ public class Number implements CommandInterface
   public void execute() 
   {
     int command = 0;
-    // check if the thing is a number
+    // check if the parameter is a number
     try
     {
       command = Integer.parseInt(commandNumber);
@@ -31,10 +31,19 @@ public class Number implements CommandInterface
     }
     
     //commandHistory = process.getHistory();
-    Vector commandHistory = process.getHistory().getList();
-    ProQuery doCommand = new ProQuery(fileManager);
-    String query = (String) commandHistory.get(command);
-    doCommand.sortQuery(query);
+    // Get the vector from the history of the ProQuery
+    History commandHistory = process.getHistory();
+    Vector<String> allCommands = commandHistory.getList();
+    // Get the command at the specified user location
+    String query = allCommands.get(command);
+    // Remove the !number command from the history
+    allCommands.removeElementAt(allCommands.size()-1);
+    // set the new history vector
+    commandHistory.setHistory(allCommands);
+    // set the ProQuery history
+    process.setHistory(commandHistory);
+    // do the past command
+    process.sortQuery(query);
     
     
     
