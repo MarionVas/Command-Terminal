@@ -60,7 +60,7 @@ public class Cat implements CommandInterface {
   }
 
   /**
-   * This method return the body of the file as a String to be printed on the
+   * This method returns the body of the file as a String to be printed on the
    * console
    * 
    * @return stringToOutput - the body of the file that needs to be printed
@@ -68,9 +68,9 @@ public class Cat implements CommandInterface {
   public String getStringToOutput() {
     return stringToOutput;
   }
-  
+
   /**
-   * This function return the instructions on how to use the command cat.
+   * This function returns the instructions on how to use the command cat.
    * 
    * @return a string telling users the how the command works
    */
