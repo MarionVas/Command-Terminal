@@ -20,8 +20,7 @@ abstract class OutputToFile {
    *        output
    */
 
-  public void overwrite(JFileSystem fileSystem, String output,
-      String outfile) {
+  public void overwrite(JFileSystem fileSystem, String output, String outfile) {
     // find the file that the user is going to be working with
     File replaceFile = findFile(fileSystem, outfile);
     if (replaceFile == null) {
