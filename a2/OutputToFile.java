@@ -20,7 +20,7 @@ abstract class OutputToFile {
    *        output
    */
 
-  private void overWrite(JFileSystem fileSystem, String output,
+  public void overwrite(JFileSystem fileSystem, String output,
       String outfile) {
     // find the file that the user is going to be working with
     File replaceFile = findFile(fileSystem, outfile);
@@ -41,7 +41,7 @@ abstract class OutputToFile {
    * @param outfile - the file that will have the output added to its contents
    */
 
-  private void append(JFileSystem fileSystem, String output, String outfile) {
+  public void append(JFileSystem fileSystem, String output, String outfile) {
     // run the super class' fileFile method to get the file to work with
     File appendFile = findFile(fileSystem, outfile);
     if (appendFile == null) {
