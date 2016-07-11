@@ -69,80 +69,129 @@ public class ProQuery {
     String[] splitEntry = entry.split("\\s+");
 
     try {
-    // If the given string entry is only one key word and not history
-    if (splitEntry.length <= 1 && !splitEntry[0].equals("history")) {
-      // Acquire the appropriate value within the hashtable
-      String commandName = singleCommandKeys.get(splitEntry[0]);
+      // If the given string entry is only one key word and not history
+      if (splitEntry.length <= 1 && !splitEntry[0].equals("history")) {
+        // Acquire the appropriate value within the hashtable
+        String commandName = singleCommandKeys.get(splitEntry[0]);
 
-      // Create an appropriate instance of the class according to the
-      // string given. These constructors only require a JFileSystem
-      CommandInterface commandInstance =
-          (CommandInterface) Class.forName(commandName)
-              .getConstructor(JFileSystem.class).newInstance(jFileSystem);
-      // Run the execute method of the instance created
-      commandInstance.execute();
+        // Create an appropriate instance of the class according to the
+        // string given. These constructors only require a JFileSystem
+        CommandInterface commandInstance =
+            (CommandInterface) Class.forName(commandName)
+                .getConstructor(JFileSystem.class).newInstance(jFileSystem);
+        // Run the execute method of the instance created
+        commandInstance.execute();
 
-      // If the one key word string is "history", execute the history class
-    } else if (splitEntry.length <= 1 && splitEntry[0].equals("history")) {
-      commandHistory.execute();
+        // If the one key word string is "history", execute the history class
+      } else if (splitEntry.length <= 1 && splitEntry[0].equals("history")) {
+        commandHistory.execute();
 
-      // If the given string is history with additional parameters
-    } else if (splitEntry.length > 1 && splitEntry[0].equals("history")) {
-      // Execute the history class with the additional parameters
-      commandHistory
-          .execute(Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
+        // If the given string is history with additional parameters
+      } else if (splitEntry.length > 1 && splitEntry[0].equals("history")) {
+        // Execute the history class with the additional parameters
+        commandHistory
+            .execute(Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
 
 
-    } else {
+      } else {
 
-      // Split the given string into its command key word and its parameters
-      String commandName = commandKeys.get(splitEntry[0]);
-      String[] commandParameters =
-          Arrays.copyOfRange(splitEntry, 1, splitEntry.length);
-      // Create an appropriate instance of the class according to the
-      // string given. These constructors require a JFileSystem and
-      // a string array
-      CommandInterface commandInstance =
-          (CommandInterface) Class.forName(commandName)
-              .getConstructor(JFileSystem.class, String[].class)
-              .newInstance(jFileSystem, commandParameters);
-      // Run the execute method of the instance created
-      commandInstance.execute();
-    } 
+        // Split the given string into its command key word and its parameters
+        String commandName = commandKeys.get(splitEntry[0]);
+        String[] commandParameters =
+            fixForOutfileRedirection(Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
+        // Create an appropriate instance of the class according to the
+        // string given. These constructors require a JFileSystem and
+        // a string array
+        CommandInterface commandInstance =
+            (CommandInterface) Class.forName(commandName)
+                .getConstructor(JFileSystem.class, String[].class)
+                .newInstance(jFileSystem, commandParameters);
+        // Run the execute method of the instance created
+        commandInstance.execute();
+      }
     } catch (ClassNotFoundException | InstantiationException
         | IllegalAccessException | IllegalArgumentException
-        | InvocationTargetException | NoSuchMethodException
-        | SecurityException | NullPointerException e) {
+        | InvocationTargetException | NoSuchMethodException | SecurityException
+        | NullPointerException e) {
       Output.printError();
 
     }
 
   }
 
+  private String[] fixForOutfileRedirection(String[] redirParameters) {
+    if (java.util.Arrays.asList(redirParameters).contains(">")) {
+      System.out.println("HERE1");
+      return fixRedirectionParameters(redirParameters, ">");
+    } else if (java.util.Arrays.asList(redirParameters).contains(">>")) {
+      return fixRedirectionParameters(redirParameters, ">>");
+    } else {
+      return redirParameters;
+    }
+  }
+
+  private String[] fixRedirectionParameters(String[] parameters, String sign) {
+    int signIndex = java.util.Arrays.asList(parameters).indexOf(sign);
+
+    String[] preSign = Arrays.copyOfRange(parameters, 0, signIndex);
+    String[] postSign =
+        Arrays.copyOfRange(parameters, signIndex + 1, parameters.length);
+
+    if (signIndex == 0) {
+      String[] fixedEchoParameters = new String[2];
+      System.out.println("HERE2");
+      fixedEchoParameters[0] = sign;
+      fixedEchoParameters[1] = joinStrWithSpace(postSign);
+      return fixedEchoParameters;
+    } else {
+      String[] fixedEchoParameters = new String[3];
+      System.out.println("HERE3");
+      fixedEchoParameters[0] = joinStrWithSpace(preSign);
+      fixedEchoParameters[1] = sign;
+      fixedEchoParameters[2] = joinStrWithSpace(postSign);
+      return fixedEchoParameters;
+    }
+
+
+  }
+
+  private String joinStrWithSpace(String[] strPara) {
+    StringBuilder newString = new StringBuilder();
+    for (int i = 0; i < strPara.length; i++) {
+      if (i > 0) {
+        newString.append(" ");
+      }
+      newString.append(strPara[i]);
+    }
+    return newString.toString();
+  }
+
   /**
    * The purpose of this method is return the JFileSystem of the ProQuery object
+   * 
    * @return jFileSystem
    */
   public JFileSystem getFileSystem() {
     return this.jFileSystem;
   }
-  
+
   /**
    * A method to set the history of the ProQuery object
+   * 
    * @param history, the history object to replace the current one
    */
-  public void setHistory(History history)
-  {
+  public void setHistory(History history) {
     this.commandHistory = history;
   }
-  
+
   /**
    * The purpose of this method is to return the History of the ProQuery object
+   * 
    * @return commandHistory
    */
   public History getHistory() {
     return this.commandHistory;
   }
-  
+
 
 }
