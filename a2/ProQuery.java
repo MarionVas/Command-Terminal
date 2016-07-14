@@ -30,10 +30,10 @@ public class ProQuery {
     String[] singleCommandKeysList = new String[] {"ls", "exit", "pwd", "popd"};
     String[] singleCommandValuesList =
         new String[] {"a2.LS", "a2.Exit", "a2.PWD", "a2.PopD"};
-    String[] commandKeysList =
-        new String[] {"cd", "cat", "echo", "ls", "man", "mkdir", "pushd"};
+    String[] commandKeysList = new String[] {"cd", "cat", "echo", "ls", "man",
+        "mkdir", "pushd", "mv", "grep"};
     String[] commandValuesList = new String[] {"a2.CD", "a2.Cat", "a2.Echo",
-        "a2.LS", "a2.Man", "a2.Mkdir", "a2.PushD"};
+        "a2.LS", "a2.Man", "a2.Mkdir", "a2.PushD", "a2.MV", "a2.Grep"};
     for (int i = 0; i < singleCommandKeysList.length; i++) {
       singleCommandKeys.put(singleCommandKeysList[i],
           singleCommandValuesList[i]);
@@ -94,11 +94,10 @@ public class ProQuery {
 
 
       } else {
-
         // Split the given string into its command key word and its parameters
         String commandName = commandKeys.get(splitEntry[0]);
-        String[] commandParameters =
-            fixForOutfileRedirection(Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
+        String[] commandParameters = fixForOutfileRedirection(
+            Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
         // Create an appropriate instance of the class according to the
         // string given. These constructors require a JFileSystem and
         // a string array
