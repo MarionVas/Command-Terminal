@@ -25,7 +25,7 @@ public class Cat implements CommandInterface {
    * exist, an error message will be printed
    */
 
-  public void execute() {
+  public String execute() {
     // get the current working directory
     Folder currFolder = fileSystem.getCurrFolder();
     // check if the user wants to read one file
@@ -34,11 +34,26 @@ public class Cat implements CommandInterface {
       File file = (File) currFolder.getFile(fileNames[0]);
       // if the file does not exist print an error message
       if (file == null) {
-        Output.printFileNameError();
-        // if the file does exist print the contents of the file
+        if (fileNames[0].contains("/")) {
+          String path = fileNames[0];
+          if (path.lastIndexOf("/") == path.length() - 1) {
+            path = fileNames[0].substring(0, fileNames[0].lastIndexOf("/"));
+          }
+          if (path.equals("")) {
+            System.out.println("That was not a valid path");
+          } else {
+            file = getFileFromPath(path);
+            if (file == null) {
+              System.out.println("That was not a valid path or file name.");
+            } else {
+              stringToOutput = file.getBody();
+            }
+          }
+        } else {
+          System.out.println("That was not a valid path or file name.");
+        }
       } else {
         stringToOutput = file.getBody();
-        Output.printString(stringToOutput);
       }
     } else {
       // get each file the user wants to print
@@ -46,9 +61,24 @@ public class Cat implements CommandInterface {
         // get the file the user wants to read
         File file = (File) currFolder.getFile(eachFile);
         if (file == null) {
-          // if the file does not exist print an error message
-          // stop running the command
-          Output.printFileNameError();
+          if (eachFile.contains("/")) {
+            String path = fileNames[0];
+            if (path.lastIndexOf("/") == path.length() - 1) {
+              path = fileNames[0].substring(0, fileNames[0].lastIndexOf("/"));
+            }
+            if (path.equals("")) {
+              System.out.println("That was not a valid path");
+            } else {
+              file = getFileFromPath(path);
+              if (file == null) {
+                System.out.println("That was not a valid path or file name.");
+              } else {
+                stringToOutput = file.getBody() + "\n\n\n\n";
+              }
+            }
+          } else {
+            System.out.println("That was not a valid path or file name.");
+          }
         } else {
           // if the file does exist print the contents of the file
           // print three lines to separate each file being read
@@ -57,17 +87,25 @@ public class Cat implements CommandInterface {
       }
       Output.printSingleLineString(stringToOutput);
     }
-  }
-
-  /**
-   * This method returns the body of the file as a String to be printed on the
-   * console
-   * 
-   * @return stringToOutput - the body of the file that needs to be printed
-   */
-  public String getStringToOutput() {
     return stringToOutput;
   }
+
+
+  private File getFileFromPath(String path) {
+    File file = null;
+    try {
+      path = fileNames[0].substring(0, fileNames[0].lastIndexOf("/"));
+      String fileName =
+          fileNames[0].substring(fileNames[0].lastIndexOf("/") + 1);
+      String fullPath = fileSystem.getFullPath(path);
+      Folder fileFolder =
+          (Folder) fileSystem.getObject(fileSystem.getFullPath(fullPath));
+      file = (File) fileFolder.getFile(fileNames[0]);
+    } catch (InvalidPath e) {
+    }
+    return file;
+  }
+
 
   /**
    * This function returns the instructions on how to use the command cat.
