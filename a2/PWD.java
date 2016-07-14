@@ -1,6 +1,6 @@
 package a2;
 
-public class PWD extends OutputToFile implements CommandInterface {
+public class PWD implements CommandInterface {
   private JFileSystem fileSystem;
   private String symbol = null;
   private String outfile;
@@ -37,21 +37,10 @@ public class PWD extends OutputToFile implements CommandInterface {
    * of the OUTFILE.
    */
 
-  public void execute() {
+  public String execute() {
     // get the path of the working directory as a string
     stringToOutput = fileSystem.getCurrPath();
-    // if there is no redirection, print the string
-    if (this.symbol == null) {
-      Output.printString(stringToOutput);
-      // if the output is redirected with "> OUTFILE" replace the OUTFILE's
-      // contents with the command's output
-    } else if (symbol.equals(">")) {
-      overwrite(fileSystem, stringToOutput, outfile);
-      // if the output is redirected with ">> OUTFILE" add the command's output
-      // to the body of the OUTFILE
-    } else if (symbol.equals(">>")) {
-      append(fileSystem, stringToOutput, outfile);
-    }
+    return stringToOutput;
   }
 
   /**
@@ -61,15 +50,5 @@ public class PWD extends OutputToFile implements CommandInterface {
    */
   public String manual() {
     return "pwd - Prints the current working directory with its whole path.\n";
-  }
-
-  /**
-   * This method returns the body of the file as a String to be printed on the
-   * console
-   * 
-   * @return stringToOutput - the body of the file that needs to be printed
-   */
-  public String getStringToOutput() {
-    return stringToOutput;
   }
 }
