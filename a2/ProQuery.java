@@ -13,7 +13,7 @@ public class ProQuery {
       new Hashtable<String, String>();
   private Hashtable<String, String> commandKeys =
       new Hashtable<String, String>();
-  private String stringToOutput;
+  private String stringToOutput = "";
 
   /**
    * Constructs a ProQuery object which takes a JFileSystem for commands to act
@@ -96,8 +96,12 @@ public class ProQuery {
       } else {
         // Split the given string into its command key word and its parameters
         String commandName = commandKeys.get(splitEntry[0]);
-        String[] commandParameters = fixForOutfileRedirection(
+        String[] fixedCommandParameters = fixForOutfileRedirection(
             Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
+        String[] commandParameters = Arrays.copyOfRange(fixedCommandParameters,
+            0, findSignIndexOrLast(fixedCommandParameters));
+        System.out.println(Arrays.toString(fixedCommandParameters));
+        System.out.println(Arrays.toString(commandParameters));
         // Create an appropriate instance of the class according to the
         // string given. These constructors require a JFileSystem and
         // a string array
@@ -107,7 +111,7 @@ public class ProQuery {
                 .newInstance(jFileSystem, commandParameters);
         // Run the execute method of the instance created
         commandInstance.execute();
-        stringToFile(commandParameters, stringToOutput);
+        stringToFile(fixedCommandParameters, stringToOutput);
       }
 
       stringToOutput(stringToOutput);
@@ -115,20 +119,28 @@ public class ProQuery {
     } catch (ClassNotFoundException | InstantiationException
         | IllegalAccessException | IllegalArgumentException
         | InvocationTargetException | NoSuchMethodException | SecurityException
-        |
-
-        NullPointerException e) {
+        | NullPointerException e) {
       Output.printError();
 
     }
 
   }
 
+  private int findSignIndexOrLast(String[] insertStringArray) {
+    int index = insertStringArray.length;
+    if (Arrays.asList(insertStringArray).contains(">")) {
+      index = Arrays.asList(insertStringArray).indexOf(">");
+    } else if (Arrays.asList(insertStringArray).contains(">>")) {
+      index = Arrays.asList(insertStringArray).indexOf(">>");
+    }
+    return index;
+  }
+
   private String[] fixForOutfileRedirection(String[] redirParameters) {
-    if (java.util.Arrays.asList(redirParameters).contains(">")) {
+    if (Arrays.asList(redirParameters).contains(">")) {
       System.out.println("HERE1");
       return fixRedirectionParameters(redirParameters, ">");
-    } else if (java.util.Arrays.asList(redirParameters).contains(">>")) {
+    } else if (Arrays.asList(redirParameters).contains(">>")) {
       return fixRedirectionParameters(redirParameters, ">>");
     } else {
       return redirParameters;
@@ -136,7 +148,7 @@ public class ProQuery {
   }
 
   private String[] fixRedirectionParameters(String[] parameters, String sign) {
-    int signIndex = java.util.Arrays.asList(parameters).indexOf(sign);
+    int signIndex = Arrays.asList(parameters).indexOf(sign);
 
     String[] preSign = Arrays.copyOfRange(parameters, 0, signIndex);
     String[] postSign =
@@ -173,9 +185,11 @@ public class ProQuery {
 
   private void stringToFile(String[] inputArguments, String commandOutput) {
     String outfile = inputArguments[inputArguments.length - 1];
-    if (Arrays.asList(inputArguments).contains(">")) {
+    if (!commandOutput.equals("")
+        && Arrays.asList(inputArguments).contains(">")) {
       OutputToFile.overwrite(jFileSystem, commandOutput, outfile);
-    } else if (Arrays.asList(inputArguments).contains(">>")) {
+    } else if (!commandOutput.equals("")
+        && Arrays.asList(inputArguments).contains(">>")) {
       OutputToFile.append(jFileSystem, commandOutput, outfile);
     }
   }
