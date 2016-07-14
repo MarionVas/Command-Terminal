@@ -117,13 +117,12 @@ public class JFileSystem implements FileSystem {
         // the recursive call on the specified child as well as adding onto
         // the current path
         if (currName.equals("/")) {
-          result =
-              getObjRecurs(name, "/" + allChildren.get(i).getName(),
-                  allChildren.get(i));
-        } else {
-          result = getObjRecurs(name,
-              currName + "/" + allChildren.get(i).getName(),
+          result = getObjRecurs(name, "/" + allChildren.get(i).getName(),
               allChildren.get(i));
+        } else {
+          result =
+              getObjRecurs(name, currName + "/" + allChildren.get(i).getName(),
+                  allChildren.get(i));
         }
 
       }
@@ -131,12 +130,12 @@ public class JFileSystem implements FileSystem {
       else {
         // Sending in a null as the child since, files have no children
         if (currName.equals("/")) {
-          result = getObjRecurs(name,
-              "/" + allChildren.get(i).getName(), allChildren.get(i));
-        } else {
-          result = getObjRecurs(name,
-              currName + "/" + allChildren.get(i).getName(),
+          result = getObjRecurs(name, "/" + allChildren.get(i).getName(),
               allChildren.get(i));
+        } else {
+          result =
+              getObjRecurs(name, currName + "/" + allChildren.get(i).getName(),
+                  allChildren.get(i));
         }
 
       }
@@ -236,5 +235,123 @@ public class JFileSystem implements FileSystem {
    */
   public void setDirStack(DirStack stack) {
     this.dirStack = stack;
+  }
+
+  /**
+   * Converts Absolute paths or relative paths into absolute paths
+   *
+   */
+  public String getFullPath(String path) throws InvalidPath {
+    String originalPath = path;
+    path = this.removeSingleDots(path);
+    if (path.endsWith("/") && !path.equals("/")) {
+      path = path.substring(0, path.length() - 1);
+    }
+    if (path.contains("..")) {
+      if (path.equals("..")) {
+        if ((this.getCurrPath().split("/").length > 2)) {
+          path = this.getCurrPath().substring(0,
+              this.getCurrPath().lastIndexOf("/"));
+        } else {
+          path = "/";
+        }
+      } else {
+        path = this.removeDots(path);
+      }
+    } else if (!path.startsWith("/")) {
+      if (!path.equals("/")) {
+        path = this.currDir + "/" + path;
+      } else {
+        path = this.currDir + path;
+      }
+    }
+    if (!this.fullPaths.contains(path)) {
+      throw new InvalidPath(" is not a valid path", originalPath);
+    }
+    return path;
+  }
+
+  /**
+   * Removes any "."'s from the argument and handles multiple different cases
+   * involving it
+   * 
+   * @param name - the argument that needs to be created
+   * @return name - the argument but without any "."'s
+   */
+  public String removeSingleDots(String name) {
+    // Since the "." operator does not really do anything significant it can
+    // be removed from the path at it should still be equivalent to if the
+    // "." was not there
+    if (name.contains("/./") || name.endsWith("/.") || name.startsWith("/.")
+        || name.startsWith("./")) {
+      if (name.startsWith("./") && !this.getCurrPath().equals("/")) {
+        name = name.substring(2, name.length());
+      } else if (name.startsWith("./") && this.getCurrPath().equals("/")) {
+        name = name.substring(1, name.length());
+      }
+      CharSequence operator = "/./";
+      while (name.contains(operator)) {
+        name = name.replace(operator, "/");
+      }
+      if (name.endsWith("/.")) {
+        name = name.substring(0, name.length() - 2);
+      }
+    }
+    return name;
+  }
+
+  /**
+   * Accepts a local path is ".." inside as part of it and returns the
+   * corresponding full path
+   * 
+   * @param name - the argument from the user
+   * @return The absolute path of the folder that the user specified
+   */
+  public String removeDots(String name) {
+    // Counting starts from the beginning of the string and moves to the end
+    int headIndex = 0;
+    // The number of occurrences of the specified string
+    int numOfOccurences = 0;
+    // Loop goes until the end of the string
+    while (headIndex != -1) {
+      // The first index of ".." from start to endIndex
+      headIndex = name.indexOf("..", headIndex);
+      // If the specified string ("..") is still found within the above
+      // substring
+      if (headIndex != -1) {
+        // Increment the number of occurrences
+        numOfOccurences++;
+        // Increasing the search by 2, (since ".." has a length of 2)
+        headIndex += 2;
+      }
+    }
+    // Getting the current working (local) path
+    String path = this.getCurrPath();
+    int indexDots = name.indexOf("/");
+    // Runs for the number of times ".." is in the argument
+    for (int i = 0; i < numOfOccurences; i++) {
+      // If name still contains ".." and but does not start with a ".." then
+      // name is in the form ../DIR_NAME/../ , so the DIR_NAME must be added
+      // to the absolute path and "i" must be decremented
+      if (!name.startsWith("..") && name.contains("..")) {
+        path = path + "/" + name.substring(0, indexDots);
+        i--;
+      } else {
+        try { // If the number of ".." reaches past the root and error is thrown
+          // Cutting a section of the current path off
+          path = path.substring(0, path.lastIndexOf("/"));
+        } catch (Exception e) {
+          // Returning an invalid path
+          path = "//////////";
+          break;
+        }
+      }
+      // Removing a piece of the argument off
+      name = name.substring(indexDots + 1, name.length());
+      indexDots = name.indexOf("/");
+
+    }
+    // Returning the absolute path
+    return path + "/" + name;
   }
 }
