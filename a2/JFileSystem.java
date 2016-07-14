@@ -259,13 +259,14 @@ public class JFileSystem implements FileSystem {
         path = this.removeDots(path);
       }
     } else if (!path.startsWith("/")) {
-      if (!path.equals("/")) {
+      if (!this.currDir.equals("/")) {
         path = this.currDir + "/" + path;
       } else {
         path = this.currDir + path;
       }
     }
-    if (!this.fullPaths.contains(path)) {
+    if (!this.fullPaths.contains(path) && !(new Exception().getStackTrace()[1]
+        .getClassName().equals("a2.Mkdir"))) {
       throw new InvalidPath(" is not a valid path", originalPath);
     }
     return path;
