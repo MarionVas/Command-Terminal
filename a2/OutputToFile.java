@@ -105,9 +105,10 @@ public class OutputToFile {
         // if the outfile is the root return null
         file = null;
         // check if the path to the parents folder is a valid path
-      } else {
+      } 
+      else {
         try {
-
+          outfileLocation = outfile.substring(0, outfile.lastIndexOf("/"));
           Folder outfileFolder = (Folder) fileSystem
               .getObject(fileSystem.getFullPath(outfileLocation));
           String fileName = outfile.substring(outfile.lastIndexOf("/") + 1);
