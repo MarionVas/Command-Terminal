@@ -3,6 +3,7 @@ package a2;
 public class MV implements CommandInterface {
   private JFileSystem insertedFileSystem;
   private String[] classPaths;
+  private String stringToOutput = "";
 
 
   public MV(JFileSystem insertedFileSystem, String[] classPaths) {
@@ -10,7 +11,7 @@ public class MV implements CommandInterface {
     this.classPaths = classPaths;
   }
 
-  public void execute() {
+  public String execute() {
     try {
       if (classPaths.length == 2) {
         String existingItemPath = insertedFileSystem.getFullPath(classPaths[0]);
@@ -29,9 +30,11 @@ public class MV implements CommandInterface {
       } else {
         System.out.print("Invalid command");
       }
+
     } catch (InvalidPath e) {
       System.out.print("Invalid path");
     }
+    return stringToOutput;
   }
 
   public String manual() {
