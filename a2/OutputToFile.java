@@ -5,8 +5,8 @@ import a2.Folder;
 import a2.JFileSystem;
 import a2.Output;
 
-abstract class OutputToFile {
-  private String[] specialChar = new String[] {"/", "!", "@", "$", "&", "#",
+public class OutputToFile {
+  private static String[] specialChar = new String[] {"/", "!", "@", "$", "&", "#",
       "*", "(", ")", "?", ":", "[", "]", "\"", "<", ">", "\'", "`", "\\", "|",
       "=", "{", "}", "/", ";", " "};
 
@@ -20,7 +20,7 @@ abstract class OutputToFile {
    *        output
    */
 
-  public void overwrite(JFileSystem fileSystem, String output, String outfile) {
+  public static void overwrite(JFileSystem fileSystem, String output, String outfile) {
     // find the file that the user is going to be working with
     File replaceFile = findFile(fileSystem, outfile);
     if (replaceFile == null) {
@@ -40,7 +40,7 @@ abstract class OutputToFile {
    * @param outfile - the file that will have the output added to its contents
    */
 
-  public void append(JFileSystem fileSystem, String output, String outfile) {
+  public static void append(JFileSystem fileSystem, String output, String outfile) {
     // run the super class' fileFile method to get the file to work with
     File appendFile = findFile(fileSystem, outfile);
     if (appendFile == null) {
@@ -63,7 +63,7 @@ abstract class OutputToFile {
    * @return file - the File matching of the outfile given to the parameters
    */
 
-  private File findFile(JFileSystem fileSystem, String outfile) {
+  private static File findFile(JFileSystem fileSystem, String outfile) {
     // get the current working directory
     Folder currFolder = fileSystem.getCurrFolder();
     String currPath = fileSystem.getCurrPath();
@@ -145,7 +145,7 @@ abstract class OutputToFile {
    */
 
 
-  private File findFileHelper(Folder currFolder, String outfile) {
+  private static File findFileHelper(Folder currFolder, String outfile) {
     // call the getFile method to get the file
     File file = currFolder.getFile(outfile);
     // check if the file exists
@@ -167,7 +167,7 @@ abstract class OutputToFile {
    * @param body - the string that will replace the body of the file
    */
 
-  private void replace(File file, String body) {
+  private static void replace(File file, String body) {
     file.setBody(body);
   }
 
@@ -178,7 +178,7 @@ abstract class OutputToFile {
    * @param body - the string that will be added to the body of the file
    */
 
-  private void append(File file, String body) {
+  private static void append(File file, String body) {
     file.addToBody(body + "\n");
   }
 }
