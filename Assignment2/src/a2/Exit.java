@@ -2,6 +2,7 @@ package a2;
 
 public class Exit implements CommandInterface {
   private FileSystem manager;
+  private final String stringToOutput = "";
   
   /**
    * The constructor
@@ -17,9 +18,10 @@ public class Exit implements CommandInterface {
    * This method will terminate the console
    */
   
-  public void execute() {
+  public String execute() {
     // method to exit consoles
     System.exit(0);
+    return stringToOutput;
   }
 
   /**
