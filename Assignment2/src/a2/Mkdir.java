@@ -9,8 +9,8 @@ public class Mkdir implements CommandInterface {
   private String[] names;
   // List of all the special characters that cannot be used
   private String[] specialChar =
-      new String[] {"/", "!", "@", "$", "&", "#", "*", "(", ")", "?", ":", "[",
-          "]", "\"", "<", ">", "\'", "`", "\\", "|", "=", "{", "}", "/", ";"};
+      new String[] {"!", "@", "$", "&", "#", "*", "(", ")", "?", ":", "[", "]",
+          "\"", "<", ">", "\'", "`", "\\", "|", "=", "{", "}", ";"};
   private String stringToOutput = "";
   private String fullPath = "";
 
@@ -40,8 +40,14 @@ public class Mkdir implements CommandInterface {
    * root)
    * 
    * @param name - the absolute path
+   * @throws InvalidPath
    */
-  public void executeFullPath(String name) {
+  public void executeFullPath(String name) throws InvalidPath {
+    for (int i = 0; i < specialChar.length; i++) {
+      if (name.contains(specialChar[i])) {
+        throw new InvalidPath(" is not a valid path", name);
+      }
+    }
     // The parent path (everything up to and excluding the last "/")
     String parentPath = name.substring(0, name.lastIndexOf("/"));
     // If the parent path is a valid existing path
@@ -69,127 +75,9 @@ public class Mkdir implements CommandInterface {
     } else {
       // If it is an invalid parent path
       this.stringToOutput = "That was not a valid path.";
-      Output.printPathError();
+      // Output.printPathError();
+      throw new InvalidPath(" is not a valid path", name);
     }
-  }
-
-  /**
-   * Accepts a local path is ".." inside as part of it and returns the
-   * corresponding full path
-   * 
-   * @param name - the argument from the user
-   * @return The absolute path of the folder that the user specified
-   */
-  public String removeDots(String name) {
-    // Counting starts from the beginning of the string and moves to the end
-    int headIndex = 0;
-    // The number of occurrences of the specified string
-    int numOfOccurences = 0;
-    // Loop goes until the end of the string
-    while (headIndex != -1) {
-      // The first index of ".." from start to endIndex
-      headIndex = name.indexOf("..", headIndex);
-      // If the specified string ("..") is still found within the above
-      // substring
-      if (headIndex != -1) {
-        // Increment the number of occurrences
-        numOfOccurences++;
-        // Increasing the search by 2, (since ".." has a length of 2)
-        headIndex += 2;
-      }
-    }
-    // Getting the current working (local) path
-    String path = Manager.getCurrPath();
-    int indexDots = name.indexOf("/");
-    // Runs for the number of times ".." is in the argument
-    for (int i = 0; i < numOfOccurences; i++) {
-      // If name still contains ".." and but does not start with a ".." then
-      // name is in the form ../DIR_NAME/../ , so the DIR_NAME must be added
-      // to the absolute path and "i" must be decremented
-      if (!name.startsWith("..") && name.contains("..")) {
-        path = path + "/" + name.substring(0, indexDots);
-        i--;
-      } else {
-        try { // If the number of ".." reaches past the root and error is thrown
-          // Cutting a section of the current path off
-          path = path.substring(0, path.lastIndexOf("/"));
-        } catch (Exception e) {
-          // Returning an invalid path
-          path = "//////////";
-          break;
-        }
-      }
-      // Removing a piece of the argument off
-      name = name.substring(indexDots + 1, name.length());
-      indexDots = name.indexOf("/");
-
-    }
-    // Returning the absolute path
-    return path + "/" + name;
-  }
-
-  /**
-   * If only a directory name is given
-   * 
-   * @param name - the argument the user enters
-   */
-  public void executeLocal(String name) {
-    // Determines whether or not the name is valid or not
-    boolean valid = true;
-    // Checks if any invalid characters are present in the string
-    for (int i = 0; i < specialChar.length; i++) {
-      if (name.contains(specialChar[i])) {
-        valid = false;
-      }
-    }
-    if (valid) {
-      this.fullPath = "";
-      // Creating a full path based off the name argument
-      // If the working directory is at root
-      if (Manager.getCurrPath().equals("/")) {
-        fullPath = Manager.getCurrPath() + name;
-      } else {
-        fullPath = Manager.getCurrPath() + "/" + name;
-      }
-      // Creation of the folder and adding it to the parent path
-      Folder newFolder = new Folder(name, fullPath);
-      Manager.addFullPath(fullPath);
-      Folder parentFolder = (Folder) Manager.getObject(Manager.getCurrPath());
-      parentFolder.addChildren(newFolder);
-    } else { // If and invalid name is entered
-      this.stringToOutput = "That was not a valid file name.";
-      Output.printFileNameError();
-    }
-  }
-
-  /**
-   * Removes any "."'s from the argument and handles multiple different cases
-   * involving it
-   * 
-   * @param name - the argument that needs to be created
-   * @return name - the argument but without any "."'s
-   */
-  public String removeSingleDots(String name) {
-    // Since the "." operator does not really do anything significant it can
-    // be removed from the path at it should still be equivalent to if the
-    // "." was not there
-    if (name.contains("/./") || name.endsWith("/.") || name.startsWith("/.")
-        || name.startsWith("./")) {
-      if (name.startsWith("./") && !this.Manager.getCurrPath().equals("/")) {
-        name = name.substring(2, name.length());
-      } else if (name.startsWith("./")
-          && this.Manager.getCurrPath().equals("/")) {
-        name = name.substring(1, name.length());
-      }
-      CharSequence operator = "/./";
-      while (name.contains(operator)) {
-        name = name.replace(operator, "/");
-      }
-      if (name.endsWith("/.")) {
-        name = name.substring(0, name.length() - 2);
-      }
-    }
-    return name;
   }
 
   /**
@@ -205,63 +93,23 @@ public class Mkdir implements CommandInterface {
       // Since the "." operator does not really do anything significant it can
       // be removed from the path at it should still be equivalent to if the
       // "." was not there
-      name = this.removeSingleDots(name);
 
-      // Removing any "/" that is present at the end
-      if (name.endsWith("/")) {
-        name = name.substring(0, name.length() - 1);
+      try {
+        name = this.Manager.getFullPath(name);
+      } catch (InvalidPath e) {
+        System.err.println(e);
       }
 
-      // If an absolute path is given
-      if (name.startsWith("/")) {
-        // If the directory already exists
-        if (Manager.checkValidPath(name)) {
-          this.stringToOutput = "That was not a valid path.";
-          Output.printError();
-        } else {
+      if (this.Manager.checkValidPath(name) || name.equals("")) {
+        Output.printPathError();
+      } else {
+        try {
           this.executeFullPath(name);
-        }
-      } // If a local path with ".."'s is given
-      else if (name.contains("..")) {
-        // Removing the ".." and building an absolute path
-        name = this.removeDots(name);
-        if (Manager.checkValidPath(name)) {
-          this.stringToOutput = "That was not a valid path.";
-          Output.printError();
-        } else {
-          this.executeFullPath(name);
-        }
-      } // If a local path is given
-      else if (name.contains("/")) {
-        // Building an absolute path
-        if (Manager.getCurrPath().equals("/")) {
-          name = "/" + name;
-        } else {
-          name = Manager.getCurrPath() + "/" + name;
-        }
-
-        if (Manager.checkValidPath(name)) {
-          this.stringToOutput = "That was not a valid path.";
-          Output.printError();
-        } else {
-          this.executeFullPath(name);
-        }
-
-      } // If the argument is only a directory name
-      else {
-        if (Manager.getCurrPath().equals("/")) {
-          fullPath = Manager.getCurrPath() + name;
-        } else {
-          fullPath = Manager.getCurrPath() + "/" + name;
-        }
-        // Check if the name already exists
-        if (Manager.checkValidPath(fullPath) || name.equals("")) {
-          this.stringToOutput = "That was not a valid path.";
-          Output.printPathError();
-        } else {
-          this.executeLocal(name);
+        } catch (InvalidPath e) {
+          System.err.println(e);
         }
       }
+
     }
   }
 
