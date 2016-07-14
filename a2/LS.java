@@ -272,18 +272,13 @@ public class LS implements CommandInterface {
         this.recursive = true;
       }
       this.stringToOutput = "";
-      // Since the "." operator does not really do anything significant it can
-      // be removed from the path at it should still be equivalent to if the
-      // "." was not there
-      arg = this.removeSingleDot(arg);
-
-      // Removing the slash at the end if one exists
-      if (arg.endsWith("/") && !arg.equals("/")) {
-        slashAtEnd = true;
-        arg = arg.substring(0, arg.length() - 1);
+      if (!arg.equals("")){
+        try {
+          arg = this.Manager.getFullPath(arg);
+        } catch (InvalidPath e) {
+          System.err.println(e);
+        }
       }
-      // String representation of the children
-      // If no argument was given
       if (arg == "") {
         slashAtEnd = true;
         if (!this.recursive) {
@@ -291,67 +286,14 @@ public class LS implements CommandInterface {
         } else {
           this.stringToOutput += recurseLS(0, this.Manager.getCurrFolder());
         }
-      } // If an absolute path was given
-      else if (arg.startsWith("/")) {
-        if (!this.recursive) {
-          this.stringToOutput += executeFullPath(arg, slashAtEnd);
-        } else {
-          this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
-        }
-      } // If a path containing ".." was given
-      else if (arg.contains("..")) {
-        slashAtEnd = true;
-        // Turning arg into an absolute path
-        if (arg.equals("..")) {
-          if ((Manager.getCurrPath().split("/").length > 2)) {
-            arg = this.Manager.getCurrPath().substring(0,
-                Manager.getCurrPath().lastIndexOf("/"));
-          } else {
-            arg = "/";
-          }
-          if (!this.recursive) {
-            this.stringToOutput += executeFullPath(arg, slashAtEnd);
-          } else {
-            this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
-          }
-        } else {
-          arg = this.removeDots(arg);
-          if (!this.recursive) {
-            this.stringToOutput += executeFullPath(arg, slashAtEnd);
-          } else {
-            this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
-          }
-        }
-
-      } // If a local path is given
-      else if (arg.contains("/")) {
-        slashAtEnd = true;
-        // Creating an absolute path
-        if (!Manager.getCurrPath().equals("/")) {
-          arg = Manager.getCurrPath() + "/" + arg;
-        } else {
-          arg = "/" + arg;
-        }
-        if (!this.recursive) {
-          this.stringToOutput += executeFullPath(arg, slashAtEnd);
-        } else {
-          this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
-        }
-      } // If a directory name is given
+      } 
       else {
-        slashAtEnd = true;
-        // Building the absolute path
-        if (Manager.getCurrPath().equals("/")) {
-          arg = Manager.getCurrPath() + arg;
-        } else {
-          arg = Manager.getCurrPath() + "/" + arg;
-        }
         if (!this.recursive) {
           this.stringToOutput += executeFullPath(arg, slashAtEnd);
         } else {
           this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
         }
-      }
+      } 
       // Using the output class to print the string
       if (!this.stringToOutput.endsWith("\n")) {
         this.stringToOutputTest += this.stringToOutput + "\n";
