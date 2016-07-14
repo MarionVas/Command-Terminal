@@ -13,6 +13,7 @@ public class ProQuery {
       new Hashtable<String, String>();
   private Hashtable<String, String> commandKeys =
       new Hashtable<String, String>();
+  private String stringToOutput;
 
   /**
    * Constructs a ProQuery object which takes a JFileSystem for commands to act
@@ -51,10 +52,9 @@ public class ProQuery {
    * @param entry A command (valid or invalid) issued by the user.
    */
   public void sortQuery(String entry) {
-    // Initialize a Hashtable for command classes whose constructors require
-    // no parameters (the entry will only be a single key word)
-    // Initialize a Hashtable for command classes whose constructors will
-    // require parameters
+    // Initialize
+
+
 
     // Save string entries inserted to the History object
     commandHistory.addInput(entry);
@@ -107,11 +107,17 @@ public class ProQuery {
                 .newInstance(jFileSystem, commandParameters);
         // Run the execute method of the instance created
         commandInstance.execute();
+        stringToFile(commandParameters, stringToOutput);
       }
+
+      stringToOutput(stringToOutput);
+
     } catch (ClassNotFoundException | InstantiationException
         | IllegalAccessException | IllegalArgumentException
         | InvocationTargetException | NoSuchMethodException | SecurityException
-        | NullPointerException e) {
+        |
+
+        NullPointerException e) {
       Output.printError();
 
     }
@@ -163,6 +169,21 @@ public class ProQuery {
       newString.append(strPara[i]);
     }
     return newString.toString();
+  }
+
+  private void stringToFile(String[] inputArguments, String commandOutput) {
+    String outfile = inputArguments[inputArguments.length - 1];
+    if (Arrays.asList(inputArguments).contains(">")) {
+      OutputToFile.overwrite(jFileSystem, commandOutput, outfile);
+    } else if (Arrays.asList(inputArguments).contains(">>")) {
+      OutputToFile.append(jFileSystem, commandOutput, outfile);
+    }
+  }
+
+  private void stringToOutput(String commandOutput) {
+    if (!commandOutput.equals("")) {
+      System.out.println(commandOutput);
+    }
   }
 
   /**
