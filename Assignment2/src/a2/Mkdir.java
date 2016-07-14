@@ -85,7 +85,7 @@ public class Mkdir implements CommandInterface {
    * is required and runs the appropriate method. Runs all arguments provided
    * Also print errors if the directory already exists
    */
-  public void execute() {
+  public String execute() {
     // Runs for all arguments in the string array
     for (int index = 0; index < this.names.length; index++) {
       // Current argument
@@ -111,9 +111,8 @@ public class Mkdir implements CommandInterface {
       }
 
     }
+    return "";
   }
-
-
   public String manual() {
     return "mkdir DIR … - Creates directories, each of which may be relative\n"
         + "to the current directory or may be a full path. The names given\n"
