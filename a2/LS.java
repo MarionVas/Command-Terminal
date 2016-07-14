@@ -99,7 +99,7 @@ public class LS implements CommandInterface {
         Folder currFolder = (Folder) Manager.getObject(arg);
         // If the folder does not exist
         if (currFolder.equals(null)) {
-          contents = "That was not a valid path.\n";
+          System.err.println("That was not a valid path.");
         } else {
           // All the children in the specified folder
           Vector childNames = currFolder.getChildrenNames();
@@ -128,100 +128,14 @@ public class LS implements CommandInterface {
         if (slashAtEnd) {
           contents = this.fileOriginalArg + "\n";
         } else {
-          contents = "That was not a valid path.\n";
+          System.err.println("That was not a valid path.");
         }
       }
     } else {
       // If an incorrect path is given
-      contents = "That was not a valid path.\n";
+      System.err.println("That was not a valid path.");
     }
     return contents;
-  }
-
-  /**
-   * Accepts a local path is ".." inside as part of it and returns the
-   * corresponding full path
-   * 
-   * @param name - the argument from the user
-   * @return The absolute path of the folder that the user specified
-   */
-  public String removeDots(String name) {
-    // Counting starts from the beginning of the string and moves to the end
-    int headIndex = 0;
-    // The number of occurrences of the specified string
-    int numOfOccurences = 0;
-    // Loop goes until the end of the string
-    while (headIndex != -1) {
-      // The first index of ".." from start to endIndex
-      headIndex = name.indexOf("..", headIndex);
-      // If the specified string ("..") is still found within the above
-      // substring
-      if (headIndex != -1) {
-        // Increment the number of occurrences
-        numOfOccurences++;
-        // Increasing the search by 2, (since ".." has a length of 2)
-        headIndex += 2;
-      }
-    }
-    // Getting the current working (local) path
-    String path = Manager.getCurrPath();
-    int indexDots = name.indexOf("/");
-    // Runs for the number of times ".." is in the argument
-    for (int i = 0; i < numOfOccurences; i++) {
-      // If name still contains ".." and but does not start with a ".." then
-      // name is in the form ../DIR_NAME/../ , so the DIR_NAME must be added
-      // to the absolute path and "i" must be decremented
-      if (!name.startsWith("..") && name.contains("..")) {
-        path = path + "/" + name.substring(0, indexDots);
-        i--;
-      } else {
-        try { // If the number of ".." reaches past the root and error is thrown
-          // Cutting a section of the current path off
-          path = path.substring(0, path.lastIndexOf("/"));
-        } catch (Exception e) {
-          // Returning an invalid path
-          path = "//////////";
-          break;
-        }
-      }
-      // Removing a piece of the argument off
-      name = name.substring(indexDots + 1, name.length());
-      indexDots = name.indexOf("/");
-
-    }
-    // Returning the absolute path
-    if (name.equals("..") && !path.equals("")) {
-      return path;
-    } else if (path.equals("") && name.equals("..")) {
-      return "/";
-    }
-    return path + "/" + name;
-  }
-
-  public String removeSingleDot(String arg) {
-    if (arg.contains("/./") || arg.endsWith("/.") || arg.startsWith("./")
-        || arg.equals(".")) {
-      // If the current directory is specified
-      if (arg.equals("./") || arg.equals(".")) {
-        arg = this.Manager.getCurrPath();
-      } else {
-        if (arg.startsWith("./")) {
-          arg = arg.substring(2, arg.length());
-        }
-        CharSequence operator = "/./";
-        while (arg.contains(operator)) {
-          arg = arg.replace(operator, "/");
-        }
-
-        if (arg.endsWith("/.") && !arg.equals("/.")) {
-          arg = arg.substring(0, arg.length() - 2);
-        } else if (arg.endsWith("/.") && arg.equals("/.")) {
-          arg = "/";
-        }
-      }
-
-    }
-    return arg;
   }
 
   public String recurseLS(int childIndex, Item dirrOrFile) {
@@ -252,8 +166,9 @@ public class LS implements CommandInterface {
    * The method that will be called by ProQuery. Determines what kind of
    * argument the user has entered; Runs all the arguments that the user has
    * entered
+   * @return 
    */
-  public void execute() {
+  public String execute() {
     // Runs all elements in the string array
     for (int indexarg = 0; indexarg < this.args.length; indexarg++) {
       boolean slashAtEnd = false;
@@ -301,8 +216,8 @@ public class LS implements CommandInterface {
         this.stringToOutputTest += this.stringToOutput;
       }
 
-      Output.printString(this.stringToOutput);
     }
+    return stringToOutput;
   }
 
   public String manual() {
