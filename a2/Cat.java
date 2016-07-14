@@ -1,5 +1,6 @@
 package a2;
 
+import java.util.Arrays;
 import java.util.Vector;
 
 public class Cat implements CommandInterface {
@@ -57,35 +58,37 @@ public class Cat implements CommandInterface {
       }
     } else {
       // get each file the user wants to print
-      for (String eachFile : this.fileNames) {
-        // get the file the user wants to read
-        File file = (File) currFolder.getFile(eachFile);
-        if (file == null) {
-          if (eachFile.contains("/")) {
-            String path = fileNames[0];
-            if (path.lastIndexOf("/") == path.length() - 1) {
-              path = fileNames[0].substring(0, fileNames[0].lastIndexOf("/"));
-            }
-            if (path.equals("")) {
-              System.out.println("That was not a valid path");
-            } else {
-              file = getFileFromPath(path);
-              if (file == null) {
-                System.out.println("That was not a valid path or file name.");
-              } else {
-                stringToOutput = file.getBody() + "\n\n\n\n";
+      if (!(Arrays.asList(fileNames).contains(">")
+          | Arrays.asList(fileNames).contains(">>"))){
+        for (String eachFile : this.fileNames) {
+          // get the file the user wants to read
+          File file = (File) currFolder.getFile(eachFile);
+          if (file == null) {
+            if (eachFile.contains("/")) {
+              String path = fileNames[0];
+              if (path.lastIndexOf("/") == path.length() - 1) {
+                path = fileNames[0].substring(0, fileNames[0].lastIndexOf("/"));
               }
+              if (path.equals("")) {
+                System.out.println("That was not a valid path");
+              } else {
+                file = getFileFromPath(path);
+                if (file == null) {
+                  System.out.println("That was not a valid path or file name.");
+                } else {
+                  stringToOutput = file.getBody() + "\n\n\n\n";
+                }
+              }
+            } else {
+              System.out.println("That was not a valid path or file name.");
             }
           } else {
-            System.out.println("That was not a valid path or file name.");
+            // if the file does exist print the contents of the file
+            // print three lines to separate each file being read
+            stringToOutput += file.getBody() + "\n\n\n\n";
           }
-        } else {
-          // if the file does exist print the contents of the file
-          // print three lines to separate each file being read
-          stringToOutput += file.getBody() + "\n\n\n\n";
         }
       }
-      Output.printSingleLineString(stringToOutput);
     }
     return stringToOutput;
   }
