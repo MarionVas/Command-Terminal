@@ -6,9 +6,9 @@ import a2.JFileSystem;
 import a2.Output;
 
 public class OutputToFile {
-  private static String[] specialChar = new String[] {"/", "!", "@", "$", "&", "#",
-      "*", "(", ")", "?", ":", "[", "]", "\"", "<", ">", "\'", "`", "\\", "|",
-      "=", "{", "}", "/", ";", " "};
+  private static String[] specialChar = new String[] {"/", "!", "@", "$", "&",
+      "#", "*", "(", ")", "?", ":", "[", "]", "\"", "<", ">", "\'", "`", "\\",
+      "|", "=", "{", "}", "/", ";", " "};
 
   /**
    * This method will replace the contents of the outfile given to the
@@ -20,7 +20,8 @@ public class OutputToFile {
    *        output
    */
 
-  public static void overwrite(JFileSystem fileSystem, String output, String outfile) {
+  public static void overwrite(JFileSystem fileSystem, String output,
+      String outfile) {
     // find the file that the user is going to be working with
     File replaceFile = findFile(fileSystem, outfile);
     if (replaceFile == null) {
@@ -40,7 +41,8 @@ public class OutputToFile {
    * @param outfile - the file that will have the output added to its contents
    */
 
-  public static void append(JFileSystem fileSystem, String output, String outfile) {
+  public static void append(JFileSystem fileSystem, String output,
+      String outfile) {
     // run the super class' fileFile method to get the file to work with
     File appendFile = findFile(fileSystem, outfile);
     if (appendFile == null) {
@@ -94,37 +96,31 @@ public class OutputToFile {
       // check if the outfile is a path
     } else if (outfile.contains("/")) {
       // find the path to the folder where the file is kept
-      String outfileLocation = outfile.substring(0, outfile.lastIndexOf("/"));
+      String outfileLocation = outfile;
+      if (outfile.lastIndexOf("/") == outfile.length() - 1) {
+        outfileLocation = outfile.substring(0, outfile.lastIndexOf("/"));
+      }
       // check if the path is the root and not a valid file name
-      if (outfileLocation.equals("")) {
+      if (outfile.equals("")) {
         // if the outfile is the root return null
         file = null;
         // check if the path to the parents folder is a valid path
-      } else if (fileSystem.checkValidPath(outfileLocation)) {
-        // create a string array to hold the path
-        String[] location = {outfileLocation};
-        // create a cd object to traverse the path
-        CD cd = new CD(fileSystem, location);
-        // traverse the path
-        cd.execute();
-        // get the new current folder after traversing the path
-        Folder newCurrFolder = fileSystem.getCurrFolder();
-        // call the helper function to get the file
-        file = findFileHelper(currFolder, outfile);
-        // add the path to the file to the fileSystem
-        if (fileSystem.getCurrPath().equals("/")) {
-          fileSystem.addFullPath(fileSystem.getCurrPath() + outfile);
-        } else {
-          fileSystem.addFullPath(fileSystem.getCurrPath() + "/" + outfile);
-        }
-        // traverse back to the original folder
-        fileSystem.setCurrFolder(currFolder);
-        fileSystem.setFullPath(currPath);
-        // if the path given to the folder is not a valid path return null
       } else {
-        file = null;
+        try {
+
+          Folder outfileFolder = (Folder) fileSystem
+              .getObject(fileSystem.getFullPath(outfileLocation));
+          String fileName = outfile.substring(outfile.lastIndexOf("/") + 1);
+          file = findFileHelper(currFolder, fileName);
+          if (outfileLocation.equals("/")) {
+            fileSystem.addFullPath(outfileLocation + fileName);
+          } else {
+            fileSystem.addFullPath(outfileLocation + "/" + fileName);
+          }
+        } catch (InvalidPath e) {
+          file = null;
+        }
       }
-      // if the file name is not a valid file name nor a path return null
     } else {
       file = null;
     }
