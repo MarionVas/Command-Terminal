@@ -30,6 +30,18 @@ public class Folder extends Item {
   }
 
   /**
+   * removes children (A Folder) to this Folder
+   * 
+   * @param child - A sub-Folder to this one
+   */
+  public void removeChildren(Item child) {
+    // Adding the object
+    super.getChildren().remove(child);
+    // Adding the Folder name
+    super.getChildrenNames().remove(child.getName());
+  }
+  
+  /**
    * Gets the child from the vector at the specified index; Returns null if no
    * children are present
    * 
