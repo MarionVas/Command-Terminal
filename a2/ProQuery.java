@@ -53,7 +53,7 @@ public class ProQuery {
    */
   public void sortQuery(String entry) {
     // Initialize
-
+    String[] commandParameters = {};
 
 
     // Save string entries inserted to the History object
@@ -67,10 +67,16 @@ public class ProQuery {
     // Split the string entry into a string array with whitespace acting as
     // the separator
     String[] splitEntry = entry.split("\\s+");
+    if (splitEntry.length > 1) {
+      String[] fixedCommandParameters = fixForOutfileRedirection(
+          Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
+      commandParameters = Arrays.copyOfRange(fixedCommandParameters, 0,
+          findSignIndexOrLast(fixedCommandParameters));
+    }
 
     try {
       // If the given string entry is only one key word and not history
-      if (splitEntry.length <= 1 && !splitEntry[0].equals("history")) {
+      if (commandParameters.length == 0 && !splitEntry[0].equals("history")) {
         // Acquire the appropriate value within the hashtable
         String commandName = singleCommandKeys.get(splitEntry[0]);
 
@@ -80,14 +86,16 @@ public class ProQuery {
             (CommandInterface) Class.forName(commandName)
                 .getConstructor(JFileSystem.class).newInstance(jFileSystem);
         // Run the execute method of the instance created
-        commandInstance.execute();
+        stringToOutput = commandInstance.execute();
 
         // If the one key word string is "history", execute the history class
-      } else if (splitEntry.length <= 1 && splitEntry[0].equals("history")) {
+      } else if (commandParameters.length == 0
+          && splitEntry[0].equals("history")) {
         commandHistory.execute();
 
         // If the given string is history with additional parameters
-      } else if (splitEntry.length > 1 && splitEntry[0].equals("history")) {
+      } else if (commandParameters.length >= 1
+          && splitEntry[0].equals("history")) {
         // Execute the history class with the additional parameters
         commandHistory
             .execute(Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
@@ -96,11 +104,6 @@ public class ProQuery {
       } else {
         // Split the given string into its command key word and its parameters
         String commandName = commandKeys.get(splitEntry[0]);
-        String[] fixedCommandParameters = fixForOutfileRedirection(
-            Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
-        String[] commandParameters = Arrays.copyOfRange(fixedCommandParameters,
-            0, findSignIndexOrLast(fixedCommandParameters));
-        System.out.println(Arrays.toString(fixedCommandParameters));
         System.out.println(Arrays.toString(commandParameters));
         // Create an appropriate instance of the class according to the
         // string given. These constructors require a JFileSystem and
@@ -110,11 +113,15 @@ public class ProQuery {
                 .getConstructor(JFileSystem.class, String[].class)
                 .newInstance(jFileSystem, commandParameters);
         // Run the execute method of the instance created
-        commandInstance.execute();
-        stringToFile(fixedCommandParameters, stringToOutput);
+        stringToOutput = commandInstance.execute();
       }
-
-      stringToOutput(stringToOutput);
+      
+      
+      if (checkForRedir(splitEntry) && !stringToOutput.equals("")) {
+        stringToFile(splitEntry, stringToOutput);
+      } else {
+        stringToOutput(stringToOutput);
+      }
 
     } catch (ClassNotFoundException | InstantiationException
         | IllegalAccessException | IllegalArgumentException
@@ -185,6 +192,7 @@ public class ProQuery {
 
   private void stringToFile(String[] inputArguments, String commandOutput) {
     String outfile = inputArguments[inputArguments.length - 1];
+    System.out.println(outfile);
     if (!commandOutput.equals("")
         && Arrays.asList(inputArguments).contains(">")) {
       OutputToFile.overwrite(jFileSystem, commandOutput, outfile);
@@ -196,8 +204,17 @@ public class ProQuery {
 
   private void stringToOutput(String commandOutput) {
     if (!commandOutput.equals("")) {
-      System.out.println(commandOutput);
+      System.out.print(commandOutput + "\n");
     }
+  }
+
+  private boolean checkForRedir(String[] input) {
+    boolean checkRedir = false;
+    if (Arrays.asList(input).contains(">")
+        | Arrays.asList(input).contains(">>")) {
+      checkRedir = true;
+    }
+    return checkRedir;
   }
 
   /**
