@@ -30,6 +30,12 @@ public interface FileSystem {
   public DirStack getDirStack();
 
   public void setDirStack(DirStack stack);
+  
+  public String getFullPath(String path) throws InvalidPath;
+  
+  public String removeSingleDots(String path);
+  
+  public String removeDots(String name);
 }
 
 
