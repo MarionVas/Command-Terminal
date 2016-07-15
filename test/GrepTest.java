@@ -20,6 +20,7 @@ public class GrepTest {
   private File file2;
   private File file3;
   private File file4;
+  private File file5;
   private String[] fileNames;
   private Grep grep;
   private Folder rootFolder;
@@ -48,26 +49,26 @@ public class GrepTest {
     jFileSystem.addFullPath("/file3");
   }
 
-  @Test
-  public void test() 
-  {
-    //System.out.println(jFileSystem.checkValidPath("/file3"));
-    String[] command = {"And", "/file3"};
-    grep = new Grep(jFileSystem, command);
-    grep.execute();
-    //System.out.println(jFileSystem.checkValidPath("/file3"));
-    String[] command1 = {"This is", "/file3"};
-    grep = new Grep(jFileSystem, command1);
-    grep.execute();
-    assertEquals(true, true);
-  }
+//  @Test
+//  public void test() 
+//  {
+//    //System.out.println(jFileSystem.checkValidPath("/file3"));
+//    String[] command = {"And", "/file3"};
+//    grep = new Grep(jFileSystem, command);
+//    grep.execute();
+//    //System.out.println(jFileSystem.checkValidPath("/file3"));
+//    String[] command1 = {"This is", "/file3"};
+//    grep = new Grep(jFileSystem, command1);
+//    grep.execute();
+//    assertEquals(true, true);
+//  }
   
   // MAKE IT HERE
   @Test
   public void test1() 
   {
     //System.out.println(jFileSystem.checkValidPath("/file3"));
-    String[] command = {"And", "-R", "/file3"};
+
     
     
     String[] folder = {"folder1"};
@@ -78,18 +79,31 @@ public class GrepTest {
     file4 = new File("file4");
     file4.setPath("/folder1/file4");
     file4.setBody("This is a test in test4,\nAnd it works\nI like That");
+    file5 = new File("file5");
+    file5.setPath("/folder1/file5");
+    file5.setBody("This is a test in test5,\nAnd it works\nI like This is");
+    
+    Folder directory = (Folder)jFileSystem.getObject("/folder1");
+    directory.addChildren(file4);
+    
+    jFileSystem.addFullPath("/folder1/file4");
+    
+    directory.addChildren(file5);
+    
+    jFileSystem.addFullPath("/folder1/file5");
+    
+    System.out.println(jFileSystem.checkValidPath("/folder1/file4"));
+    
+    
     
     // PLS
     
     
-    jFileSystem.addFullPath("/file1");
-    
+
+    String[] command = {"-R", "This is", "/folder1"};
     grep = new Grep(jFileSystem, command);
     grep.execute();
-    //System.out.println(jFileSystem.checkValidPath("/file3"));
-    String[] command1 = {"This is", "/file3"};
-    grep = new Grep(jFileSystem, command1);
-    grep.execute();
+
     assertEquals(true, true);
   }
 
