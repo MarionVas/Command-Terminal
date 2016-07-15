@@ -6,17 +6,18 @@ import a2.JFileSystem;
 import a2.Output;
 
 public class OutputToFile {
+  // initialize a String array to hold all the invalid characters in a file name
   private static String[] specialChar = new String[] {"/", "!", "@", "$", "&",
       "#", "*", "(", ")", "?", ":", "[", "]", "\"", "<", ">", "\'", "`", "\\",
       "|", "=", "{", "}", "/", ";", " "};
 
   /**
    * This method will replace the contents of the outfile given to the
-   * parameters of the method with the String given to the parameter
+   * parameters of the method with the output given to the parameter
    * 
-   * @param fileSystem - The JFileSystem with all the file and folder
-   * @param output - the string that will replace the body of the outfile
-   * @param outfile - the file that will have its contents replaced by the
+   * @param fileSystem - The JFileSystem with all the files and folders
+   * @param output - the String that will replace the body of the outfile
+   * @param outfile - the File that will have its contents replaced by the
    *        output
    */
 
@@ -24,8 +25,9 @@ public class OutputToFile {
       String outfile) {
     // find the file that the user is going to be working with
     File replaceFile = findFile(fileSystem, outfile);
+    // if the file name has an invalid character print an error message
     if (replaceFile == null) {
-      Output.printFileNameError();
+      System.out.println("That was not a valid file name or path.");
     } else {
       // replace the contents of the file with the String
       replace(replaceFile, output);
@@ -33,22 +35,23 @@ public class OutputToFile {
   }
 
   /**
-   * This method will add a line to the end of a outfile given to the parameters
-   * of the method with the String given to the parameter.
+   * This method will add the output to the end of a outfile given to the
+   * parameters of the method.
    * 
-   * @param fileSystem - The JFileSystem with all the file and folder
-   * @param output - the string that will be added to the body of the outfile
-   * @param outfile - the file that will have the output added to its contents
+   * @param fileSystem - The JFileSystem with all the files and folders
+   * @param output - the String that will be added to the body of the outfile
+   * @param outfile - the File that will have the output added to its contents
    */
 
   public static void append(JFileSystem fileSystem, String output,
       String outfile) {
-    // run the super class' fileFile method to get the file to work with
+    // find the file that the user is going to be working with
     File appendFile = findFile(fileSystem, outfile);
+    // if the file name has an invalid character print an error message
     if (appendFile == null) {
-      Output.printFileNameError();
+      System.out.println("That was not a valid file name or path.");
     } else {
-      // add the String to the file instead of replacing the file's content
+      // add the String to the body of the file
       append(appendFile, output);
     }
   }
@@ -62,7 +65,8 @@ public class OutputToFile {
    * @param fileSystem - The JFileSystem with all the file and folder
    * @param outfile - the file that is requested
    * 
-   * @return file - the File matching of the outfile given to the parameters
+   * @return file - the File matching of the outfile given to the parameters or
+   *         null if an invalid file name or path is given
    */
 
   private static File findFile(JFileSystem fileSystem, String outfile) {
@@ -91,38 +95,40 @@ public class OutputToFile {
         fileSystem.addFullPath(fileSystem.getCurrPath() + outfile);
       } else {
         fileSystem.addFullPath(fileSystem.getCurrPath() + "/" + outfile);
-
       }
       // check if the outfile is a path
     } else if (outfile.contains("/")) {
       // find the path to the folder where the file is kept
       String outfileLocation = outfile;
-      if (outfile.lastIndexOf("/") == outfile.length() - 1) {
-        outfileLocation = outfile.substring(0, outfile.lastIndexOf("/"));
-      }
       // check if the path is the root and not a valid file name
-      if (outfile.equals("")) {
+      if (outfile.equals("/")) {
         // if the outfile is the root return null
         file = null;
         // check if the path to the parents folder is a valid path
-      } 
-      else {
+      } else {
         try {
+          // find the path to the folder where the file is kept
           outfileLocation = outfile.substring(0, outfile.lastIndexOf("/"));
+          // get the folder object where the file is kept
           Folder outfileFolder = (Folder) fileSystem
               .getObject(fileSystem.getFullPath(outfileLocation));
+          // get the file name
           String fileName = outfile.substring(outfile.lastIndexOf("/") + 1);
-          file = findFileHelper(currFolder, fileName);
+          // call the helper function to get the file, or create a new file
+          file = findFileHelper(outfileFolder, fileName);
+          // add the path to the file to the fileSystem
           if (outfileLocation.equals("/")) {
             fileSystem.addFullPath(outfileLocation + fileName);
           } else {
             fileSystem.addFullPath(outfileLocation + "/" + fileName);
           }
         } catch (InvalidPath e) {
+          // if the path is invalid return null
           file = null;
         }
       }
     } else {
+      // if there is an invalid character return null
       file = null;
     }
     // return the file
@@ -149,7 +155,7 @@ public class OutputToFile {
     if (file == null) {
       // if the file does not exist make a new file
       file = new File(outfile);
-      // add the file to the current working directory
+      // add the file to the given folder
       currFolder.addChildren(file);
     }
     return file;
@@ -176,6 +182,6 @@ public class OutputToFile {
    */
 
   private static void append(File file, String body) {
-    file.addToBody(body + "\n");
+    file.addToBody("\n" + body);
   }
 }
