@@ -30,6 +30,7 @@ public class EchoAppend extends EchoOverwrite implements CommandInterface {
       // add the String to the file instead of replacing the file's content
       append(appendFile, super.getString());
     }
+    return "";
   }
 
   /**
