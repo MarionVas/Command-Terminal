@@ -361,7 +361,7 @@ public class JFileSystem implements FileSystem {
       // name is in the form ../DIR_NAME/../ , so the DIR_NAME must be added
       // to the absolute path and "i" must be decremented
       if (!name.startsWith("..") && name.contains("..")) {
-        if (!this.currDir.equals("/")) {
+        if (!path.equals("/")) {
           path = path + "/" + name.substring(0, indexDots);
         } else {
           path = "/" + name.substring(0, indexDots);
