@@ -67,16 +67,19 @@ public class Copy {
       File cpFile = new File(this.newPath.substring(this.newPath.lastIndexOf("/")));
       cpFile.setBody(((File) this.insertedFileSystem.getObject(this.oldPath)).getBody());
       if (this.Path.equals("/")){
-        cpFile.setPath("/" +this.oldPathType.getName());
+        cpFile.setPath("/" + this.oldPathType.getName());
+        this.insertedFileSystem.addFullPath("/" + this.oldPathType.getName());
       }
       else{
-        cpFile.setPath(this.Path + "/" +this.oldPathType.getName());
+        cpFile.setPath(this.Path + "/" + this.oldPathType.getName());
+        this.insertedFileSystem.addFullPath(this.Path + "/" + this.oldPathType.getName());
       }
       
       String parentPath = this.oldPath.substring(0, this.oldPath.lastIndexOf("/"));
-      this.insertedFileSystem.addFullPath(this.Path);
-      parentPath = this.newPath.substring(0, this.newPath.lastIndexOf("/"));
-      ((Folder) this.insertedFileSystem.getObject(parentPath)).addChildren(cpFile);
+      ((Folder) this.insertedFileSystem.getObject(Path)).addChildren(cpFile);
+    }
+    else if (this.oldPathType.getClass().equals(Folder.class) && this.newPathType.getClass().equals((File.class))){
+      System.err.println("Cannot copy a directory into a File");
     }
     else if (!this.newPath.startsWith(this.oldPath)){
       this.recurseCopy(0, this.oldPathType);
