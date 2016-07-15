@@ -18,14 +18,12 @@ public class History implements CommandInterface // need execute method()
     // make a new list
     this.inputHistory = new Vector<String>();
   }
-  
+
   /**
-   * The purpose of this method is to set the vector history
-   * @param history, a vector<String> that represents the history
+   * The purpose of this method is to remove the last element in the History
    */
-  public void setHistory(Vector<String> history)
-  {
-    this.inputHistory = history;
+  public void popHistory() {
+    this.inputHistory.remove(this.inputHistory.size()-1);
   }
 
   /**
@@ -45,9 +43,9 @@ public class History implements CommandInterface // need execute method()
    * The purpose of this method is to output the command history through the
    * output class
    */
-  public void execute() {
+  public String execute() {
     output = inputHistory;
-    Output.printContents(output);
+    return "";
   }
 
   /**
@@ -103,9 +101,10 @@ public class History implements CommandInterface // need execute method()
   public List<String> getSubList() {
     return this.subHistory;
   }
-  
+
   /**
    * A method to return the manual of the history command and what it does
+   * 
    * @return String, this string contains the manual
    */
   public String manual() {
@@ -113,6 +112,25 @@ public class History implements CommandInterface // need execute method()
         + "the session. The given value specifies the last number of commands\n"
         + "to output.\n";
 
+  }
+
+  public static void printContents(List<String> contents) {
+    for (String content : contents) {
+      System.out.println(content);
+    }
+  }
+
+
+  /**
+   * This function display the contents of a given string vector with each
+   * element on a new line
+   * 
+   */
+
+  public static void printContents(Vector<String> contents) {
+    for (String content : contents) {
+      System.out.println(content);
+    }
   }
 
 }
