@@ -2,6 +2,9 @@ package a2;
 
 import java.util.*;
 
+/**
+ * An interface holding all of jFilesystems methods
+ */
 public interface FileSystem {
   public String getCurrPath();
 
