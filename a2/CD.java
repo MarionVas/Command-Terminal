@@ -7,44 +7,49 @@ import a2.Output;
 
 
 public class CD implements CommandInterface {
+  // collaboration with the fileSystem
   private FileSystem fileSystem;
-  // initialize a string variable for the path given as parameter
-  private String[] parameter;
+  // initialize a String array variable to hold the path given in the
+  // constructor
   private String path;
-  private Folder currFolder;
-  private String currPath;
+  // initialize a String variable that's always an empty string for the execute
+  // method to return
   private final String stringToOutput = "";
 
   /**
    * The constructor
    * 
-   * @param manager - The JFileSystem with all the file and folder
-   * @param parameter - The string array with all the arguments the user enters
+   * @param manager - The JFileSystem with all the files and folders
+   * @param parameter - The String array with all the arguments the user enters
    */
 
   public CD(JFileSystem manager, String[] parameter) {
-    this.parameter = parameter;
     this.fileSystem = manager;
     // set the path to be the first element of the parameter, since it should
-    // only traverse through one path
+    // only traverse through one path at a time
     this.path = parameter[0];
-    // get the current working directory as a folder
-    this.currFolder = fileSystem.getCurrFolder();
-    // get the current working directory as a String
-    this.currPath = fileSystem.getCurrPath();
   }
 
   /**
    * This method will take the parameter passed into the constructor and
-   * traverse into the path given if it is a valid path.
+   * traverse into the path given if it is a valid path. If it is not a valid
+   * path, an error will be displayed on the console.
+   * 
+   * @return stringToOutput - an empty String since nothing is ever displayed on
+   *         the console when the cd command is run unless it is an error.
    */
 
   public String execute() {
-    try{
+    try {
+      // get a clean path without the dots
       String fullPath = fileSystem.getFullPath(path);
+      // set the String representation of the current directory in the
+      // fileSystem
       fileSystem.setFullPath(fullPath);
+      // set the current folder in the fileSystem
       fileSystem.setCurrFolder((Folder) fileSystem.getObject(fullPath));
-    }catch(InvalidPath e){
+    } catch (InvalidPath e) {
+      // if not a valid path was given print an error message
       System.out.println("That was not a valid path.");
     }
     return stringToOutput;
