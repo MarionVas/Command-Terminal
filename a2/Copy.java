@@ -228,6 +228,9 @@ public class Copy implements CommandInterface {
 
   }
 
+  /**
+   * The manual for this class; explaining in detail what Copy does
+   */
   public String manual() {
     return "Take in 2 paths; the first one - oldPath - MUST exist "
         + "(unlike newPath). + If 2 directories are given (and if they exist)"
