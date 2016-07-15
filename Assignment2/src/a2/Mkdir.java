@@ -11,8 +11,8 @@ public class Mkdir implements CommandInterface {
   private String[] specialChar =
       new String[] {"!", "@", "$", "&", "#", "*", "(", ")", "?", ":", "[", "]",
           "\"", "<", ">", "\'", "`", "\\", "|", "=", "{", "}", ";"};
+  // The string that is to be used by Proquery (the ">" and ">>" cases)
   private String stringToOutput = "";
-  private String fullPath = "";
 
   /**
    * The constructor
@@ -90,20 +90,19 @@ public class Mkdir implements CommandInterface {
     for (int index = 0; index < this.names.length; index++) {
       // Current argument
       String name = this.names[index];
-      // Since the "." operator does not really do anything significant it can
-      // be removed from the path at it should still be equivalent to if the
-      // "." was not there
 
+      // Converts the given path into an absolute path
       try {
         name = this.Manager.getFullPath(name);
       } catch (InvalidPath e) {
         System.err.println(e);
       }
-
+      // If the path already exists raise an error
       if (this.Manager.checkValidPath(name) || name.equals("")) {
         Output.printPathError();
       } else {
         try {
+          // Create the directory
           this.executeFullPath(name);
         } catch (InvalidPath e) {
           System.err.println(e);
@@ -113,6 +112,10 @@ public class Mkdir implements CommandInterface {
     }
     return "";
   }
+
+  /**
+   * The manual explaining how to use the mkdir command
+   */
   public String manual() {
     return "mkdir DIR … - Creates directories, each of which may be relative\n"
         + "to the current directory or may be a full path. The names given\n"
