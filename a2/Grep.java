@@ -1,6 +1,8 @@
 package a2;
 
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Grep 
 {
@@ -10,6 +12,9 @@ public class Grep
   private boolean recurse = false;
   private String regex;
   private String path;
+  private Pattern search;
+  private Matcher matcher;
+  private Item dirOrFile;
 
   public Grep(JFileSystem fileManager, String[] command)
   {
@@ -21,114 +26,129 @@ public class Grep
   
   public void execute()
   {
-    //System.out.println(fileManager.checkValidPath(path) + "asdas");
-
-    // Change to absolute path if not already a full path
-    if (!fileManager.getCurrPath().equals("/")) 
-    {
-      path = fileManager.getCurrPath() + "/" + path;
-    } 
-    // if it is a full path, just add the / to make it absolute
-    else
-    {
-      if (path.charAt(0) != '/')
-      {
-        path = "/" + path;
-      }
-    }
-
-    // Check if the given path is valid
-    if (!fileManager.checkValidPath(path))
-    {
-      // display error if the path isn't valid
-      Output.printPathError();
-    }
-    // 
-    else
-    {
+    try {
+      // make sure the path is a full path - also checks if the path is valid
+      this.path = fileManager.getFullPath(path);
       // Check for appearance of -r or -R
       if (command[0] == "-r" || command[0] == "-R")
       {
         // set regex as the 2nd param
-        regex = command[1];
+        this.regex = command[1];
         
-        // Check if the given path is a directory
+        this.dirOrFile = fileManager.getObject(path);
         
-        // If the end of the subtree is reached
-//        String result = "";
-//        
-//        if (dirrOrFile == null || dirrOrFile.equals(File.class)) 
-//        {
-//          result = "";
-//        }
-//        else 
-//        {
-//          Vector<Item> allChildren = dirrOrFile.getChildren();
-//          if (allChildren != null && allChildren.size() != 0) {
-//            if (childIndex == 0) {
-//              result = this.executeFullPath(((Folder) dirrOrFile).getPath(), true)
-//                  + this.recurseLS(childIndex, allChildren.get(childIndex))
-//                  + this.recurseLS(childIndex + 1, dirrOrFile);
-//            } else if (childIndex < allChildren.size()) {
-//              result = this.recurseLS(0, allChildren.get(childIndex))
-//                  + this.recurseLS(childIndex + 1, dirrOrFile);
-//            }
-//          } 
-//          else
-//          {
-//            result = this.executeFullPath(((Folder) dirrOrFile).getPath(), true);
-//          }
-//        }
+        if (!this.dirOrFile.getClass().equals(Folder.class))
+        {
+          System.err.println("This was not a directory");
+        }
+        else
+        {
+          this.output = grepRecurse(0, this.fileManager.getObject(path));
+        }
       }
-      
+
       // If there is no -r or -R statement
       else
       {
-        output = grepNoRecurse();
-        System.out.println(output);
-      }
-    }
-  }
-  
-  public String grepNoRecurse()
-  {
-    
-    regex = command[0];
+        // get the object at the given path
+        dirOrFile = fileManager.getObject(path);
 
-    // Create a folder 
-    //Folder currFolder = fileManager.getRootFolder();
-    
-    // get the file at the given path
-    File file = (File) fileManager.getObject(path);
-    
-    // check if the file exists
-    if (file == null) 
-    {
-      // if the file doesn't exist, print an error
-      Output.printFileNameError();
-    } 
-    // if the file exists, scan for regex in the file and print all
-    // lines containing it
-    else
-    {
-      // get the contents of the file
-      String fileContents = file.getBody();
-
-      // split the file based on newlines
-      String[] splitContents = fileContents.split("\\n");
-      
-      // scan through every line
-      for (int i = 0; i < splitContents.length; i++)
-      {
-        // if the line contains the given regex, add it to the output
-        if (splitContents[i].contains(regex))
+        // check if the object is a file
+        if (!dirOrFile.getClass().equals(File.class)) 
         {
-          output = output + splitContents[i] + "\n";
+          // if the file doesn't exist, print an error
+          Output.printFileNameError();
+        }
+        // If it is a file
+        else
+        {
+          // get the given regex at this location if -R isn't supplied
+          regex = command[0];
+          // Get the lines in the given file that ocntain the regex
+          this.output = grepNoRecurse((File)dirOrFile);
+          System.out.println(this.output);
         }
       }
-      return output;
+    } catch (InvalidPath e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } 
+
+  }
+  
+  public String grepNoRecurse(File file)
+  {
+    String matchedContents = "";
+    // get the contents of the file
+    String fileContents = file.getBody();
+
+    // split the file based on newlines
+    String[] splitContents = fileContents.split("\\n");
+ 
+    // make a pattern object that uses the given regex
+    search = Pattern.compile(regex);
+    
+    // loops through the array 
+    for (int i = 0; i < splitContents.length; i++)
+    {
+      // make matcher object
+      matcher = search.matcher(splitContents[i]);
+      // if the line matches the regex
+      if (matcher.find())
+      {
+        // add to output
+        matchedContents += (splitContents[i] + "\n");
+      }
     }
-    return output;
+    return matchedContents;
+  }
+  
+  public String grepRecurse(int childIndex, Item dirrOrFile) {
+    // If the end of the subtree is reached
+    String result = "";
+
+    // If the item does not exist, do nothing
+    if (dirrOrFile == null)
+    {
+      result = "";
+    }
+    // If the item is a file, add to the output
+    else if (dirrOrFile.getClass().equals(File.class))
+    {
+      // get the path of the file
+      String filePath = dirOrFile.getPath();
+      // get the name of the file
+      String fileName = dirOrFile.getName();
+      // append to the output
+      result += filePath + "/" + fileName +
+          ":\n" + grepNoRecurse((File)dirrOrFile);
+      System.out.println(result);
+    }
+    // if the item is a directory/folder
+    else {
+      // Collect the children of the folder
+      Vector<Item> allChildren = dirrOrFile.getChildren();
+      // If the folder contains items
+      if (allChildren != null && allChildren.size() != 0) 
+      {
+        // Check the first item inside the folder
+        if (childIndex == 0) 
+        {
+          // Check all of its children
+          result = result 
+              + this.grepRecurse(childIndex, allChildren.get(childIndex))
+              + this.grepRecurse(childIndex + 1, dirrOrFile);
+        }
+        // Check the rest of the items in the folder
+        else if (childIndex < allChildren.size())
+        {
+          // Check all of their children
+          result = this.grepRecurse(0, allChildren.get(childIndex))
+              + this.grepRecurse(childIndex + 1, dirrOrFile);
+        }
+      }
+    }
+    return result;
   }
 
 }
