@@ -21,10 +21,11 @@ public class History implements CommandInterface // need execute method()
   }
 
   /**
-   * The purpose of this method is to remove the last element in the History
+   * The purpose of this method is to set the inputHistory
+   * @param Vector<String> history the history you are setting
    */
-  public void popHistory() {
-    this.inputHistory.remove(this.inputHistory.size() - 1);
+  public void setCommandHistory(Vector<String> history) {
+    this.inputHistory = history;
   }
 
   /**
