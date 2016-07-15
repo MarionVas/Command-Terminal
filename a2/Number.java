@@ -8,6 +8,7 @@ public class Number implements CommandInterface
   private ProQuery process;
   private JFileSystem fileManager;
   private History commandHistory;
+  private String output = "";
   
   // Standard constructor for the number class
   public Number(JFileSystem fileManager, ProQuery process, String number)
@@ -18,35 +19,31 @@ public class Number implements CommandInterface
   }
 
   @Override
-  public void execute() 
+  public String execute() 
   {
-    int command = 0;
+    int commandLocation = 0;
     // check if the parameter is a number
     try
     {
-      command = Integer.parseInt(commandNumber);
+      commandLocation = Integer.parseInt(commandNumber);
     } catch (Exception e)
     {
       Output.printError();
     }
     
-    //commandHistory = process.getHistory();
-    // Get the vector from the history of the ProQuery
+    // Get History from ProQuery
     History commandHistory = process.getHistory();
     Vector<String> allCommands = commandHistory.getList();
     // Get the command at the specified user location
-    String query = allCommands.get(command);
+    String query = allCommands.get(commandLocation);
     // Remove the !number command from the history
-    allCommands.removeElementAt(allCommands.size()-1);
-    // set the new history vector
-    commandHistory.setHistory(allCommands);
+    commandHistory.popHistory();
     // set the ProQuery history
     process.setHistory(commandHistory);
     // do the past command
     process.sortQuery(query);
     
-    
-    
+    return output;  
   }
 
   @Override
