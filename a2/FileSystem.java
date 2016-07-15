@@ -36,6 +36,8 @@ public interface FileSystem {
   public String removeSingleDots(String path);
   
   public String removeDots(String name);
+  
+  public void removePaths(String path);
 }
 
 
