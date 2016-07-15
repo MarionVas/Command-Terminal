@@ -27,6 +27,8 @@ public class Copy implements CommandInterface {
   private Item newPathType;
   // a boolean representing is oldPath is valid or not
   private boolean oldPathValid = true;
+  // Only 2 paths are allowed as parameters
+  final int NUM_OF_ALLOWED_PATHS = 2;
 
   /**
    * The constructor; connects Copy to the jFileSystem and adds classPaths
@@ -54,107 +56,112 @@ public class Copy implements CommandInterface {
    * @return returns an empty string
    */
   public String execute() {
-    // Turing the oldPath into an absolute path
-    try {
-      oldPath = this.insertedFileSystem.getFullPath(classPaths[0]);
-    } catch (InvalidPath e) {
-      System.err.println(e);
-    }
-    // checking if oldPath is valid or not (since an error will never be thrown
-    // if getFullPath is called from Copy)
-    if (!this.insertedFileSystem.checkValidPath(oldPath)) {
-      System.err.println(classPaths[0] + " is not a valid path");
-      this.oldPathValid = false;
-    }
-
-    // Turning the newPath into an absolute path; this case is a little
-    // different since just b/c the item doesn't exist doesn't mean an error
-    // should be raised just yet
-    try {
-      newPath = this.insertedFileSystem.getFullPath(classPaths[1]);
-    } catch (InvalidPath e) {
-      System.err.println(e);
-    }
-    // checking if newPath already exisits or not
-    if (!this.insertedFileSystem.checkValidPath(this.newPath)) {
-      // If the user specified a Folder, new Folder is created
-      if (!classPaths[1].endsWith(".txt")) {
-        String[] toCreate = new String[] {classPaths[1]};
-        // creating the mkdir instance
-        mkdir = new Mkdir(this.insertedFileSystem, toCreate);
-        mkdir.execute();
-
+    // ensuring only 2 paths are given
+    if (classPaths.length == this.NUM_OF_ALLOWED_PATHS) {
+      // Turing the oldPath into an absolute path
+      try {
+        oldPath = this.insertedFileSystem.getFullPath(classPaths[0]);
+      } catch (InvalidPath e) {
+        System.err.println(e);
       }
-      // creating a new Empty file
-      else {
-        // since newPath is an absolute path now
+      // checking if oldPath is valid or not (since an error will never be
+      // thrown
+      // if getFullPath is called from Copy)
+      if (!this.insertedFileSystem.checkValidPath(oldPath)) {
+        System.err.println(classPaths[0] + " is not a valid path");
+        this.oldPathValid = false;
+      }
+
+      // Turning the newPath into an absolute path; this case is a little
+      // different since just b/c the item doesn't exist doesn't mean an error
+      // should be raised just yet
+      try {
+        newPath = this.insertedFileSystem.getFullPath(classPaths[1]);
+      } catch (InvalidPath e) {
+        System.err.println(e);
+      }
+      // checking if newPath already exisits or not
+      if (!this.insertedFileSystem.checkValidPath(this.newPath)) {
+        // If the user specified a Folder, new Folder is created
+        if (!classPaths[1].endsWith(".txt")) {
+          String[] toCreate = new String[] {classPaths[1]};
+          // creating the mkdir instance
+          mkdir = new Mkdir(this.insertedFileSystem, toCreate);
+          mkdir.execute();
+
+        }
+        // creating a new Empty file
+        else {
+          // since newPath is an absolute path now
+          this.Path = this.newPath;
+          File cpFile =
+              new File(this.newPath.substring(this.newPath.lastIndexOf("/")));
+          cpFile.setBody("");
+          cpFile.setPath(this.Path);
+          String parentPath =
+              this.oldPath.substring(0, this.oldPath.lastIndexOf("/"));
+          // saving the File path into the file system
+          this.insertedFileSystem.addFullPath(this.Path);
+          // Adding it do the parent if it exists
+          if (this.insertedFileSystem.checkValidPath(parentPath)) {
+            ((Folder) this.insertedFileSystem.getObject(parentPath))
+                .addChildren(cpFile);
+          } else {
+            System.err.println("Invalid File path given");
+          }
+        }
+      }
+      // Getting the objects associated with the paths
+      this.oldPathType = this.insertedFileSystem.getObject(this.oldPath);
+      this.newPathType = this.insertedFileSystem.getObject(this.newPath);
+      // If the original oldPath is not valid then do nothing
+      if (!this.oldPathValid) {
+        return "";
+      }
+      // If a parent folder is trying to be copied into its child
+      else if (this.newPath.startsWith(this.oldPath)) {
+        System.err.println("Cannot copy a parent folder into it's child");
+      }
+      // The File File case
+      else if (oldPathType.getClass().equals(File.class)
+          && newPathType.getClass().equals(File.class)) {
+        // Setting the body of newPath File to the same text as oldPath File
+        ((File) newPathType).setBody((((File) oldPathType).getBody()));
+      }
+      // The File Folder case
+      else if (oldPathType.getClass().equals(File.class)
+          && newPathType.getClass().equals(Folder.class)) {
+        // Creating a new File object to be added into the newPath Folder
         this.Path = this.newPath;
         File cpFile =
             new File(this.newPath.substring(this.newPath.lastIndexOf("/")));
-        cpFile.setBody("");
-        cpFile.setPath(this.Path);
+        cpFile.setBody(
+            ((File) this.insertedFileSystem.getObject(this.oldPath)).getBody());
+        if (this.Path.equals("/")) {
+          cpFile.setPath("/" + this.oldPathType.getName());
+          this.insertedFileSystem.addFullPath("/" + this.oldPathType.getName());
+        } else {
+          cpFile.setPath(this.Path + "/" + this.oldPathType.getName());
+          this.insertedFileSystem
+              .addFullPath(this.Path + "/" + this.oldPathType.getName());
+        }
+        // adding the new File as a child
         String parentPath =
             this.oldPath.substring(0, this.oldPath.lastIndexOf("/"));
-        // saving the File path into the file system
-        this.insertedFileSystem.addFullPath(this.Path);
-        // Adding it do the parent if it exists
-        if (this.insertedFileSystem.checkValidPath(parentPath)) {
-          ((Folder) this.insertedFileSystem.getObject(parentPath))
-              .addChildren(cpFile);
-        } else {
-          System.err.println("Invalid File path given");
-        }
+        ((Folder) this.insertedFileSystem.getObject(Path)).addChildren(cpFile);
       }
-    }
-    // Getting the objects associated with the paths
-    this.oldPathType = this.insertedFileSystem.getObject(this.oldPath);
-    this.newPathType = this.insertedFileSystem.getObject(this.newPath);
-    // If the original oldPath is not valid then do nothing
-    if (!this.oldPathValid) {
-      return "";
-    }
-    // If a parent folder is trying to be copied into its child
-    else if (this.newPath.startsWith(this.oldPath)) {
-      System.err.println("Cannot copy a parent folder into it's child");
-    }
-    // The File File case
-    else if (oldPathType.getClass().equals(File.class)
-        && newPathType.getClass().equals(File.class)) {
-      // Setting the body of newPath File to the same text as oldPath File
-      ((File) newPathType).setBody((((File) oldPathType).getBody()));
-    }
-    // The File Folder case
-    else if (oldPathType.getClass().equals(File.class)
-        && newPathType.getClass().equals(Folder.class)) {
-      // Creating a new File object to be added into the newPath Folder
-      this.Path = this.newPath;
-      File cpFile =
-          new File(this.newPath.substring(this.newPath.lastIndexOf("/")));
-      cpFile.setBody(
-          ((File) this.insertedFileSystem.getObject(this.oldPath)).getBody());
-      if (this.Path.equals("/")) {
-        cpFile.setPath("/" + this.oldPathType.getName());
-        this.insertedFileSystem.addFullPath("/" + this.oldPathType.getName());
-      } else {
-        cpFile.setPath(this.Path + "/" + this.oldPathType.getName());
-        this.insertedFileSystem
-            .addFullPath(this.Path + "/" + this.oldPathType.getName());
+      // The Folder File case
+      else if (this.oldPathType.getClass().equals(Folder.class)
+          && this.newPathType.getClass().equals((File.class))) {
+        System.err.println("Cannot copy a directory into a File");
       }
-      // adding the new File as a child
-      String parentPath =
-          this.oldPath.substring(0, this.oldPath.lastIndexOf("/"));
-      ((Folder) this.insertedFileSystem.getObject(Path)).addChildren(cpFile);
+      // The Folder Folder case
+      else {
+        this.recurseCopy(0, this.oldPathType);
+      }
+    } else {
+      System.err.println("This is not a valid command");
     }
-    // The Folder File case
-    else if (this.oldPathType.getClass().equals(Folder.class)
-        && this.newPathType.getClass().equals((File.class))) {
-      System.err.println("Cannot copy a directory into a File");
-    }
-    // The Folder Folder case
-    else {
-      this.recurseCopy(0, this.oldPathType);
-    }
-
 
     return "";
   }
@@ -246,4 +253,5 @@ public class Copy implements CommandInterface {
         + " exist (and is denoted with the .txt extension) is will be created"
         + "If a Folder and a File are specified then an error will be raised";
   }
+
 }
