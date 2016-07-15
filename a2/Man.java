@@ -47,12 +47,14 @@ public class Man implements CommandInterface {
     commandWithPara.put("mkdir", "a2.Mkdir");
     commandWithPara.put("pushd", "a2.PushD");
 
-    // If one command is given and it is a command which requires no parameters
-    if (commandKey.length == 1 && commandNoPara.containsKey(commandKey[0])) {
-      // Acquire the commands class name in string form
-      String commandName = commandNoPara.get(commandKey[0]);
+    try {
+      // If one command is given and it is a command which requires no
+      // parameters
+      if (commandKey.length == 1 && commandNoPara.containsKey(commandKey[0])) {
+        // Acquire the commands class name in string form
+        String commandName = commandNoPara.get(commandKey[0]);
 
-      try {
+
         // Create an instance of the specified command whose constructor
         // requires only a JFileSystem
         CommandInterface commandInstance =
@@ -63,38 +65,16 @@ public class Man implements CommandInterface {
         stringToOutput = commandInstance.manual();
         Output.printString(stringToOutput);
 
-        // Catch any unwanted cases/exceptions
-      } catch (ClassNotFoundException e) {
-        Output.printError();
 
-      } catch (InstantiationException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IllegalArgumentException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (InvocationTargetException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (NoSuchMethodException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (SecurityException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
 
-      // If one command is given and it is a command which requires parameters
-    } else if (commandKey.length == 1
-        && commandWithPara.containsKey(commandKey[0])) {
+        // If one command is given and it is a command which requires parameters
+      } else if (commandKey.length == 1
+          && commandWithPara.containsKey(commandKey[0])) {
 
-      // Acquire the commands class name in string form
-      String commandName = commandWithPara.get(commandKey[0]);
+        // Acquire the commands class name in string form
+        String commandName = commandWithPara.get(commandKey[0]);
 
-      try {
+
         // Create an instance of the specified command whose constructor
         // requires a JFileSystem and a string array
         CommandInterface commandInstance =
@@ -106,35 +86,35 @@ public class Man implements CommandInterface {
         stringToOutput = commandInstance.manual();
         Output.printString(stringToOutput);
 
-        // Catch any unwanted cases/exceptions
-      } catch (ClassNotFoundException e) {
+
+
+        // If numerous commands were specified, or an invalid command name
+      } else {
+        // Notify the user that they did not provide a valid command
         Output.printError();
-
-      } catch (InstantiationException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IllegalArgumentException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (InvocationTargetException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (NoSuchMethodException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (SecurityException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
       }
-      
-
-      // If numerous commands were specified, or an invalid command name
-    } else {
-      // Notify the user that they did not provide a valid command
+      // Catch any unwanted cases/exceptions
+    } catch (ClassNotFoundException e) {
       Output.printError();
+
+    } catch (InstantiationException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IllegalArgumentException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (SecurityException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
     return "";
   }
