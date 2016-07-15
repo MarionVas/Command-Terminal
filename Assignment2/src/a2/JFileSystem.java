@@ -33,6 +33,11 @@ public class JFileSystem implements FileSystem {
     dirStack = new DirStack();
   }
 
+  public void removePaths(String path) {
+    this.fullPaths.remove(path);
+  }
+  
+  
   /**
    * This function return the path of the current working directory.To be used
    * with various command classes.
