@@ -21,7 +21,7 @@ public class Echo implements CommandInterface {
     }
   }
 
-  public void execute() {
+  public String execute() {
     if (echoParameters.length == 1) {
       stringToOutput = string;
       Output.printString(stringToOutput);
@@ -38,6 +38,7 @@ public class Echo implements CommandInterface {
     } else {
       Output.printError();
     }
+    return "";
   }
 
   private String[] fixEchoParameters(String[] echoParameters, String echoSign) {
