@@ -60,8 +60,10 @@ public class Curl implements CommandInterface {
         // add the path to the file to the fileSystem
         if (fileSystem.getCurrPath().equals("/")) {
           fileSystem.addFullPath(fileSystem.getCurrPath() + fileName);
+          file.setPath(fileSystem.getCurrPath() + fileName);
         } else {
           fileSystem.addFullPath(fileSystem.getCurrPath() + "/" + fileName);
+          file.setPath(fileSystem.getCurrPath() + "/" + fileName);
         }
         // initialize a string inputLine
         String inputLine;
