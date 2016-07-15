@@ -43,8 +43,9 @@ public class ProQuery {
     // Arrays of keys/values for commands with parameters
     String[] commandKeysList = new String[] {"cd", "cat", "echo", "ls", "man",
         "mkdir", "pushd", "mv", "grep", "cp"};
-    String[] commandValuesList = new String[] {"a2.CD", "a2.Cat", "a2.Echo",
-        "a2.LS", "a2.Man", "a2.Mkdir", "a2.PushD", "a2.MV", "a2.Grep", "a2.Copy"};
+    String[] commandValuesList =
+        new String[] {"a2.CD", "a2.Cat", "a2.Echo", "a2.LS", "a2.Man",
+            "a2.Mkdir", "a2.PushD", "a2.MV", "a2.Grep", "a2.Copy"};
 
     // Use the instantiated arrays with keys/values to populate the hashtables
     // Populating hashtable for commands without parameters
@@ -83,10 +84,10 @@ public class ProQuery {
     // the separator
     String[] splitEntry = entry.split("\\s+");
     if (splitEntry.length > 1) {
-      String[] fixedCommandParameters = fixForOutfileRedirection(
-          Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
-      commandParameters = Arrays.copyOfRange(fixedCommandParameters, 0,
-          findSignIndexOrLast(fixedCommandParameters));
+      String[] fixCommandParameters = 
+          Arrays.copyOfRange(splitEntry, 1, splitEntry.length);
+      commandParameters = Arrays.copyOfRange(fixCommandParameters, 0,
+          findSignIndexOrLast(fixCommandParameters));
     }
 
     try {
@@ -106,7 +107,7 @@ public class ProQuery {
         // If the one key word string is "history", execute the history class
         // through the queryHistory method
       } else if (splitEntry[0].equals("history")) {
-        // queryHistory(commandParameters);
+        queryHistory(commandParameters);
 
         // If the input is calling the "!" command, execute the Number class
         // through the queryNumber method
@@ -161,12 +162,17 @@ public class ProQuery {
     }
 
   }
-  /*
-   * private String queryHistory(String[] commandParameters) { String strOut; if
-   * (commandParameters.length == 0) { strOut = commandHistory.execute(); } else
-   * if (commandParameters.length >= 1) { strOut =
-   * commandHistory.execute(commandParameters); } return strOut; }
-   */
+
+  private String queryHistory(String[] commandParameters) {
+    String strOut = "";
+    if (commandParameters.length == 0) {
+      strOut = commandHistory.execute();
+    } else if (commandParameters.length >= 1) {
+      strOut = commandHistory.execute(commandParameters);
+    }
+    return strOut;
+  }
+
 
   /**
    * Constructs a Number object which takes the ProQuery and its jFileSystem to
@@ -245,7 +251,7 @@ public class ProQuery {
       fixedEchoParameters[0] = sign;
       fixedEchoParameters[1] = joinStrWithSpace(postSign);
       return fixedEchoParameters;
-    // If the redir is called on a command with command arguments
+      // If the redir is called on a command with command arguments
     } else {
       String[] fixedEchoParameters = new String[3];
       fixedEchoParameters[0] = joinStrWithSpace(preSign);
@@ -256,7 +262,7 @@ public class ProQuery {
 
 
   }
-  
+
   /**
    * Takes a String array and concatenates its elements to produce a single
    * string with a space between each element.
@@ -295,7 +301,7 @@ public class ProQuery {
       OutputToFile.append(jFileSystem, commandOutput, outfile);
     }
   }
-  
+
   /**
    * Takes the string output from an execute method and prints it to the
    * console.
@@ -310,8 +316,8 @@ public class ProQuery {
   }
 
   /**
-   * Checks to see if a redir char exists within the given String array.
-   * Returns true if a redir parameter exists.
+   * Checks to see if a redir char exists within the given String array. Returns
+   * true if a redir parameter exists.
    * 
    * @param input - String elements to be parsed for redir chars
    */
