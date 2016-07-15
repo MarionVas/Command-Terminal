@@ -12,7 +12,7 @@ public class Curl implements CommandInterface {
   // method to return
   private final String stringToOutput = "";
   // initialize a String array to hold all the invalid characters in a file name
-  private final String[] specialChar = new String[] {"/", "!", "@", "$", "&",
+  private final String[] specialChar = new String[] {"/", "", "!", "@", "$", "&",
       "#", "*", "(", ")", "?", ":", "[", "]", "\"", "<", ">", "\'", "`", "\\",
       "|", "=", "{", "}", "/", ";", " "};
 
