@@ -24,7 +24,7 @@ public class History implements CommandInterface // need execute method()
    * The purpose of this method is to remove the last element in the History
    */
   public void popHistory() {
-    this.inputHistory.remove(this.inputHistory.size()-1);
+    this.inputHistory.remove(this.inputHistory.size() - 1);
   }
 
   /**
@@ -43,9 +43,12 @@ public class History implements CommandInterface // need execute method()
   /**
    * The purpose of this method is to output the command history through the
    * output class
+   * 
+   * @return outputToString, contains the contents of the history
    */
   public String execute() {
     outputToString = printContents(inputHistory);
+    System.out.println(outputToString);
     return outputToString;
   }
 
@@ -55,6 +58,8 @@ public class History implements CommandInterface // need execute method()
    * 
    * @param strLocation, will contain one value which will be the amount of
    *        previous commands the user wishes to see
+   * 
+   * @return outputToString, contains the contents of the sublist history
    */
   public String execute(String[] strLocation) {
     // Determine if the given string can be turned into an integer
@@ -76,6 +81,7 @@ public class History implements CommandInterface // need execute method()
         // creating a vector string to output that displays the history
         // appropriately from a location specified or 0 if need be
         outputToString = printContents(subHistory);
+        System.out.println(outputToString);
       } else {
         Output.printError();
       }
@@ -116,25 +122,45 @@ public class History implements CommandInterface // need execute method()
 
   }
 
+  /**
+   * This function adds every value of a List to a string in an appropriate
+   * format
+   * 
+   * @param List<String> contents, the vector to parse through and add all
+   *        contents
+   * 
+   * @return history, a string that contains all elements of the List
+   * 
+   */
+
   public String printContents(List<String> contents) {
+    // String to hold values
     String history = "";
+    // Storing all values of the List to the string with appropriate format
     for (int i = 0; i < contents.size(); i++) {
-      history += "\n" + contents.get(i);
+      history += contents.get(i) + "\n";
     }
     return history;
   }
 
 
   /**
-   * This function display the contents of a given string vector with each
-   * element on a new line
+   * This function adds every value of a vector to a string in an appropriate
+   * format
+   * 
+   * @param Vector<String> contents, the vector to parse through and add all
+   *        contents
+   * 
+   * @return history, a string that contains all elements of the vector
    * 
    */
 
   public String printContents(Vector<String> contents) {
+    // String to hold values
     String history = "";
+    // Storing the values of the vector to the string with appropriate format
     for (int i = 0; i < contents.size(); i++) {
-      history += "\n" + contents.get(i);
+      history += contents.get(i) + "\n";
     }
     return history;
   }
