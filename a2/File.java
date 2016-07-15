@@ -1,16 +1,16 @@
 package a2;
 
-import java.util.Vector;
-
 public class File extends Item {
   private String body = "";
 
   /**
    * The constructor
+   * 
+   * @param name - the name of the file
    */
 
   public File(String name) {
-    super(name,"somePath", null, null);
+    super(name, "somePath", null, null);
   }
 
   /**
@@ -35,6 +35,8 @@ public class File extends Item {
 
   /**
    * This method returns the body of the file
+   * 
+   * @return this.body - the body of the file
    */
 
   public String getBody() {
