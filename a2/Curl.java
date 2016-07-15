@@ -4,7 +4,7 @@ import java.net.*;
 import java.io.*;
 
 public class Curl implements CommandInterface {
-  // collaboration with the fileSystem
+  // collaboration with fileSystem
   private FileSystem fileSystem;
   // initialize a String variable to hold the URL provided to the constructor
   private String URL;
