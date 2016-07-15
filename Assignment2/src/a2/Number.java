@@ -21,6 +21,7 @@ public class Number implements CommandInterface
   @Override
   public String execute() 
   {
+    System.out.println("MADE IT TO CLASS");
     int commandLocation = 0;
     // check if the parameter is a number
     try
