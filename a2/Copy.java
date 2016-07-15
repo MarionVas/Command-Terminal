@@ -230,6 +230,8 @@ public class Copy implements CommandInterface {
 
   /**
    * The manual for this class; explaining in detail what Copy does
+   * 
+   * @return an explanation of how the cp command works
    */
   public String manual() {
     return "Take in 2 paths; the first one - oldPath - MUST exist "
