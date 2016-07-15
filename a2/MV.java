@@ -21,14 +21,14 @@ public class MV implements CommandInterface {
         String parentPathExisting =
             existingItemPath.substring(0, existingItemPath.lastIndexOf("/"));
         Item parentExisting = insertedFileSystem.getObject(parentPathExisting);
-        
+
         String specifiedItemPath =
             insertedFileSystem.getFullPath(classPaths[1]);
-        String parentPathSpecified = specifiedItemPath.substring(0,
-            specifiedItemPath.lastIndexOf("/"));
-        
+        String parentPathSpecified =
+            specifiedItemPath.substring(0, specifiedItemPath.lastIndexOf("/"));
+
         if (checkPathExists(classPaths[1])) {
-          
+
           Item specifiedItem = insertedFileSystem.getObject(specifiedItemPath);
           Item parentSpecified =
               insertedFileSystem.getObject(parentPathSpecified);
@@ -56,21 +56,34 @@ public class MV implements CommandInterface {
           }
 
         } else {
-          
+          if (isFile(specifiedItemPath) && existingItem instanceof File) {
+            moveFileToNonExistingItemPath(existingItemPath, parentPathSpecified,
+                existingItem, parentExisting);
 
-
+          } else if (!isFile(specifiedItemPath)) {
+            moveFileToNonExistingItemPath(existingItemPath, specifiedItemPath,
+                existingItem, parentExisting);
+          } else {
+            System.out
+                .print("Error: Cannot overwrite non-directory with directory");
+          }
         }
+
+
+      } else {
         System.out.print("Invalid command or path dne");
       }
 
 
-    } catch (InvalidPath e) {
+    } catch (
+
+    InvalidPath e) {
       System.out.print("Invalid path");
     }
     return stringToOutput;
   }
 
-  
+
   private boolean checkPathExists(String path) {
     boolean checkPath = false;
     try {
@@ -80,6 +93,36 @@ public class MV implements CommandInterface {
       e.printStackTrace();
     }
     return checkPath;
+  }
+
+  private void moveFileToNonExistingItemPath(String currPath,
+      String specifiedParentPath, Item currItem, Item parentCurrItem) {
+    String newItemName =
+        currPath.substring(currPath.lastIndexOf("/") + 1, currPath.length());
+    try {
+      if (checkPathExists(specifiedParentPath)) {
+        Item parentSpecified =
+            insertedFileSystem.getObject(specifiedParentPath);
+        ((Folder) parentCurrItem).removeChildren(currItem);
+        setNewSpecifiedPath(currItem, specifiedParentPath);
+        currItem.setName(newItemName);
+        ((Folder) parentSpecified).addChildren(currItem);
+
+      } else {
+        String[] fileNamePara = {newItemName};
+        Mkdir makeParentSpecified = new Mkdir(insertedFileSystem, fileNamePara);
+        makeParentSpecified.executeFullPath(specifiedParentPath);
+        Item parentSpecified =
+            insertedFileSystem.getObject(specifiedParentPath);
+        ((Folder) parentCurrItem).removeChildren(currItem);
+        setNewSpecifiedPath(currItem, specifiedParentPath);
+        currItem.setName(newItemName);
+
+        ((Folder) parentSpecified).addChildren(currItem);
+      }
+    } catch (InvalidPath e) {
+      System.out.println("Invalid Path");
+    }
   }
 
   private void setNewSpecifiedPath(Item newItem, String newItemParentPath) {
@@ -92,8 +135,18 @@ public class MV implements CommandInterface {
     }
   }
 
-  
-  
+  private boolean isFile(String filePath) {
+    boolean isFile = false;
+    String fileName =
+        filePath.substring(filePath.lastIndexOf("/") + 1, filePath.length());
+    if (fileName.contains(".")) {
+      isFile = true;
+    }
+    return isFile;
+  }
+
+
+
   public String manual() {
     // TODO Auto-generated method stub
     return null;
