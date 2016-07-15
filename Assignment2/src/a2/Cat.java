@@ -49,10 +49,9 @@ public class Cat implements CommandInterface {
       if (file == null) {
         // if the outfile is not a valid file name check if it is a valid path
         if (parameter[0].contains("/")) {
-          String path = parameter[0];
           // call the getOutputFromPath method to get the output if it is a
           // valid path
-          stringToOutput = getOutputFromPath(path);
+          stringToOutput = getOutputFromPath(parameter[0]);
         } else {
           // if it is not a valid path nor a valid file name print an error
           System.out.println("That was not a valid path or file name.");
@@ -73,10 +72,9 @@ public class Cat implements CommandInterface {
             // if the outfile is not a valid file name check if it is a valid
             // path
             if (eachFile.contains("/")) {
-              String path = eachFile;
               // run the getOutputFromPath method to get the output and add 3
               // extra lines to separate each file
-              stringToOutput += getOutputFromPath(path) + "\n\n\n\n";
+              stringToOutput += getOutputFromPath(eachFile) + "\n\n\n\n";
             } else {
               // if it is not a valid name or a file path print an error
               System.out.println("That was not a valid path or file name.");
