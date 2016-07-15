@@ -21,7 +21,7 @@ public class EchoAppend extends EchoOverwrite implements CommandInterface {
    */
 
   @Override
-  public void execute() {
+  public String execute() {
     // run the super class' fileFile method to get the file to work with
     File appendFile = super.findFile();
     if (super.isFileNull()) {
