@@ -141,7 +141,7 @@ public class LS implements CommandInterface {
   public String recurseLS(int childIndex, Item dirrOrFile) {
     // If the end of the subtree is reached
     String result = "";
-    if (dirrOrFile == null || dirrOrFile.equals(File.class)) {
+    if (dirrOrFile == null || dirrOrFile.getClass().equals(File.class)) {
       result = "";
     } else {
       Vector<Item> allChildren = dirrOrFile.getChildren();
