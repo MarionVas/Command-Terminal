@@ -85,7 +85,6 @@ public class OutputToFile {
         valid = false;
       }
     }
-    System.out.println(String.valueOf(valid));
     // check if the outfile is a valid file name
     if (valid) {
       // call the helper function to get the file
