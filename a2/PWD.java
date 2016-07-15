@@ -1,9 +1,10 @@
 package a2;
 
 public class PWD implements CommandInterface {
+  // collaboration with the fileSystem
   private JFileSystem fileSystem;
-  private String symbol = null;
-  private String outfile;
+  // initialize a String variable that's always an empty string for the execute
+  // method to return
   private String stringToOutput;
 
   /**
@@ -14,19 +15,6 @@ public class PWD implements CommandInterface {
 
   public PWD(JFileSystem manager) {
     this.fileSystem = manager;
-  }
-
-  /**
-   * The constructor with string array as parameters
-   * 
-   * @param manager - The JFileSystem with all the file and folder
-   * @param parameter - The string array with all the arguments the user enters
-   */
-
-  public PWD(JFileSystem manager, String[] parameters) {
-    this.fileSystem = manager;
-    this.symbol = parameters[0];
-    this.outfile = parameters[1];
   }
 
   /**
