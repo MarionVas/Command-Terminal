@@ -366,11 +366,76 @@ public class JFileSystem implements FileSystem {
     // Returning the absolute path
     if (path.equals("/") && !name.equals("..")) {
       return path + name;
-    } else if (path.equals("/")) {
+    } else if (path.equals("/") || name.equals("..")) {
       return path;
     } else {
       return path + "/" + name;
     }
   }
+  public static void main(String[] args) 
+  {
+    
+    JFileSystem jFileSystem = new JFileSystem();
+    Folder rootfold = new Folder("/", "/");
+    jFileSystem.setRoot(rootfold);
 
+    String input = "";
+    String[] a = new String [2];
+    a[0] = "a";
+    a[1] = "b";
+    Mkdir mkdir = new Mkdir(jFileSystem, a);
+    a = new String[1];
+    a[0] = "a";
+    CD cd = new CD(jFileSystem, a);
+    mkdir.execute();
+    cd.execute();
+    a = new String[3];
+    a[0] = "e";
+    a[1] = "f";
+    a[2] = "q";
+    mkdir = new Mkdir(jFileSystem, a);
+    mkdir.execute();
+    a = new String[1];
+    a[0] = "e";
+    cd = new CD(jFileSystem, a);
+    cd.execute();
+    a = new String[3];
+    a[0] = "x";
+    a[1] = "z";
+    a[2] = "v";
+    mkdir = new Mkdir(jFileSystem, a);
+    mkdir.execute();
+    a = new String[1];
+    a[0] = "x";
+    cd = new CD(jFileSystem, a);
+    cd.execute();
+    a = new String[1];
+    System.out.println(jFileSystem.getCurrPath());
+    a[0] = "../v/../../././../qqq/./";
+    mkdir = new Mkdir(jFileSystem, a);
+    mkdir.execute();
+    a = new String[1];
+    a[0] = "/";
+    cd = new CD(jFileSystem, a);
+    a[0] = "/a/e/x/PLSWORK";
+    mkdir = new Mkdir(jFileSystem, a);
+    mkdir.execute();
+    a[0] = "/a/e/z/PLSWORK3WEI";
+    mkdir = new Mkdir(jFileSystem, a);
+    mkdir.execute();
+    a[0] = "../../a/../";
+    a = new String[3];
+    a[0] = "-r";
+    a[1] = "/a";
+    a[2] = "/qqq";
+    LS ls = new LS(jFileSystem, a);
+    ls.execute();
+    jFileSystem.setFullPath("/a/b/c");
+    try {
+      System.out.println(jFileSystem.getFullPath("./d/../d/e/./f/../."));
+    } catch (InvalidPath e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
 }
