@@ -29,11 +29,14 @@ public class Grep implements CommandInterface
     try {
       // make sure the path is a full path - also checks if the path is valid
       this.path = fileManager.getFullPath(path);
+      System.out.println("THE FIRST PARAM IS" + command[0]);
       // Check for appearance of -r or -R
       if (command[0] == "-r" || command[0] == "-R")
       {
+        System.out.println("IT MADE IT HERE WTF FUCK");
         // set regex as the 2nd param
         this.regex = command[1];
+        System.out.println(regex);
         
         this.dirOrFile = fileManager.getObject(path);
         
@@ -86,15 +89,15 @@ public class Grep implements CommandInterface
     String[] splitContents = fileContents.split("\\n");
  
     // make a pattern object that uses the given regex
-    search = Pattern.compile(regex);
-    
+    this.search = Pattern.compile(this.regex);
     // loops through the array 
     for (int i = 0; i < splitContents.length; i++)
     {
+      System.out.println(splitContents[i]);
       // make matcher object
-      matcher = search.matcher(splitContents[i]);
+      this.matcher = this.search.matcher(splitContents[i]);
       // if the line matches the regex
-      if (matcher.find())
+      if (this.matcher.find())
       {
         // add to output
         matchedContents += (splitContents[i] + "\n");
