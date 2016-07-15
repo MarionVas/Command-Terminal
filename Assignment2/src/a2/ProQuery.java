@@ -89,18 +89,12 @@ public class ProQuery {
         stringToOutput = commandInstance.execute();
 
         // If the one key word string is "history", execute the history class
-      } else if (commandParameters.length == 0
-          && splitEntry[0].equals("history")) {
-        commandHistory.execute();
+      } else if (splitEntry[0].equals("history")) {
+        //queryHistory(commandParameters);
 
-        // If the given string is history with additional parameters
-      } else if (commandParameters.length >= 1
-          && splitEntry[0].equals("history")) {
-        // Execute the history class with the additional parameters
-        commandHistory
-            .execute(Arrays.copyOfRange(splitEntry, 1, splitEntry.length));
-
-
+      } else if (commandParameters.length == 0 && splitEntry[0].startsWith("!")) {
+        queryNumber(splitEntry);
+        
       } else {
         // Split the given string into its command key word and its parameters
         String commandName = commandKeys.get(splitEntry[0]);
@@ -147,7 +141,25 @@ public class ProQuery {
     }
 
   }
+/*
+  private String queryHistory(String[] commandParameters) {
+    String strOut;
+    if (commandParameters.length == 0) {
+      strOut = commandHistory.execute();
+    } else if (commandParameters.length >= 1) {
+      strOut = commandHistory.execute(commandParameters);
+    }
+    return strOut;
+  }*/
 
+  
+  private String queryNumber(String[] splitEntry) {
+    String num = splitEntry[0].substring(splitEntry[0].indexOf("!") + 1, splitEntry[0].length());
+    Number processNumber = new Number(jFileSystem, this, num);
+    return processNumber.execute();
+  }
+
+  
   private int findSignIndexOrLast(String[] insertStringArray) {
     int index = insertStringArray.length;
     if (Arrays.asList(insertStringArray).contains(">")) {
