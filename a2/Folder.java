@@ -3,10 +3,7 @@ package a2;
 import java.util.*;
 
 public class Folder extends Item {
-  // The absolute path of the folder
-  private String dirPath;
-  // A vector containing all the children Folder/Files
-  // A vector containing all the names of the sub folders/files
+
   /**
    * The constructor
    * 
@@ -17,6 +14,7 @@ public class Folder extends Item {
     // Calling the parent class
     super(name, path, new Vector(), new Vector<String>());
   }
+
   /**
    * Adds children (A Folder) to this Folder
    * 
@@ -35,18 +33,18 @@ public class Folder extends Item {
    * @param child - A sub-Folder to this one
    */
   public void removeChildren(Item child) {
-    // Adding the object
+    // removing the object
     super.getChildren().remove(child);
-    // Adding the Folder name
+    // removing the Folder name
     super.getChildrenNames().remove(child.getName());
   }
-  
+
   /**
    * Gets the child from the vector at the specified index; Returns null if no
    * children are present
    * 
    * @param index - an index value
-   * @return - A Folder or File Object
+   * @return - An item
    */
   public Item getChildren(int index) {
     if (super.getChildren().size() <= index) {
@@ -90,6 +88,6 @@ public class Folder extends Item {
    * Return a string representation of the name and the path of the Folder
    */
   public String toString() {
-    return super.getName() + dirPath;
+    return super.getName() + super.getName();
   }
 }
