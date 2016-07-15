@@ -124,8 +124,10 @@ public class OutputToFile {
           // add the path to the file to the fileSystem
           if (outfileLocation.equals("/")) {
             fileSystem.addFullPath(outfileLocation + fileName);
+            file.setPath(outfileLocation + fileName);
           } else {
             fileSystem.addFullPath(outfileLocation + "/" + fileName);
+            file.setPath(outfileLocation + "/" + fileName);
           }
         } catch (InvalidPath e) {
           // if the path is invalid return null
