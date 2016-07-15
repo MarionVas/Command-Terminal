@@ -66,7 +66,13 @@ public class Copy {
       this.Path = this.newPath;
       File cpFile = new File(this.newPath.substring(this.newPath.lastIndexOf("/")));
       cpFile.setBody(((File) this.insertedFileSystem.getObject(this.oldPath)).getBody());
-      cpFile.setPath(this.Path);
+      if (this.Path.equals("/")){
+        cpFile.setPath("/" +this.oldPathType.getName());
+      }
+      else{
+        cpFile.setPath(this.Path + "/" +this.oldPathType.getName());
+      }
+      
       String parentPath = this.oldPath.substring(0, this.oldPath.lastIndexOf("/"));
       this.insertedFileSystem.addFullPath(this.Path);
       parentPath = this.newPath.substring(0, this.newPath.lastIndexOf("/"));
