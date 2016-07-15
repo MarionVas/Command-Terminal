@@ -265,8 +265,11 @@ public class JFileSystem implements FileSystem {
         path = this.currDir + path;
       }
     }
-    if (!this.fullPaths.contains(path) && !(new Exception().getStackTrace()[1]
-        .getClassName().equals("a2.Mkdir"))) {
+    if (!this.fullPaths.contains(path)
+        && !(new Exception().getStackTrace()[1].getClassName()
+            .equals("a2.Mkdir"))
+        && !(new Exception().getStackTrace()[1].getClassName()
+            .equals("a2.MV"))) {
       throw new InvalidPath(" is not a valid path", path);
     }
     return path;
@@ -335,20 +338,18 @@ public class JFileSystem implements FileSystem {
       // name is in the form ../DIR_NAME/../ , so the DIR_NAME must be added
       // to the absolute path and "i" must be decremented
       if (!name.startsWith("..") && name.contains("..")) {
-        if (!this.currDir.equals("/")){
+        if (!this.currDir.equals("/")) {
           path = path + "/" + name.substring(0, indexDots);
-        }
-        else{
+        } else {
           path = "/" + name.substring(0, indexDots);
         }
         i--;
       } else {
         try { // If the number of ".." reaches past the root and error is thrown
           // Cutting a section of the current path off
-          if (path.lastIndexOf("/") == path.indexOf("/")){
+          if (path.lastIndexOf("/") == path.indexOf("/")) {
             path = "/";
-          }
-          else{
+          } else {
             path = path.substring(0, path.lastIndexOf("/"));
           }
         } catch (Exception e) {
@@ -363,15 +364,13 @@ public class JFileSystem implements FileSystem {
 
     }
     // Returning the absolute path
-    if (path.equals("/") && !name.equals("..")){
+    if (path.equals("/") && !name.equals("..")) {
       return path + name;
-    }
-    else if( path.equals("/")){
+    } else if (path.equals("/")) {
       return path;
-    }
-    else{
+    } else {
       return path + "/" + name;
     }
   }
-  
+
 }
