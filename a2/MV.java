@@ -13,28 +13,55 @@ public class MV implements CommandInterface {
 
   public String execute() {
     try {
-      if (classPaths.length == 2) {
-        String existingItemPath = insertedFileSystem.getFullPath(classPaths[0]);
-        String newItemPath = insertedFileSystem.getFullPath(classPaths[1]);
-        String parentPathExisting = existingItemPath.substring(0, existingItemPath.lastIndexOf("/"));
-        String parentPathNew = newItemPath.substring(0, newItemPath.lastIndexOf("/"));
-        
-        Item existingItem = insertedFileSystem.getObject(existingItemPath);
-        Item parentExisting = insertedFileSystem.getObject(parentPathExisting);
-        Item parentNew = insertedFileSystem.getObject(parentPathNew);
-        
-        ((Folder) parentExisting).removeChildren(existingItem);
-        existingItem.setPath(newItemPath);
-        ((Folder) parentNew).addChildren(existingItem);
+    if (classPaths.length == 2 && checkPathExists(classPaths[0])) {
+
+      /*
+       * System.out.println(existingItemPath); String newItemPath =
+       * insertedFileSystem.getFullPath(classPaths[1]);
+       * System.out.println(newItemPath); String parentPathExisting =
+       * existingItemPath.substring(0, existingItemPath.lastIndexOf("/"));
+       * String parentPathNew = newItemPath.substring(0,
+       * newItemPath.lastIndexOf("/")); System.out.println(parentPathExisting);
+       * System.out.println(parentPathNew); Item parentExisting =
+       * insertedFileSystem.getObject(parentPathExisting); Item newExistingItem
+       * = insertedFileSystem.getObject(newItemPath);
+       */
+
+      String existingItemPath = insertedFileSystem.getFullPath(classPaths[0]);
+      Item existingItem = insertedFileSystem.getObject(existingItemPath);
+      String parentPathExisting = existingItemPath.substring(0, existingItemPath.lastIndexOf("/"));
+      Item parentExisting = insertedFileSystem.getObject(parentPathExisting);
       
-      } else {
-        System.out.print("Invalid command");
+      if (checkPathExists(classPaths[1])) {
+        String newItemPath = insertedFileSystem.getFullPath(classPaths[1]);
+        Item specifiedItem = insertedFileSystem.getObject(newItemPath);
+        if (specifiedItem instanceof Folder) {
+
+          ((Folder) parentExisting).removeChildren(existingItem);
+          // existingItem.setPath(newItemPath +);
+          ((Folder) specifiedItem).addChildren(existingItem);
+        }  
       }
 
-    } catch (InvalidPath e) {
+      
+    } else {
+      System.out.print("Invalid command or path dne");
+    }
+
+    } catch (InvalidPath e){
       System.out.print("Invalid path");
     }
     return stringToOutput;
+  }
+
+  private boolean checkPathExists(String path) {
+    try {
+      insertedFileSystem.getFullPath(path);
+      return true;
+
+    } catch (InvalidPath e) {
+      return false;
+    }
   }
 
   public String manual() {
