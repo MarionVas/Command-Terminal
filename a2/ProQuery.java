@@ -139,9 +139,10 @@ public class ProQuery {
         stringToOutput(stringToOutput);
       }
 
+    } catch (NullPointerException e) {
+      Output.printError();
     } catch (ClassNotFoundException e) {
       Output.printError();
-
     } catch (InstantiationException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
