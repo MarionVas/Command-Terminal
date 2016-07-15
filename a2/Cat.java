@@ -42,8 +42,7 @@ public class Cat implements CommandInterface {
     // get the current working directory
     Folder currFolder = fileSystem.getCurrFolder();
     // check if the user wants to read one file
-    if (this.parameter.length == 1 | (this.parameter.length == 3
-        && (parameter[1] == ">") | (parameter[1] == ">>"))) {
+    if (this.parameter.length == 1) {
       // get the file the user wants to read
       File file = (File) currFolder.getFile(parameter[0]);
       if (file == null) {
@@ -63,31 +62,26 @@ public class Cat implements CommandInterface {
       }
     } else {
       // if there is multiple files, ignore the redirection of output
-      if (!(Arrays.asList(parameter).contains(">")
-          | Arrays.asList(parameter).contains(">>"))) {
-        for (String eachFile : this.parameter) {
-          // get the file the user wants to read
-          File file = (File) currFolder.getFile(eachFile);
-          if (file == null) {
-            // if the outfile is not a valid file name check if it is a valid
-            // path
-            if (eachFile.contains("/")) {
-              // run the getOutputFromPath method to get the output and add 3
-              // extra lines to separate each file
-              stringToOutput += getOutputFromPath(eachFile) + "\n\n\n\n";
-            } else {
-              // if it is not a valid name or a file path print an error
-              System.out.println("That was not a valid path or file name.");
-            }
+      for (String eachFile : this.parameter) {
+        // get the file the user wants to read
+        File file = (File) currFolder.getFile(eachFile);
+        if (file == null) {
+          // if the outfile is not a valid file name check if it is a valid
+          // path
+          if (eachFile.contains("/")) {
+            // run the getOutputFromPath method to get the output and add 3
+            // extra lines to separate each file
+            stringToOutput += getOutputFromPath(eachFile) + "\n\n\n\n";
           } else {
-            // if the outfile is a valid file name print the contents of the
-            // file
-            // print three lines to separate each file being read
-            stringToOutput += file.getBody() + "\n\n\n\n";
+            // if it is not a valid name or a file path print an error
+            System.out.println("That was not a valid path or file name.");
           }
+        } else {
+          // if the outfile is a valid file name print the contents of the
+          // file
+          // print three lines to separate each file being read
+          stringToOutput += file.getBody() + "\n\n\n\n";
         }
-      } else {
-        // case for symbols do nothing
       }
     }
     return stringToOutput;
