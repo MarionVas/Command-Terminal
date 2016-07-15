@@ -312,14 +312,13 @@ public class ProQuery {
 
   private String[] getFileSection(String[] inputArguments) {
     String[] fileSection = {};
+    int index = findSignIndexOrLast(inputArguments);
     if (Arrays.asList(inputArguments).contains(">")) {
-      fileSection = Arrays.copyOfRange(inputArguments,
-          Arrays.asList(inputArguments).indexOf(">") + 1,
-          inputArguments.length);
+      fileSection =
+          Arrays.copyOfRange(inputArguments, index + 1, inputArguments.length);
     } else if (Arrays.asList(inputArguments).contains(">>")) {
-      fileSection = Arrays.copyOfRange(inputArguments,
-          Arrays.asList(inputArguments).indexOf(">>" + 1),
-          inputArguments.length);
+      fileSection =
+          Arrays.copyOfRange(inputArguments, index + 1, inputArguments.length);
     }
     return fileSection;
   }
