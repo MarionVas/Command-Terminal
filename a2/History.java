@@ -12,6 +12,7 @@ public class History implements CommandInterface // need execute method()
   private int commandLocation;
   private int location;
   private List<String> subHistory;
+  private String outputToString = "";
 
   // Default constructor
   public History() {
@@ -44,8 +45,8 @@ public class History implements CommandInterface // need execute method()
    * output class
    */
   public String execute() {
-    output = inputHistory;
-    return "";
+    outputToString = printContents(inputHistory);
+    return outputToString;
   }
 
   /**
@@ -55,7 +56,7 @@ public class History implements CommandInterface // need execute method()
    * @param strLocation, will contain one value which will be the amount of
    *        previous commands the user wishes to see
    */
-  public void execute(String[] strLocation) {
+  public String execute(String[] strLocation) {
     // Determine if the given string can be turned into an integer
     // If not, display an error message
     try {
@@ -74,13 +75,14 @@ public class History implements CommandInterface // need execute method()
 
         // creating a vector string to output that displays the history
         // appropriately from a location specified or 0 if need be
-        Output.printContents(subHistory);
+        outputToString = printContents(subHistory);
       } else {
         Output.printError();
       }
     } catch (Exception e) {
       Output.printNumberError();
     }
+    return outputToString;
   }
 
   /**
@@ -114,10 +116,12 @@ public class History implements CommandInterface // need execute method()
 
   }
 
-  public static void printContents(List<String> contents) {
-    for (String content : contents) {
-      System.out.println(content);
+  public String printContents(List<String> contents) {
+    String history = "";
+    for (int i = 0; i < contents.size(); i++) {
+      history += "\n" + contents.get(i);
     }
+    return history;
   }
 
 
@@ -127,10 +131,12 @@ public class History implements CommandInterface // need execute method()
    * 
    */
 
-  public static void printContents(Vector<String> contents) {
-    for (String content : contents) {
-      System.out.println(content);
+  public String printContents(Vector<String> contents) {
+    String history = "";
+    for (int i = 0; i < contents.size(); i++) {
+      history += "\n" + contents.get(i);
     }
+    return history;
   }
 
 }
