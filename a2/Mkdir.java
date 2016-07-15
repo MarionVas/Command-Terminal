@@ -11,7 +11,7 @@ public class Mkdir implements CommandInterface {
   private String[] specialChar =
       new String[] {"!", "@", "$", "&", "#", "*", "(", ")", "?", ":", "[", "]",
           "\"", "<", ">", "\'", "`", "\\", "|", "=", "{", "}", ";"};
-  // The string that is to be used by Proquery (the ">" and ">>" cases)
+  // The string that is to be used by ProQuery (the ">" and ">>" cases)
   private String stringToOutput = "";
 
   /**
@@ -84,6 +84,8 @@ public class Mkdir implements CommandInterface {
    * The method that will be called by ProQuery. Checks which kind of creation
    * is required and runs the appropriate method. Runs all arguments provided
    * Also print errors if the directory already exists
+   * 
+   * @return an empty string (to comply with ProQeury's implementation)
    */
   public String execute() {
     // Runs for all arguments in the string array
@@ -115,6 +117,8 @@ public class Mkdir implements CommandInterface {
 
   /**
    * The manual explaining how to use the mkdir command
+   * 
+   * @return returns a string with the explanation of how mkdir works
    */
   public String manual() {
     return "mkdir DIR … - Creates directories, each of which may be relative\n"
