@@ -4,7 +4,7 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Grep 
+public class Grep implements CommandInterface
 {
   private JFileSystem fileManager;
   private String[] command;
@@ -24,7 +24,7 @@ public class Grep
     this.path = command[command.length - 1];
   }
   
-  public void execute()
+  public String execute()
   {
     try {
       // make sure the path is a full path - also checks if the path is valid
@@ -66,14 +66,14 @@ public class Grep
           regex = command[0];
           // Get the lines in the given file that ocntain the regex
           this.output = grepNoRecurse((File)dirOrFile);
-          System.out.println(this.output);
+          //System.out.println(this.output);
         }
       }
     } catch (InvalidPath e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     } 
-
+    return this.output;
   }
   
   public String grepNoRecurse(File file)
@@ -122,7 +122,7 @@ public class Grep
       // append to the output
       result += filePath + "/" + fileName +
           ":\n" + grepNoRecurse((File)dirrOrFile);
-      System.out.println(result);
+      //System.out.println(result);
     }
     // if the item is a directory/folder
     else {
@@ -149,6 +149,12 @@ public class Grep
       }
     }
     return result;
+  }
+
+  @Override
+  public String manual() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }
