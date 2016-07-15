@@ -4,6 +4,7 @@ public class PushD implements CommandInterface {
   private JFileSystem Manager;
   private DirStack directoryStack;
   private String[] location;
+  private String output = "";
 
   /**
    * basic constructor for the PushD class
@@ -21,7 +22,7 @@ public class PushD implements CommandInterface {
    * The purpose of this method is to do the PushD command, which enters a given
    * string into a DirStack and changes the directory to the given string path
    */
-  public void execute() {
+  public String execute() {
     // If the given location doesn't start with a slash, add the slash
     if (location[0].charAt(0) != '/') {
       location[0] = "/" + location[0];
@@ -40,6 +41,7 @@ public class PushD implements CommandInterface {
     } else {
       Output.printPathError();
     }
+    return output;
   }
 
   /**
