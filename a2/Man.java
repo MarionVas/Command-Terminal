@@ -27,7 +27,7 @@ public class Man implements CommandInterface {
    * The purpose of this method is to allow user to print the documentation of a
    * command class that was specified during the construction of the Man object.
    */
-  public void execute() {
+  public String execute() {
     // Initialize a hashtable for commands without parameters
     Hashtable<String, String> commandNoPara = new Hashtable<String, String>();
     // Initialize a hashtable for commands with parameters
@@ -136,6 +136,7 @@ public class Man implements CommandInterface {
       // Notify the user that they did not provide a valid command
       Output.printError();
     }
+    return "";
   }
 
   /**
