@@ -134,9 +134,9 @@ public class ProQuery {
       // If the input entry contained redirection arguments, redirect the output
       // to a file appropriately. Otherwise, print output on console as usual
       if (checkForRedir(splitEntry) && !stringToOutput.equals("")) {
-        stringToFile(splitEntry, stringToOutput);
+        commandStringToFile(splitEntry, stringToOutput);
       } else {
-        stringToOutput(stringToOutput);
+        commandStringToOutput(stringToOutput);
       }
 
     } catch (NullPointerException e) {
@@ -290,18 +290,38 @@ public class ProQuery {
    * 
    * @param inputArguments - String elements to be concatenated
    */
-  private void stringToFile(String[] inputArguments, String commandOutput) {
+  private void commandStringToFile(String[] inputArguments,
+      String commandOutput) {
     // Name of output file from inputArguments
-    String outfile = inputArguments[inputArguments.length - 1];
-    // Don't produce the outfile if there nothing to print from a command's
-    // execute method
-    if (!commandOutput.equals("")
-        && Arrays.asList(inputArguments).contains(">")) {
-      OutputToFile.overwrite(jFileSystem, commandOutput, outfile);
-    } else if (!commandOutput.equals("")
-        && Arrays.asList(inputArguments).contains(">>")) {
-      OutputToFile.append(jFileSystem, commandOutput, outfile);
+    String[] outfileSection = getFileSection(inputArguments);
+    if (outfileSection.length == 1) {
+      String outfile = outfileSection[0];
+      // Don't produce the outfile if there nothing to print from a command's
+      // execute method
+      if (!commandOutput.equals("")
+          && Arrays.asList(inputArguments).contains(">")) {
+        OutputToFile.overwrite(jFileSystem, commandOutput, outfile);
+      } else if (!commandOutput.equals("")
+          && Arrays.asList(inputArguments).contains(">>")) {
+        OutputToFile.append(jFileSystem, commandOutput, outfile);
+      }
+    } else {
+      System.err.println("That is not a valid OUTFILE");
     }
+  }
+
+  private String[] getFileSection(String[] inputArguments) {
+    String[] fileSection = {};
+    if (Arrays.asList(inputArguments).contains(">")) {
+      fileSection = Arrays.copyOfRange(inputArguments,
+          Arrays.asList(inputArguments).indexOf(">") + 1,
+          inputArguments.length);
+    } else if (Arrays.asList(inputArguments).contains(">>")) {
+      fileSection = Arrays.copyOfRange(inputArguments,
+          Arrays.asList(inputArguments).indexOf(">>" + 1),
+          inputArguments.length);
+    }
+    return fileSection;
   }
 
   /**
@@ -310,7 +330,7 @@ public class ProQuery {
    * 
    * @param commandOutput - String to be printed on console
    */
-  private void stringToOutput(String commandOutput) {
+  private void commandStringToOutput(String commandOutput) {
     // Print on console if the string is not empty
     if (!commandOutput.equals("")) {
       System.out.print(commandOutput + "\n");
