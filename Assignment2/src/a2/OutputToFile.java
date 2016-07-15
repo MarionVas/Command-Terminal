@@ -9,7 +9,7 @@ public class OutputToFile {
   // initialize a String array to hold all the invalid characters in a file name
   private static String[] specialChar = new String[] {"/", "!", "@", "$", "&",
       "#", "*", "(", ")", "?", ":", "[", "]", "\"", "<", ">", "\'", "`", "\\",
-      "|", "=", "{", "}", "/", ";", " ", ""};
+      "|", "=", "{", "}", "/", ";", " "};
 
   /**
    * This method will replace the contents of the outfile given to the
@@ -72,7 +72,6 @@ public class OutputToFile {
   private static File findFile(JFileSystem fileSystem, String outfile) {
     // get the current working directory
     Folder currFolder = fileSystem.getCurrFolder();
-    String currPath = fileSystem.getCurrPath();
     // initialize a variable to hold the return
     File file;
     // initialize a variable to check if the outfile is a valid file name
@@ -86,6 +85,7 @@ public class OutputToFile {
         valid = false;
       }
     }
+    System.out.println(String.valueOf(valid));
     // check if the outfile is a valid file name
     if (valid) {
       // call the helper function to get the file
@@ -101,12 +101,18 @@ public class OutputToFile {
       // find the path to the folder where the file is kept
       String outfileLocation = outfile;
       // check if the path is the root and not a valid file name
-      if (outfile.equals("/")) {
+      if (outfile.equals("/") | outfile.equals("//")) {
         // if the outfile is the root return null
         file = null;
         // check if the path to the parents folder is a valid path
       } else {
         try {
+          if (outfileLocation.lastIndexOf("/") == outfileLocation.length()
+              - 1) {
+            // remove the last "/"
+            outfileLocation =
+                outfileLocation.substring(0, outfileLocation.length() - 1);
+          }
           // find the path to the folder where the file is kept
           outfileLocation = outfile.substring(0, outfile.lastIndexOf("/"));
           // get the folder object where the file is kept
