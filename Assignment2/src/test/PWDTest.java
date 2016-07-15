@@ -32,9 +32,8 @@ public class PWDTest {
      * 
      * Expected output should be a string containing the path of the current
      * working directory ("/")
-     */
-    printWorkingDir.execute();
-    assertEquals("/", printWorkingDir.getStringToOutput());
+     */;
+    assertEquals("/", printWorkingDir.execute());
   }
 
   @Test
@@ -49,8 +48,7 @@ public class PWDTest {
     runCommand.sortQuery("mkdir a");
     runCommand.sortQuery("cd a");
     printWorkingDir = new PWD(runCommand.getFileSystem());
-    printWorkingDir.execute();
-    assertEquals("/a", printWorkingDir.getStringToOutput());
+    assertEquals("/a", printWorkingDir.execute());
   }
 
   @Test
@@ -66,8 +64,7 @@ public class PWDTest {
     runCommand.sortQuery("mkdir b");
     runCommand.sortQuery("cd a");
     printWorkingDir = new PWD(runCommand.getFileSystem());
-    printWorkingDir.execute();
-    assertEquals("/a", printWorkingDir.getStringToOutput());
+    assertEquals("/a", printWorkingDir.execute());
   }
 
   @Test
@@ -84,8 +81,7 @@ public class PWDTest {
     runCommand.sortQuery("mkdir b");
     runCommand.sortQuery("cd b");
     printWorkingDir = new PWD(runCommand.getFileSystem());
-    printWorkingDir.execute();
-    assertEquals("/a/b", printWorkingDir.getStringToOutput());
+    assertEquals("/a/b", printWorkingDir.execute());
   }
 
   @Test
@@ -106,7 +102,6 @@ public class PWDTest {
     runCommand.sortQuery("mkdir f");
     runCommand.sortQuery("cd f");
     printWorkingDir = new PWD(runCommand.getFileSystem());
-    printWorkingDir.execute();
-    assertEquals("/b/f", printWorkingDir.getStringToOutput());
+    assertEquals("/b/f", printWorkingDir.execute());
   }
 }
