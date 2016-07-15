@@ -4,10 +4,7 @@ import java.util.Vector;
 import java.util.*;
 
 public class JFileSystem implements FileSystem {
-  // Output collaboration
-  // DirStack collaboration
-  // A vector which holds all Directories at root
-  // private Vector<Folder> Manager;
+
   // A vector that holds all the full paths of each entity in JShell
   private Vector<String> fullPaths;
   // A string representing the current working directory
@@ -16,7 +13,7 @@ public class JFileSystem implements FileSystem {
   private Folder currFolder;
   // The head of the tree which contains all Folders and Files
   private Folder rootFolder;
-  // A DirStack
+  // DirStack collaboration
   private DirStack dirStack;
 
   /**
@@ -33,11 +30,17 @@ public class JFileSystem implements FileSystem {
     dirStack = new DirStack();
   }
 
+  /**
+   * Removes a specified path from the file System
+   * 
+   * @param path - the absolute path to be removed
+   */
+
   public void removePaths(String path) {
     this.fullPaths.remove(path);
   }
-  
-  
+
+
   /**
    * This function return the path of the current working directory.To be used
    * with various command classes.
@@ -244,15 +247,24 @@ public class JFileSystem implements FileSystem {
 
   /**
    * Converts Absolute paths or relative paths into absolute paths
-   *
+   * 
+   * @param path - A path; can be absolute or relative
+   * @throws InvalidPath - If the path is invalid (ie: not in jFileSystem)
+   *         throws is ignored for Mkdir, Move, and Copy since they work with
+   *         Items that may not exist
+   * @return path - An absolute version of path
    */
   public String getFullPath(String path) throws InvalidPath {
+    // Saving the original path for error output purposes
     String originalPath = path;
+    // Removing the single dots (ie: "/.")
     path = this.removeSingleDots(path);
+    // Removing the "/" at the end
     if (path.endsWith("/") && !path.equals("/")) {
       path = path.substring(0, path.length() - 1);
     }
     if (path.contains("..")) {
+      // Getting the parent of the current path
       if (path.equals("..")) {
         if ((this.getCurrPath().split("/").length > 2)) {
           path = this.getCurrPath().substring(0,
@@ -261,20 +273,26 @@ public class JFileSystem implements FileSystem {
           path = "/";
         }
       } else {
+        // Removing all the ".." and outputting the corresponding path
         path = this.removeDots(path);
       }
-    } else if (!path.startsWith("/")) {
+    }
+    // If it just a normal local path
+    else if (!path.startsWith("/")) {
       if (!this.currDir.equals("/")) {
         path = this.currDir + "/" + path;
       } else {
         path = this.currDir + path;
       }
     }
+    // Only checks if its a valid file that exists if this method is not called
+    // from Mkdir, Move, and Copy
     if (!this.fullPaths.contains(path)
         && !(new Exception().getStackTrace()[1].getClassName()
             .equals("a2.Mkdir"))
-        && !(new Exception().getStackTrace()[1].getClassName()
-            .equals("a2.MV"))) {
+        && !(new Exception().getStackTrace()[1].getClassName().equals("a2.MV"))
+        && !new Exception().getStackTrace()[1].getClassName()
+            .equals("a2.Copy")) {
       throw new InvalidPath(" is not a valid path", path);
     }
     return path;
