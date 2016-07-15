@@ -31,9 +31,10 @@ public class EchoOverwrite implements CommandInterface {
   /**
    * This method will replace the contents of the outfile given in the
    * parameters of the constructor with the String given in the parameter
+   * @return 
    */
 
-  public void execute() {
+  public String execute() {
     // find the file that the user is going to be working with
     File replaceFile = findFile();
     if (isFileNull()) {
@@ -42,6 +43,7 @@ public class EchoOverwrite implements CommandInterface {
       // replace the contents of the file with the String
       replace(replaceFile, string);
     }
+    return "";
   }
 
 
