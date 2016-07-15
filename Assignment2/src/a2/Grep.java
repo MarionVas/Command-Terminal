@@ -31,7 +31,7 @@ public class Grep implements CommandInterface
       this.path = fileManager.getFullPath(path);
       System.out.println("THE FIRST PARAM IS" + command[0]);
       // Check for appearance of -r or -R
-      if (command[0] == "-r" || command[0] == "-R")
+      if (command[0].equals("-r") || command[0].equals("-R"))
       {
         System.out.println("IT MADE IT HERE WTF FUCK");
         // set regex as the 2nd param
