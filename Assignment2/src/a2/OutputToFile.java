@@ -9,7 +9,7 @@ public class OutputToFile {
   // initialize a String array to hold all the invalid characters in a file name
   private static String[] specialChar = new String[] {"/", "!", "@", "$", "&",
       "#", "*", "(", ")", "?", ":", "[", "]", "\"", "<", ">", "\'", "`", "\\",
-      "|", "=", "{", "}", "/", ";", " "};
+      "|", "=", "{", "}", "/", ";", " ", ""};
 
   /**
    * This method will replace the contents of the outfile given to the
