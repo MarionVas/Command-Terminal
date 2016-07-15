@@ -34,34 +34,43 @@ public class MV implements CommandInterface {
               insertedFileSystem.getObject(parentPathSpecified);
 
           if (specifiedItem instanceof Folder) {
-
+            System.out.println("OVA HER");
             ((Folder) parentExisting).removeChildren(existingItem);
             setNewSpecifiedPath(existingItem, specifiedItemPath);
+            System.out.println(existingItem.getPath());
             ((Folder) specifiedItem).addChildren(existingItem);
+            System.out.println(specifiedItem.getPath());
 
           } else if (existingItem instanceof File
               && specifiedItem instanceof File) {
             ((Folder) parentExisting).removeChildren(existingItem);
             setNewSpecifiedPath(existingItem, parentPathSpecified);
+            System.out.println(existingItem.getPath());
             ((Folder) parentSpecified).removeChildren(specifiedItem);
-            String fileName = existingItemPath.substring(
-                existingItemPath.lastIndexOf("/") + 1,
-                existingItemPath.length());
+            String fileName = specifiedItemPath.substring(
+                specifiedItemPath.lastIndexOf("/") + 1,
+                specifiedItemPath.length());
             existingItem.setName(fileName);
             ((Folder) parentSpecified).addChildren(existingItem);
 
           } else {
             System.out
-                .print("Error: Cannot overwrite non-directory with directory");
+                .println("Error: Cannot overwrite non-directory with directory");
           }
 
         } else {
           if (isFile(specifiedItemPath) && existingItem instanceof File) {
-            moveFileToNonExistingItemPath(existingItemPath, parentPathSpecified,
+            String fileName = specifiedItemPath.substring(
+                specifiedItemPath.lastIndexOf("/") + 1,
+                specifiedItemPath.length());
+            moveFileToNonExistingItemPath(fileName, parentPathSpecified,
                 existingItem, parentExisting);
 
           } else if (!isFile(specifiedItemPath)) {
-            moveFileToNonExistingItemPath(existingItemPath, specifiedItemPath,
+            String folderName = existingItemPath.substring(
+                existingItemPath.lastIndexOf("/") + 1,
+                existingItemPath.length());
+            moveFileToNonExistingItemPath(folderName, specifiedItemPath,
                 existingItem, parentExisting);
           } else {
             System.out
@@ -71,7 +80,7 @@ public class MV implements CommandInterface {
 
 
       } else {
-        System.out.print("Invalid command or path dne");
+        System.out.println("Invalid command or path dne");
       }
 
 
@@ -95,28 +104,27 @@ public class MV implements CommandInterface {
     return checkPath;
   }
 
-  private void moveFileToNonExistingItemPath(String currPath,
+  private void moveFileToNonExistingItemPath(String movedItemName,
       String specifiedParentPath, Item currItem, Item parentCurrItem) {
-    String newItemName =
-        currPath.substring(currPath.lastIndexOf("/") + 1, currPath.length());
+
     try {
       if (checkPathExists(specifiedParentPath)) {
         Item parentSpecified =
             insertedFileSystem.getObject(specifiedParentPath);
         ((Folder) parentCurrItem).removeChildren(currItem);
         setNewSpecifiedPath(currItem, specifiedParentPath);
-        currItem.setName(newItemName);
+        currItem.setName(movedItemName);
         ((Folder) parentSpecified).addChildren(currItem);
 
       } else {
-        String[] fileNamePara = {newItemName};
+        String[] fileNamePara = {movedItemName};
         Mkdir makeParentSpecified = new Mkdir(insertedFileSystem, fileNamePara);
         makeParentSpecified.executeFullPath(specifiedParentPath);
         Item parentSpecified =
             insertedFileSystem.getObject(specifiedParentPath);
         ((Folder) parentCurrItem).removeChildren(currItem);
         setNewSpecifiedPath(currItem, specifiedParentPath);
-        currItem.setName(newItemName);
+        currItem.setName(movedItemName);
 
         ((Folder) parentSpecified).addChildren(currItem);
       }
@@ -128,7 +136,8 @@ public class MV implements CommandInterface {
   private void setNewSpecifiedPath(Item newItem, String newItemParentPath) {
     String newParentPath = newItemParentPath + "/" + newItem.getName();
     newItem.setPath(newParentPath);
-    if (!newItem.getChildren().isEmpty()) {
+    System.out.println(newItem.getPath());
+    if (newItem instanceof Folder && !newItem.getChildren().isEmpty()) {
       for (Item child : newItem.getChildren()) {
         setNewSpecifiedPath(child, newParentPath);
       }
