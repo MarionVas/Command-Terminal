@@ -4,6 +4,7 @@ public class PopD implements CommandInterface {
   private JFileSystem Manager;
   private DirStack directoryStack;
   private String[] location;
+  private String output = "";
 
   /** 
    * basic constructor for the PushD class
@@ -20,7 +21,7 @@ public class PopD implements CommandInterface {
    * path from the DirStack as per LIFO, removing it from the stack and changes
    * the directory to that filepath
    */
-  public void execute() {
+  public String execute() {
 
     try {
       // pop the last saved location from the DirStack
@@ -33,6 +34,7 @@ public class PopD implements CommandInterface {
     } catch (Exception e) {
       Output.printDirectoryStackError();
     }
+    return output;
   }
 
   /**
