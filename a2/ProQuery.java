@@ -84,7 +84,7 @@ public class ProQuery {
     // the separator
     String[] splitEntry = entry.split("\\s+");
     if (splitEntry.length > 1) {
-      String[] fixCommandParameters = 
+      String[] fixCommandParameters =
           Arrays.copyOfRange(splitEntry, 1, splitEntry.length);
       commandParameters = Arrays.copyOfRange(fixCommandParameters, 0,
           findSignIndexOrLast(fixCommandParameters));
@@ -92,7 +92,8 @@ public class ProQuery {
 
     try {
       // If the given string entry is only one key word and not history
-      if (commandParameters.length == 0 && !splitEntry[0].equals("history")) {
+      if (commandParameters.length == 0 && !splitEntry[0].equals("history")
+          && !splitEntry[0].startsWith("!")) {
         // Acquire the appropriate value within the hashtable
         String commandName = singleCommandKeys.get(splitEntry[0]);
 
