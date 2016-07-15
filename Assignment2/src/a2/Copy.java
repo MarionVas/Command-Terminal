@@ -2,7 +2,7 @@ package a2;
 import java.util.Vector;
 
 import a2.Mkdir;
-public class Copy {
+public class Copy implements CommandInterface{
   
   private JFileSystem insertedFileSystem;
   private String[] classPaths;
@@ -141,5 +141,11 @@ public class Copy {
       }
     }
 
+  }
+
+  @Override
+  public String manual() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }
