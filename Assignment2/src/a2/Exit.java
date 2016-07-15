@@ -1,26 +1,27 @@
 package a2;
 
 public class Exit implements CommandInterface {
-  private FileSystem manager;
+  // initialize a String variable that's always an empty string for the execute
+  // method to return
   private final String stringToOutput = "";
-  
+
   /**
    * The constructor
    * 
    * @param jFileSystem - The JFileSystem with all the file and folder
    */
 
-  public Exit(JFileSystem jFileSystem) {
-    this.manager = jFileSystem;
-  }
+  public Exit(JFileSystem jFileSystem) {}
 
   /**
    * This method will terminate the console
    */
-  
+
   public String execute() {
     // method to exit consoles
     System.exit(0);
+    // return an empty String since exit command would never print anything
+    // on the console
     return stringToOutput;
   }
 
