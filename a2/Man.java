@@ -38,7 +38,6 @@ public class Man implements CommandInterface {
     commandNoPara.put("exit", "a2.Exit");
     commandNoPara.put("pwd", "a2.PWD");
     commandNoPara.put("popd", "a2.PopD");
-    commandNoPara.put("history", "a2.History");
 
     // Populate the hastable for commands with parameters
     commandWithPara.put("cd", "a2.CD");
@@ -51,6 +50,7 @@ public class Man implements CommandInterface {
     commandWithPara.put("curl", "a2.Curl");
     commandWithPara.put("cp", "a2.Copy");
     commandWithPara.put("mv", "a2.Move");
+    commandWithPara.put("history", "a2.History");
 
     try {
       // If one command is given and it is a command which requires no
@@ -68,7 +68,7 @@ public class Man implements CommandInterface {
         // Call the manual method of the instance and send the acquired string
         // to the output to be printed
         stringToOutput = commandInstance.manual();
-        Output.printString(stringToOutput);
+
 
 
 
@@ -89,7 +89,6 @@ public class Man implements CommandInterface {
         // Call the manual method of the instance and send the acquired string
         // to the output to be printed
         stringToOutput = commandInstance.manual();
-        Output.printString(stringToOutput);
 
 
 
@@ -121,7 +120,7 @@ public class Man implements CommandInterface {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    return "";
+    return stringToOutput;
   }
 
   /**
