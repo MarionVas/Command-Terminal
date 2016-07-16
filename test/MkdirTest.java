@@ -5,10 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import a2.CD;
-import a2.Folder;
-import a2.JFileSystem;
-import a2.Mkdir;
+import a2.*;
 
 
 public class MkdirTest {
@@ -17,6 +14,7 @@ public class MkdirTest {
   private String[] fileNames;
   private Mkdir mkdir1;
   private CD cd;
+  private ProQuery runCommand;
 
   @Before
   public void setUp() throws Exception {
@@ -24,6 +22,8 @@ public class MkdirTest {
     Folder rootFolder = new Folder("/", "/");
     jFileSystem.setRoot(rootFolder);
     jFileSystem.setCurrFolder(rootFolder);
+
+    runCommand = new ProQuery(this.jFileSystem);
 
     fileName = new String[1];
     fileNames = new String[3];
@@ -178,6 +178,32 @@ public class MkdirTest {
     assertTrue(jFileSystem.checkValidPath("/a/a1/a2"));
   }
 
+  @Test
+  public void testMkdirRedirectFailsToMakeFile() {
+    /*
+     * Test to determine if redirection the output of mkdir command
+     * (nonexistent) will create a file
+     * 
+     * Expected no file called newDirectory.txt should be in the root folder of
+     * the jFileSystem
+     */
+    runCommand.sortQuery("cd a > newDirectory.txt");
+    Item file = jFileSystem.getObject("/newDirectory.txt");
+    assertTrue(file == null);
+  }
 
+  @Test
+  public void testMkdirRedirectFailsToAppendFile() {
+    /*
+     * Test to determine if redirection the output of mkdir command
+     * (nonexistent) will create a file
+     * 
+     * Expected no file called newDirectory.txt should be in the root folder of
+     * the jFileSystem
+     */
+    runCommand.sortQuery("cd a >> newDirectory.txt");
+    Item file = jFileSystem.getObject("/newDirectory.txt");
+    assertTrue(file == null);
+  }
 
 }
