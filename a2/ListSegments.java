@@ -4,7 +4,7 @@ import java.awt.Component;
 import java.awt.List;
 import java.util.Vector;
 
-public class LS implements CommandInterface {
+public class ListSegments implements CommandInterface {
   // The jFileSystem
   private FileSystem Manager;
   // The arguments that the user enters
@@ -22,7 +22,7 @@ public class LS implements CommandInterface {
    * @param fileManager - The JFilemMnager with all the directories and files
    * @param name - The argument(s)
    */
-  public LS(JFileSystem fileManager, String[] name) {
+  public ListSegments(JFileSystem fileManager, String[] name) {
     this.Manager = fileManager;
     this.args = name;
   }
@@ -41,7 +41,7 @@ public class LS implements CommandInterface {
    * 
    * @param fileManager
    */
-  public LS(JFileSystem fileManager) {
+  public ListSegments(JFileSystem fileManager) {
     this.Manager = fileManager;
     this.args = new String[1];
     // Setting a blank command
@@ -261,60 +261,5 @@ public class LS implements CommandInterface {
     return "ls [PATH  …] - Print the contents of the specified files or\n"
         + "directories. If no path is given, print the contents of the\n"
         + "current file or directory.\n";
-  }
-  public static void main(String[] args) 
-  {
-    
-    JFileSystem jFileSystem = new JFileSystem();
-    Folder rootFolder = new Folder("/", "/");
-    jFileSystem.setRoot(rootFolder);
-    jFileSystem.setCurrFolder(rootFolder);
-    String[] fileArg;
-    fileArg = new String[1];
-    String[] fileArgs = new String[3];
-    LS ls = new LS(jFileSystem, fileArgs);
-    String[] a = new String[2];
-    a[0] = "a";
-    a[1] = "b";
-    Mkdir mkdir = new Mkdir(jFileSystem, a);
-    a = new String[1];
-    a[0] = "a";
-    CD cd = new CD(jFileSystem, a);
-    mkdir.execute();
-    cd.execute();
-
-    a = new String[3];
-    a[0] = "e";
-    a[1] = "f";
-    a[2] = "q";
-    mkdir = new Mkdir(jFileSystem, a);
-    mkdir.execute();
-    a = new String[1];
-    a[0] = "e";
-    cd = new CD(jFileSystem, a);
-    cd.execute();
-    a = new String[3];
-    a[0] = "x";
-    a[1] = "z";
-    a[2] = "v";
-    mkdir = new Mkdir(jFileSystem, a);
-    mkdir.execute();
-    a = new String[1];
-    a[0] = "/a/e/v/TestCase";
-    mkdir = new Mkdir(jFileSystem, a);
-    mkdir.execute();
-    a = new String[1];
-    a[0] = "x";
-    cd = new CD(jFileSystem, a);
-    cd.execute();
-    a = new String[2];
-    a[0] = "-r";
-    a[1] = "/a";
-    //a[2] = "/qqq";
-    ls = new LS(jFileSystem, a);
-    System.out.println(ls.execute());
-
-    
-    
   }
 }
