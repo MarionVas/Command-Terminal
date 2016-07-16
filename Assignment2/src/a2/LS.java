@@ -138,23 +138,41 @@ public class LS implements CommandInterface {
     return contents;
   }
 
+  /**
+   * Recursively goes through all children of dirrOrFile and displaying it
+   * contents as it goes
+   * 
+   * @param childIndex - the index of the child currently being worked on
+   * @param dirrOrFile - an Item
+   * @return - A string representing the contents of the entire sub-tree (ie
+   *         dirrOrFile and all its children)
+   */
   public String recurseLS(int childIndex, Item dirrOrFile) {
     // If the end of the subtree is reached
     String result = "";
     if (dirrOrFile == null || dirrOrFile.getClass().equals(File.class)) {
       result = "";
     } else {
+      // Getting all the children
       Vector<Item> allChildren = dirrOrFile.getChildren();
+      // making sure it has children
       if (allChildren != null && allChildren.size() != 0) {
+        // If the first child is being called
         if (childIndex == 0) {
+          // The recursive call
           result = this.executeFullPath(((Folder) dirrOrFile).getPath(), true)
               + this.recurseLS(childIndex, allChildren.get(childIndex))
               + this.recurseLS(childIndex + 1, dirrOrFile);
-        } else if (childIndex < allChildren.size()) {
+        }
+        // does the same for each child
+        else if (childIndex < allChildren.size()) {
+          // the recursive call
           result = this.recurseLS(0, allChildren.get(childIndex))
               + this.recurseLS(childIndex + 1, dirrOrFile);
         }
-      } else {
+      }
+      // If there are no children the contents must still be shown
+      else {
         result = this.executeFullPath(((Folder) dirrOrFile).getPath(), true);
       }
     }
@@ -166,7 +184,8 @@ public class LS implements CommandInterface {
    * The method that will be called by ProQuery. Determines what kind of
    * argument the user has entered; Runs all the arguments that the user has
    * entered
-   * @return 
+   * 
+   * @return
    */
   public String execute() {
     // Runs all elements in the string array
@@ -174,41 +193,49 @@ public class LS implements CommandInterface {
       boolean slashAtEnd = false;
       this.arg = args[indexarg];
       this.fileOriginalArg = args[indexarg];
+      // If the -r command is specified
       if (this.arg.equals("-r") || this.arg.equals("-R")) {
         indexarg++;
-        if (args.length != 1){
+        // If there are path specified
+        if (args.length != 1) {
           this.arg = args[indexarg];
           this.fileOriginalArg = args[indexarg];
-        }
-        else{
+        } else {
           this.arg = "";
           this.fileOriginalArg = "";
         }
         this.recursive = true;
       }
       this.stringToOutput = "";
-      if (!arg.equals("")){
+      if (!arg.equals("")) {
         try {
+          // Getting the absolute version of the path
           arg = this.Manager.getFullPath(arg);
         } catch (InvalidPath e) {
           System.err.println(e);
         }
       }
-      if (arg == "") {
+      // If a file is specified
+      if (arg.contains(".txt")) {
+        this.stringToOutput += arg;
+      }
+      // if the argument is blank
+      else if (arg.equals("")) {
         slashAtEnd = true;
         if (!this.recursive) {
           this.stringToOutput += executeNoArg();
         } else {
           this.stringToOutput += recurseLS(0, this.Manager.getCurrFolder());
         }
-      } 
+      }
+      // If there are arguments specified (ie: a path)
       else {
         if (!this.recursive) {
           this.stringToOutput += executeFullPath(arg, slashAtEnd);
         } else {
           this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
         }
-      } 
+      }
       // Using the output class to print the string
       if (!this.stringToOutput.endsWith("\n")) {
         this.stringToOutputTest += this.stringToOutput + "\n";
@@ -220,6 +247,11 @@ public class LS implements CommandInterface {
     return stringToOutput;
   }
 
+  /**
+   * A manual explaining how ls works
+   * 
+   * @return a string detailing how ls works
+   */
   public String manual() {
     return "ls [PATH  …] - Print the contents of the specified files or\n"
         + "directories. If no path is given, print the contents of the\n"
