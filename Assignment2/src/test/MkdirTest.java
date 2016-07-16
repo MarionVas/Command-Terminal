@@ -30,7 +30,7 @@ public class MkdirTest {
   }
 
   @Test
-  public void testExecute1() {
+  public void testExecuteSingleLocal() {
     /*
      * Testing if the given directory is made inside of the JFileSystem
      * 
@@ -43,7 +43,7 @@ public class MkdirTest {
   }
 
   @Test
-  public void testExecute2() {
+  public void testExecuteMultipleLocal() {
     /*
      * Testing creating multiple directories inside of the JFileSystem
      * 
@@ -60,7 +60,7 @@ public class MkdirTest {
   }
 
   @Test
-  public void testExecute3() {
+  public void testExecuteLocalAndAbsolute() {
     /*
      * Testing creating directories by giving relative paths
      * 
@@ -79,7 +79,7 @@ public class MkdirTest {
   }
 
   @Test
-  public void testExecute4() {
+  public void testExecuteLocalInvalid() {
     /*
      * Testing creating a directory with an invalid special character
      * 
@@ -92,7 +92,7 @@ public class MkdirTest {
   }
 
   @Test
-  public void testExecute5() {
+  public void testExecuteSpecialInvalid() {
     /*
      * Testing creating a directory with both an invalid and valid special
      * character
@@ -106,7 +106,7 @@ public class MkdirTest {
   }
 
   @Test
-  public void testExecute6() {
+  public void testExecuteValidSpecial() {
     /*
      * Testing creating a directory with a valid special character
      * 
@@ -119,7 +119,7 @@ public class MkdirTest {
   }
 
   @Test
-  public void testExecute7() {
+  public void testExecuteValidAndInvalid() {
     /*
      * Testing creating a mix of directories with some being valid names and
      * some being invalid names
@@ -140,7 +140,7 @@ public class MkdirTest {
   }
 
   @Test
-  public void testExecute8() {
+  public void testExecuteInsideRelativePath() {
     /*
      * Testing making a directory inside of a relative path
      * 
@@ -157,7 +157,7 @@ public class MkdirTest {
     assertTrue(jFileSystem.checkValidPath("/a/a1"));
   }
 
-  public void testExecute9() {
+  public void testExecuteTestingDepth() {
     /*
      * Testing making a directory inside of a relative path of depth 2
      * 
