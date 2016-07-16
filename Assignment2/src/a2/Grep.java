@@ -29,11 +29,11 @@ public class Grep implements CommandInterface
     try {
       // make sure the path is a full path - also checks if the path is valid
       this.path = fileManager.getFullPath(path);
-      System.out.println("THE FIRST PARAM IS" + command[0]);
+      //System.out.println("THE FIRST PARAM IS" + command[0]);
       // Check for appearance of -r or -R
       if (command[0].equals("-r") || command[0].equals("-R"))
       {
-        System.out.println("IT MADE IT HERE WTF FUCK");
+        //System.out.println("IT MADE IT HERE WTF FUCK");
         // set regex as the 2nd param
         this.regex = command[1];
         System.out.println(regex);
@@ -42,7 +42,7 @@ public class Grep implements CommandInterface
         
         if (!this.dirOrFile.getClass().equals(Folder.class))
         {
-          System.err.println("This was not a directory");
+          System.out.println("This was not a directory");
         }
         else
         {
@@ -53,6 +53,7 @@ public class Grep implements CommandInterface
       // If there is no -r or -R statement
       else
       {
+        System.out.println("no -r case");
         // get the object at the given path
         dirOrFile = fileManager.getObject(path);
 
@@ -93,7 +94,7 @@ public class Grep implements CommandInterface
     // loops through the array 
     for (int i = 0; i < splitContents.length; i++)
     {
-      System.out.println(splitContents[i]);
+      //System.out.println(splitContents[i]);
       // make matcher object
       this.matcher = this.search.matcher(splitContents[i]);
       // if the line matches the regex
@@ -159,5 +160,18 @@ public class Grep implements CommandInterface
     // TODO Auto-generated method stub
     return null;
   }
-
+  
+  public static void main(String[] args) 
+  {
+    JFileSystem jFileSystem = new JFileSystem();
+    Folder rootFolder = new Folder("/", "/");
+    jFileSystem.setRoot(rootFolder);
+    jFileSystem.setCurrFolder(rootFolder);
+    
+    ProQuery pq = new ProQuery(jFileSystem);
+    pq.sortQuery("mkdir a b c");
+    pq.sortQuery("cd a");
+    pq.sortQuery("pwd > file1");
+    pq.sortQuery("grep \"a\" file1");
+  }
 }
