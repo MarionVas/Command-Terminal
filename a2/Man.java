@@ -38,6 +38,7 @@ public class Man implements CommandInterface {
     commandNoPara.put("exit", "a2.Exit");
     commandNoPara.put("pwd", "a2.PWD");
     commandNoPara.put("popd", "a2.PopD");
+    commandNoPara.put("history", "a2.History");
 
     // Populate the hastable for commands with parameters
     commandWithPara.put("cd", "a2.CD");
@@ -46,6 +47,9 @@ public class Man implements CommandInterface {
     commandWithPara.put("man", "a2.Man");
     commandWithPara.put("mkdir", "a2.Mkdir");
     commandWithPara.put("pushd", "a2.PushD");
+    commandWithPara.put("grep", "a2.Grep");
+    commandWithPara.put("curl", "a2.Curl");
+    commandWithPara.put("cp", "a2.Copy");
 
     try {
       // If one command is given and it is a command which requires no
