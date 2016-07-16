@@ -59,6 +59,30 @@ public class GrepTest {
     grep = new Grep(jFileSystem, command);
     assertEquals("a\n", grep.execute());
   }
+  
+  @Test
+  public void testInvalidPath() {
+    /*
+     * Testing checking an invalid path
+     * 
+     * Expected output is that no lines are returned
+     */
+    String[] command = {"a", "/filesda3"};
+    grep = new Grep(jFileSystem, command);
+    assertEquals("", grep.execute());
+  }
+  
+  @Test
+  public void testInvalidRegex() {
+    /*
+     * Testing checking an invalid regex
+     * 
+     * Expected output is that no lines are returned
+     */
+    String[] command = {"[", "/file3"};
+    grep = new Grep(jFileSystem, command);
+    assertEquals("", grep.execute());
+  }
 
   @Test
   public void testExecuteMultipleLineFileWithValue() {
@@ -136,7 +160,11 @@ public class GrepTest {
 
   @Test
   public void testExecuteRecursive() {
-    // System.out.println(jFileSystem.checkValidPath("/file3"));
+    /*
+     * Testing recursive regex output for a string case
+     * 
+     * Expected output is that 5 of the lines are output
+     */
     String[] folder = {"folder1"};
     Mkdir dir = new Mkdir(jFileSystem, folder);
     dir.execute();
@@ -163,8 +191,43 @@ public class GrepTest {
     grep = new Grep(jFileSystem, command);
     
     String[] lines = grep.execute().split("\r\n|\r|\n");
-    System.out.println(lines.length);
     assertEquals(5, lines.length);
+  }
+  
+  @Test
+  public void testExecuteRecursiveRegexCheck() {
+    /*
+     * Testing recursive regex output for an alphabet case
+     * 
+     * Expected output is that 5 of the lines are output
+     */
+    String[] folder = {"folder1"};
+    Mkdir dir = new Mkdir(jFileSystem, folder);
+    dir.execute();
+
+    file4 = new File("file4");
+    file4.setPath("/folder1/file4");
+    file4.setBody("This is a test in test4,\nAnd it works\nI like That");
+    file4.setName("folder1");
+    file5 = new File("file5");
+    file5.setPath("/folder1/file5");
+    file5.setName("folder1");
+    file5.setBody("This is a test in test5,\nAnd it works\nI like This is");
+
+    Folder directory = (Folder) jFileSystem.getObject("/folder1");
+    directory.addChildren(file4);
+
+    jFileSystem.addFullPath("/folder1/file4");
+
+    directory.addChildren(file5);
+
+    jFileSystem.addFullPath("/folder1/file5");
+
+    String[] command = {"-R", "[A-Z]", "/folder1"};
+    grep = new Grep(jFileSystem, command);
+    
+    String[] lines = grep.execute().split("\r\n|\r|\n");
+    assertEquals(8, lines.length);
   }
 
 }
