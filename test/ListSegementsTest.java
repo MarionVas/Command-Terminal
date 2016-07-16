@@ -9,7 +9,7 @@ import a2.CD;
 import a2.Folder;
 import a2.JFileSystem;
 import a2.Mkdir;
-import a2.LS;
+import a2.ListSegments;
 
 public class ListSegementsTest {
   private JFileSystem jFileSystem;
@@ -17,7 +17,7 @@ public class ListSegementsTest {
   private String[] fileArgs;
   private Mkdir mkdir1;
   private CD cd;
-  private LS ls;
+  private ListSegments ls;
 
   @Before
   public void setUp() throws Exception {
@@ -28,7 +28,7 @@ public class ListSegementsTest {
 
     fileArg = new String[1];
     this.fileArgs = new String[3];
-    this.ls = new LS(jFileSystem);
+    this.ls = new ListSegments(jFileSystem);
     String[] a = new String[2];
     a[0] = "a";
     a[1] = "b";
@@ -72,7 +72,7 @@ public class ListSegementsTest {
      * 
      * Expected output: a \n since there is nothing in the current working dir
      */
-    this.ls = new LS(jFileSystem);
+    this.ls = new ListSegments(jFileSystem);
     ls.execute();
     assertEquals("\n", this.ls.getStringToOutput());
   }
@@ -85,7 +85,7 @@ public class ListSegementsTest {
      * Expected output: The contents of the current working dir
      */
     this.fileArg[0] = "..";
-    this.ls = new LS(jFileSystem, this.fileArg);
+    this.ls = new ListSegments(jFileSystem, this.fileArg);
     ls.execute();
     assertEquals("..:      v     x     z\n", this.ls.getStringToOutput());
   }
@@ -98,7 +98,7 @@ public class ListSegementsTest {
      * Expected output: The contents of the specified directory
      */
     this.fileArg[0] = "../../e/";
-    this.ls = new LS(jFileSystem, this.fileArg);
+    this.ls = new ListSegments(jFileSystem, this.fileArg);
     ls.execute();
     assertEquals("../../e/:      v     x     z\n", this.ls.getStringToOutput());
   }
@@ -112,7 +112,7 @@ public class ListSegementsTest {
      * Expected output: The contents of the specified directory
      */
     this.fileArg[0] = ".././../e/";
-    this.ls = new LS(jFileSystem, this.fileArg);
+    this.ls = new ListSegments(jFileSystem, this.fileArg);
     ls.execute();
     assertEquals(".././../e/:      v     x     z\n",
         this.ls.getStringToOutput());
@@ -126,7 +126,7 @@ public class ListSegementsTest {
      * Expected output: The contents of the specified directory
      */
     this.fileArg[0] = ".././../e/../../b";
-    this.ls = new LS(jFileSystem, this.fileArg);
+    this.ls = new ListSegments(jFileSystem, this.fileArg);
     ls.execute();
     assertEquals(".././../e/../../b: \n", this.ls.getStringToOutput());
   }
@@ -139,7 +139,7 @@ public class ListSegementsTest {
      * Expected output: The contents of the specified directory
      */
     this.fileArg[0] = "/a/e/";
-    this.ls = new LS(jFileSystem, this.fileArg);
+    this.ls = new ListSegments(jFileSystem, this.fileArg);
     ls.execute();
     assertEquals("/a/e/:      v     x     z\n", this.ls.getStringToOutput());
   }
@@ -156,7 +156,7 @@ public class ListSegementsTest {
     cd = new CD(jFileSystem, a);
     cd.execute();
     this.fileArg[0] = "e/";
-    this.ls = new LS(jFileSystem, this.fileArg);
+    this.ls = new ListSegments(jFileSystem, this.fileArg);
     ls.execute();
     assertEquals("e/:      v     x     z\n", this.ls.getStringToOutput());
   }
@@ -169,7 +169,7 @@ public class ListSegementsTest {
      * Expected output: An error message for an invalid path
      */
     this.fileArg[0] = "FAIL_ARG";
-    this.ls = new LS(jFileSystem, this.fileArg);
+    this.ls = new ListSegments(jFileSystem, this.fileArg);
     ls.execute();
     assertEquals("/a/e/x/FAIL_ARG is not a valid path\n",
         this.ls.getStringToOutput());
@@ -185,7 +185,7 @@ public class ListSegementsTest {
     this.fileArgs[0] = "/a/e/";
     this.fileArgs[1] = "/";
     this.fileArgs[2] = "/a/e/v/";
-    this.ls = new LS(jFileSystem, this.fileArgs);
+    this.ls = new ListSegments(jFileSystem, this.fileArgs);
     ls.execute();
     boolean Equal = this.ls.getStringToOutput()
         .equals("/a/e/:      v     x     z\n/:      a     b\n/a/e/v/:      "
@@ -203,7 +203,7 @@ public class ListSegementsTest {
     this.fileArgs = new String[2];
     this.fileArgs[0] = "-r";
     this.fileArgs[1] = "/";
-    this.ls = new LS(jFileSystem, this.fileArgs);
+    this.ls = new ListSegments(jFileSystem, this.fileArgs);
     String output = ls.execute();
 
     assertEquals(
@@ -225,7 +225,7 @@ public class ListSegementsTest {
     this.fileArgs[0] = "-R";
     this.fileArgs[1] = "/";
     this.fileArgs[2] = "/b";
-    this.ls = new LS(jFileSystem, this.fileArgs);
+    this.ls = new ListSegments(jFileSystem, this.fileArgs);
     String output = ls.execute();
 
     assertEquals("\n/:      a     b\n\n/a:      e     f     q\n\n/a/e:     "
