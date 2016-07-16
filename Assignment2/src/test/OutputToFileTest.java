@@ -65,6 +65,53 @@ public class OutputToFileTest {
   }
 
   @Test
+  public void testOverwriteGivenFileComplicatedPath() {
+    /*
+     * test to use the overwrite method to replace a given file's contents with
+     * the String provided. The outfile given is a complicated path leading to
+     * the file.
+     * 
+     * Expected String that would be the String that was passed in to replace
+     * the file's contents
+     * 
+     */
+    fileNames[0] = "test3";
+    OutputToFile.overwrite(jFileSystem, "Test passed.", "/.././test3");
+    cat = new Cat(this.jFileSystem, fileNames);
+    assertEquals("Test passed.", cat.execute());
+  }
+
+  @Test
+  public void testOverwriteGivenInvalidPath() {
+    /*
+     * test to give overwrite method an invalid path to show the contents of
+     * original file has not changed
+     * 
+     * Expected String that would be the body of the original file
+     * 
+     */
+    fileNames[0] = "test3";
+    OutputToFile.overwrite(jFileSystem, "Test passed.", "/a/test3");
+    cat = new Cat(this.jFileSystem, fileNames);
+    assertEquals("This is a test in test3,\nAnd it works.", cat.execute());
+  }
+
+  @Test
+  public void testOverwriteCreateNewFile() {
+    /*
+     * test to use the overwrite method to create a new file containing the
+     * contents of the string provided
+     * 
+     * Expected String that would be the String that was passed in
+     * 
+     */
+    fileNames[0] = "test4";
+    OutputToFile.overwrite(jFileSystem, "Test passed.", "test4");
+    cat = new Cat(this.jFileSystem, fileNames);
+    assertEquals("Test passed.", cat.execute());
+  }
+
+  @Test
   public void testAppendGivenFileName() {
     /*
      * test to use the append method to add a String to a new line at the end of
@@ -95,6 +142,55 @@ public class OutputToFileTest {
     OutputToFile.append(jFileSystem, file3.getBody(), "/test2");
     cat = new Cat(this.jFileSystem, fileNames);
     assertEquals("This is a test in test2.\n" + file3.getBody(), cat.execute());
+  }
+
+  @Test
+  public void testAppendGivenFileComplicatedPath() {
+    /*
+     * test to use the append method to add a String to a new line at the end of
+     * a given file's contents. The outfile given is a complicated path leading
+     * to the file
+     * 
+     * Expected String that would be outputed is a String that is the
+     * concatenation of the two file's contents separated by a new line
+     * 
+     */
+    fileNames[0] = "test3";
+    OutputToFile.append(jFileSystem, file2.getBody(), "/.././test3");
+    cat = new Cat(this.jFileSystem, fileNames);
+    assertEquals("This is a test in test3,\nAnd it works.\n" + file2.getBody(),
+        cat.execute());
+  }
+
+  @Test
+  public void testAppendGivenInvalidPath() {
+    /*
+     * test to give append method an invalid path to show the contents of
+     * original file has not changed
+     * 
+     * Expected String that would be the body of the original file
+     * 
+     */
+    fileNames[0] = "test3";
+    OutputToFile.overwrite(jFileSystem, file2.getBody(), "/a/test3");
+    cat = new Cat(this.jFileSystem, fileNames);
+    assertEquals("This is a test in test3,\nAnd it works.", cat.execute());
+  }
+
+  @Test
+  public void testAppendCreateNewFile() {
+    /*
+     * test to use the append method to create a new file containing the
+     * contents of the string provided
+     * 
+     * Expected String that would be the String that was passed in after an
+     * empty line
+     * 
+     */
+    fileNames[0] = "test4";
+    OutputToFile.append(jFileSystem, file2.getBody(), "test4");
+    cat = new Cat(this.jFileSystem, fileNames);
+    assertEquals("\n" + file2.getBody(), cat.execute());
   }
 
 }
