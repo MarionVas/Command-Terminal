@@ -35,7 +35,7 @@ public class PWDTest {
      * 
      * Expected output should be a string containing the path of the current
      * working directory ("/")
-     */;
+     */
     assertEquals("/", printWorkingDir.execute());
   }
 
