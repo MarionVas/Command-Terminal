@@ -13,7 +13,7 @@ import a2.JFileSystem;
 import a2.Mkdir;
 
 public class GrepTest {
-  
+
   private JFileSystem jFileSystem;
   private Cat cat;
   private File file1;
@@ -24,10 +24,9 @@ public class GrepTest {
   private String[] fileNames;
   private Grep grep;
   private Folder rootFolder;
-  
+
   @Before
-  public void setUp() throws Exception 
-  {
+  public void setUp() throws Exception {
     this.jFileSystem = new JFileSystem();
     rootFolder = new Folder("/", "/");
     jFileSystem.setRoot(rootFolder);
@@ -50,61 +49,122 @@ public class GrepTest {
   }
 
   @Test
-  public void test() 
-  {
-    //System.out.println(jFileSystem.checkValidPath("/file3"));
+  public void testExecuteOneLineFileWithValue() {
+    /*
+     * Testing checking a regex in which one line of the file has the regex
+     * 
+     * Expected output is that the line from the file are returned
+     */
     String[] command = {"a", "/file3"};
     grep = new Grep(jFileSystem, command);
-    System.out.println(grep.execute());
-//    //System.out.println(jFileSystem.checkValidPath("/file3"));
-//    String[] command1 = {"This is", "/file3"};
-//    grep = new Grep(jFileSystem, command1);
-//    System.out.println("START" + grep.execute());
-    assertEquals(true, true);
+    assertEquals("a\n", grep.execute());
   }
-  
-//  // MAKE IT HERE
-//  @Test
-//  public void test1() 
-//  {
-//    //System.out.println(jFileSystem.checkValidPath("/file3"));
-//
-//    
-//    
-//    String[] folder = {"folder1"};
-//    Mkdir dir = new Mkdir(jFileSystem, folder);
-//    dir.execute();
-//    
-//    // ADD THIS FILE INTO THE FOLDER CREATED UP THERE
-//    file4 = new File("file4");
-//    file4.setPath("/folder1/file4");
-//    file4.setBody("This is a test in test4,\nAnd it works\nI like That");
-//    file5 = new File("file5");
-//    file5.setPath("/folder1/file5");
-//    file5.setBody("This is a test in test5,\nAnd it works\nI like This is");
-//    
-//    Folder directory = (Folder)jFileSystem.getObject("/folder1");
-//    directory.addChildren(file4);
-//    
-//    jFileSystem.addFullPath("/folder1/file4");
-//    
-//    directory.addChildren(file5);
-//    
-//    jFileSystem.addFullPath("/folder1/file5");
-//    
-//    System.out.println(jFileSystem.checkValidPath("/folder1/file4"));
-//    
-//    
-//    
-//    // PLS
-//    
-//    
-//
-//    String[] command = {"-R", "This is", "/folder1"};
-//    grep = new Grep(jFileSystem, command);
-//    grep.execute();
-//
-//    assertEquals(true, true);
-//  }
+
+  @Test
+  public void testExecuteMultipleLineFileWithValue() {
+    /*
+     * Testing checking a regex in which multiple lines of the file has the
+     * regex
+     * 
+     * Expected output is that the lines that have the regex are returned
+     */
+    file4 = new File("file4");
+    file4.setPath("/file4");
+    file4.setName("file4");
+    file4.setBody("This is cool\nAnd I\nLike This is");
+    rootFolder.addChildren(file4);
+    jFileSystem.addFullPath("/file4");
+    String[] command1 = {"This is", "/file4"};
+    grep = new Grep(jFileSystem, command1);
+    assertEquals("This is cool\nLike This is\n", grep.execute());
+  }
+
+  @Test
+  public void testExecuteMultipleLineFileWithOneValue() {
+    /*
+     * Testing checking a regex in which it is a multiple line file and one line
+     * contains the regex
+     * 
+     * Expected output is that the line with the regex is returned
+     */
+    file4 = new File("file4");
+    file4.setPath("/file4");
+    file4.setName("file4");
+    file4.setBody("This is cool\nAnd I\nLike This is");
+    rootFolder.addChildren(file4);
+    jFileSystem.addFullPath("/file4");
+    String[] command1 = {"And", "/file4"};
+    grep = new Grep(jFileSystem, command1);
+    assertEquals("And I\n", grep.execute());
+  }
+
+  @Test
+  public void testExecuteDoesNotContainValue() {
+    /*
+     * Testing checking a regex in which the file contains no such value
+     * 
+     * Expected output is that no line is returned
+     */
+    file4 = new File("file4");
+    file4.setPath("/file4");
+    file4.setName("file4");
+    file4.setBody("This is cool\nAnd I\nLike This is");
+    rootFolder.addChildren(file4);
+    jFileSystem.addFullPath("/file4");
+    String[] command1 = {"this is", "/file4"};
+    grep = new Grep(jFileSystem, command1);
+    assertEquals("", grep.execute());
+  }
+
+  @Test
+  public void testExecuteRegexAllLetters() {
+    /*
+     * Testing a regex that checks if a single alphabet char is there
+     * 
+     * Expected output is that all lines are with alphabet chars are there
+     */
+    file4 = new File("file4");
+    file4.setPath("/file4");
+    file4.setName("file4");
+    file4.setBody("This is cool\nAnd I\nLike This is");
+    rootFolder.addChildren(file4);
+    jFileSystem.addFullPath("/file4");
+    String[] command1 = {"[A-Z]", "/file4"};
+    grep = new Grep(jFileSystem, command1);
+    assertEquals("This is cool\nAnd I\nLike This is\n", grep.execute());
+  }
+
+  @Test
+  public void testExecuteRecursive() {
+    // System.out.println(jFileSystem.checkValidPath("/file3"));
+    String[] folder = {"folder1"};
+    Mkdir dir = new Mkdir(jFileSystem, folder);
+    dir.execute();
+
+    file4 = new File("file4");
+    file4.setPath("/folder1/file4");
+    file4.setBody("This is a test in test4,\nAnd it works\nI like That");
+    file4.setName("folder1");
+    file5 = new File("file5");
+    file5.setPath("/folder1/file5");
+    file5.setName("folder1");
+    file5.setBody("This is a test in test5,\nAnd it works\nI like This is");
+
+    Folder directory = (Folder) jFileSystem.getObject("/folder1");
+    directory.addChildren(file4);
+
+    jFileSystem.addFullPath("/folder1/file4");
+
+    directory.addChildren(file5);
+
+    jFileSystem.addFullPath("/folder1/file5");
+
+    String[] command = {"-R", "This is", "/folder1"};
+    grep = new Grep(jFileSystem, command);
+    
+    String[] lines = grep.execute().split("\r\n|\r|\n");
+    System.out.println(lines.length);
+    assertEquals(5, lines.length);
+  }
 
 }
