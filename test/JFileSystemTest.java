@@ -1,14 +1,16 @@
 package test;
-
+import a2.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import a2.CD;
 import a2.DirStack;
 import a2.File;
 import a2.Folder;
+import a2.InvalidPath;
 import a2.JFileSystem;
 import a2.Mkdir;
 
@@ -211,5 +213,45 @@ public class JFileSystemTest {
     DirStack newTestStack = new DirStack();
     jFileSystem.setDirStack(newTestStack);
     assertEquals(newTestStack, jFileSystem.getDirStack());
+  }
+  
+  @Test
+  public void testgetFullPath(){
+    /*
+     * Testing whether the getFullPath function works
+     * 
+     * Expected output: The corresponding absolute path
+     */
+    String absolute = "";
+    this.jFileSystem.setFullPath("/");
+    this.jFileSystem.addFullPath("/a/a1/a2");
+    try {
+      absolute = jFileSystem.getFullPath("/a/a1/../a1/./a2");
+    } catch (InvalidPath e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    assertEquals("/a/a1/a2", absolute);
+  }
+  @Test
+  public void testgetFullPathFail(){
+    /*
+     * Testing whether the getFullPath function works
+     * 
+     * Expected output: The corresponding absolute path
+     */
+    String absolute = "";
+    boolean failed = false;
+    this.jFileSystem.setFullPath("/");
+    this.jFileSystem.addFullPath("/a/a1/a2");
+    try {
+      absolute = jFileSystem.getFullPath("/a/a1/../a1/./a2/FAIL");
+    } catch (InvalidPath e) {
+      // TODO Auto-generated catch block
+      failed = true;
+    }
+
+    assertTrue(failed);
+  
   }
 }
