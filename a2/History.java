@@ -51,7 +51,6 @@ public class History implements CommandInterface // need execute method()
    */
   public String execute() {
     outputToString = printContents(inputHistory);
-    System.out.println(outputToString);
     return outputToString;
   }
 
@@ -84,7 +83,6 @@ public class History implements CommandInterface // need execute method()
         // creating a vector string to output that displays the history
         // appropriately from a location specified or 0 if need be
         outputToString = printContents(subHistory);
-        System.out.println(outputToString);
       } else {
         Output.printError();
       }
