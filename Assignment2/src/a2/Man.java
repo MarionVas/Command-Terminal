@@ -34,7 +34,7 @@ public class Man implements CommandInterface {
     Hashtable<String, String> commandWithPara = new Hashtable<String, String>();
 
     // Populate the hashtable for commands without parameters
-    commandNoPara.put("ls", "a2.LS");
+    commandNoPara.put("ls", "a2.ListSegments");
     commandNoPara.put("exit", "a2.Exit");
     commandNoPara.put("pwd", "a2.PWD");
     commandNoPara.put("popd", "a2.PopD");
@@ -50,6 +50,7 @@ public class Man implements CommandInterface {
     commandWithPara.put("grep", "a2.Grep");
     commandWithPara.put("curl", "a2.Curl");
     commandWithPara.put("cp", "a2.Copy");
+    commandWithPara.put("mv", "a2.Move");
 
     try {
       // If one command is given and it is a command which requires no
