@@ -121,7 +121,6 @@ public class ProQuery {
       } else {
         // Split the given string into its command key word and its parameters
         String commandName = commandKeys.get(splitEntry[0]);
-        System.out.println(Arrays.toString(commandParameters));
         // Create an appropriate instance of the class according to the
         // string given. These constructors require a JFileSystem and
         // a string array
@@ -225,76 +224,7 @@ public class ProQuery {
     return index;
   }
 
-  /**
-   * Takes an already split entry and looks for redirection parameters to be
-   * appropriately formatted for redirection using a helper function.
-   * 
-   * @param redirParameters - A split user entry that is parsed for redir chars
-   */
-  private String[] fixForOutfileRedirection(String[] redirParameters) {
-    // Format appropriately if the String array contains ">" or ">>"
-    if (Arrays.asList(redirParameters).contains(">")) {
-      System.out.println("HERE1");
-      return fixRedirectionParameters(redirParameters, ">");
-    } else if (Arrays.asList(redirParameters).contains(">>")) {
-      return fixRedirectionParameters(redirParameters, ">>");
-    } else {
-      // Return the String array unchanged if it contains no redir chars
-      return redirParameters;
-    }
-  }
 
-  /**
-   * Takes an already split entry containing redirection characters and
-   * appropriately separates it into three or two elements depending upon where
-   * the ">>" or ">" substrings are located.
-   * 
-   * @param parameters - A split user entry that is to be formatted
-   *        appropriately for redirection of command outputs
-   * @param sign - The redirection character found within parameters
-   */
-  private String[] fixRedirectionParameters(String[] parameters, String sign) {
-    int signIndex = Arrays.asList(parameters).indexOf(sign);
-    // Elements before and after the redir char
-    String[] preSign = Arrays.copyOfRange(parameters, 0, signIndex);
-    String[] postSign =
-        Arrays.copyOfRange(parameters, signIndex + 1, parameters.length);
-    // If the first character of the test is a redir char
-    if (signIndex == 0) {
-      String[] fixedEchoParameters = new String[2];
-      fixedEchoParameters[0] = sign;
-      fixedEchoParameters[1] = joinStrWithSpace(postSign);
-      return fixedEchoParameters;
-      // If the redir is called on a command with command arguments
-    } else {
-      String[] fixedEchoParameters = new String[3];
-      fixedEchoParameters[0] = joinStrWithSpace(preSign);
-      fixedEchoParameters[1] = sign;
-      fixedEchoParameters[2] = joinStrWithSpace(postSign);
-      return fixedEchoParameters;
-    }
-
-
-  }
-
-  /**
-   * Takes a String array and concatenates its elements to produce a single
-   * string with a space between each element.
-   * 
-   * @param strPara - String elements to be concatenated
-   */
-  private String joinStrWithSpace(String[] strPara) {
-    // Initiate a StringBuilder
-    StringBuilder newString = new StringBuilder();
-    for (int i = 0; i < strPara.length; i++) {
-      // Don't add a space character at the very beginning of the string
-      if (i > 0) {
-        newString.append(" ");
-      }
-      newString.append(strPara[i]);
-    }
-    return newString.toString();
-  }
 
   /**
    * Takes user input parameters and the output from an execute method and
