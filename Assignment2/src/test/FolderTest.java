@@ -59,7 +59,7 @@ public class FolderTest {
   }
 
   @Test
-  public void testgetChildren() {
+  public void testgetChildrenEmpty() {
     /*
      * Testing if the proper thing is returned if there are no children
      * 
@@ -69,7 +69,7 @@ public class FolderTest {
   }
 
   @Test
-  public void testgetChildren2() {
+  public void testgetChildrenNonEmpty() {
     /*
      * Testing if a child of a folder can be retrieved
      * 
@@ -110,7 +110,7 @@ public class FolderTest {
   }
 
   @Test
-  public void testgetChildrenName2() {
+  public void testgetChildrenNameFolder() {
     /*
      * Testing if a child (FOLDER) of a folder can be retrieved
      * 
@@ -120,7 +120,7 @@ public class FolderTest {
   }
 
   @Test
-  public void testgetChildrenName3() {
+  public void testgetChildrenNameFile() {
     /*
      * Testing if a child (FILE) of a folder can be retrieved
      * 
