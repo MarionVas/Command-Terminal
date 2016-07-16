@@ -69,11 +69,10 @@ public class Grep implements CommandInterface {
           regex = command[0];
           // Get the lines in the given file that ocntain the regex
           this.output = grepNoRecurse((File) dirOrFile);
-          // System.out.println(this.output);
         }
       }
     } catch (InvalidPath e) {
-      System.out.println("This was not a valid path");;
+      System.out.println("This was not a valid path");
     }
 
     return this.output;
@@ -140,7 +139,6 @@ public class Grep implements CommandInterface {
       // append to the output
       result +=
           filePath + "/" + fileName + ":\n" + grepNoRecurse((File) dirrOrFile);
-      System.out.println(result);
     }
     // if the item is a directory/folder
     else {
