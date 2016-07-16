@@ -27,6 +27,8 @@ public class Echo implements CommandInterface {
         for (String eachString : echoParameters) {
           stringToOutput += eachString + " ";
         }
+        stringToOutput =
+            stringToOutput.substring(0, stringToOutput.length() - 1);
       } else {
         System.out.println("That was not a valid String");
       }
