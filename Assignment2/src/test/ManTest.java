@@ -10,6 +10,9 @@ import a2.*;
 public class ManTest {
 
   private JFileSystem jFileSystem;
+  private ProQuery runCommand;
+  private String[] manual = {"man.txt"};
+  private Cat concatenate;
 
   @Before
   public void setUp() throws Exception {}
@@ -19,6 +22,8 @@ public class ManTest {
     Folder rootFolder = new Folder("/", "/");
     jFileSystem.setRoot(rootFolder);
     jFileSystem.setCurrFolder(rootFolder);
+    this.runCommand = new ProQuery(this.jFileSystem);
+    this.concatenate = new Cat(this.jFileSystem, manual);
   }
 
   @Test
@@ -221,5 +226,40 @@ public class ManTest {
     commandManual.execute();
 
     assertEquals(null, commandManual.getStringToOutput());
+  }
+
+  @Test
+  public void testManRedirectOverwriteManual() {
+    /*
+     * Test to determine if redirecting output of Man command. Creates a new
+     * file called path.txt, adds the output to the body of the new file.
+     * 
+     * Expected content of path.txt should be a string containing the path of
+     * the newly created working directory ("/a")
+     */
+    PWD testPWD = new PWD(jFileSystem);
+    runCommand.sortQuery("man pwd > man.txt");
+    concatenate = new Cat(runCommand.getFileSystem(), manual);
+    assertEquals(testPWD.manual(), concatenate.execute());
+  }
+
+  @Test
+  public void testPWDRedirectAppendNewFolder() {
+    /*
+     * Test to determine if appending the output of pwd command in new folder to
+     * an existing path.txt file works. Creates a new file called path.txt, adds
+     * both outputs to the body of the new file.
+     * 
+     * Expected content of path.txt should be a string containing the path of
+     * the newly created working directory twice separated by a new line
+     * ("/a\n/a")
+     */
+    PWD testPWD = new PWD(jFileSystem);
+    runCommand.sortQuery("man pwd > man.txt");
+    PopD testPopD = new PopD(jFileSystem);
+    runCommand.sortQuery("man popd >> man.txt");
+    concatenate = new Cat(runCommand.getFileSystem(), manual);
+    assertEquals(testPWD.manual() + "\n" + testPopD.manual(),
+        concatenate.execute());
   }
 }
