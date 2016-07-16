@@ -14,6 +14,7 @@ public class LS implements CommandInterface {
   private String stringToOutput = "";
   private String stringToOutputTest = "";
   private Boolean recursive = false;
+  private boolean invalid = false;
 
   /**
    * The constructor, taking ins a JFileSystem and a string array of arguments
@@ -213,38 +214,42 @@ public class LS implements CommandInterface {
           arg = this.Manager.getFullPath(arg);
         } catch (InvalidPath e) {
           System.err.println(e);
+          this.stringToOutputTest += e.getMessage() + "\n";
+          this.invalid = true;
         }
       }
-      // If a file is specified
-      if (arg.contains(".txt")) {
-        this.stringToOutput += arg;
-      }
-      // if the argument is blank
-      else if (arg.equals("")) {
-        slashAtEnd = true;
-        if (!this.recursive) {
-          this.stringToOutput += executeNoArg();
+      if (!this.invalid){
+        // If a file is specified
+        if (arg.contains(".txt")) {
+          this.stringToOutput += arg;
+        }
+        // if the argument is blank
+        else if (arg.equals("")) {
+          slashAtEnd = true;
+          if (!this.recursive) {
+            this.stringToOutput += executeNoArg();
+          } else {
+            this.stringToOutput += recurseLS(0, this.Manager.getCurrFolder());
+          }
+        }
+        // If there are arguments specified (ie: a path)
+        else {
+          if (!this.recursive) {
+            this.stringToOutput += executeFullPath(arg, slashAtEnd);
+          } else {
+            this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
+          }
+        }
+        // Using the output class to print the string
+        if (!this.stringToOutput.endsWith("\n")) {
+          this.stringToOutputTest += this.stringToOutput + "\n";
         } else {
-          this.stringToOutput += recurseLS(0, this.Manager.getCurrFolder());
+          this.stringToOutputTest += this.stringToOutput;
         }
-      }
-      // If there are arguments specified (ie: a path)
-      else {
-        if (!this.recursive) {
-          this.stringToOutput += executeFullPath(arg, slashAtEnd);
-        } else {
-          this.stringToOutput += recurseLS(0, this.Manager.getObject(arg));
-        }
-      }
-      // Using the output class to print the string
-      if (!this.stringToOutput.endsWith("\n")) {
-        this.stringToOutputTest += this.stringToOutput + "\n";
-      } else {
-        this.stringToOutputTest += this.stringToOutput;
       }
 
     }
-    return stringToOutput;
+    return stringToOutputTest;
   }
 
   /**
@@ -257,5 +262,59 @@ public class LS implements CommandInterface {
         + "directories. If no path is given, print the contents of the\n"
         + "current file or directory.\n";
   }
+  public static void main(String[] args) 
+  {
+    
+    JFileSystem jFileSystem = new JFileSystem();
+    Folder rootFolder = new Folder("/", "/");
+    jFileSystem.setRoot(rootFolder);
+    jFileSystem.setCurrFolder(rootFolder);
+    String[] fileArg;
+    fileArg = new String[1];
+    String[] fileArgs = new String[3];
+    LS ls = new LS(jFileSystem, fileArgs);
+    String[] a = new String[2];
+    a[0] = "a";
+    a[1] = "b";
+    Mkdir mkdir = new Mkdir(jFileSystem, a);
+    a = new String[1];
+    a[0] = "a";
+    CD cd = new CD(jFileSystem, a);
+    mkdir.execute();
+    cd.execute();
 
+    a = new String[3];
+    a[0] = "e";
+    a[1] = "f";
+    a[2] = "q";
+    mkdir = new Mkdir(jFileSystem, a);
+    mkdir.execute();
+    a = new String[1];
+    a[0] = "e";
+    cd = new CD(jFileSystem, a);
+    cd.execute();
+    a = new String[3];
+    a[0] = "x";
+    a[1] = "z";
+    a[2] = "v";
+    mkdir = new Mkdir(jFileSystem, a);
+    mkdir.execute();
+    a = new String[1];
+    a[0] = "/a/e/v/TestCase";
+    mkdir = new Mkdir(jFileSystem, a);
+    mkdir.execute();
+    a = new String[1];
+    a[0] = "x";
+    cd = new CD(jFileSystem, a);
+    cd.execute();
+    a = new String[2];
+    a[0] = "-r";
+    a[1] = "/a";
+    //a[2] = "/qqq";
+    ls = new LS(jFileSystem, a);
+    System.out.println(ls.execute());
+
+    
+    
+  }
 }
