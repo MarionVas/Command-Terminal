@@ -109,7 +109,7 @@ public class PWDTest {
   }
 
   @Test
-  public void testPWDRedirectNewFolder() {
+  public void testPWDRedirectOverwriteNewFolder() {
     /*
      * Test to determine if redirecting output of pwd command in new folder
      * works. Creates a new file called path.txt, adds the output to the body of
@@ -142,6 +142,5 @@ public class PWDTest {
     runCommand.sortQuery("pwd >> path.txt");
     concatenate = new Cat(runCommand.getFileSystem(), paths);
     assertEquals("/a\n/a", concatenate.execute());
-    System.out.println("/a\n/a");
   }
 }
