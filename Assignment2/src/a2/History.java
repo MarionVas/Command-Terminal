@@ -21,11 +21,13 @@ public class History implements CommandInterface // need execute method()
   }
 
   /**
-   * The purpose of this method is to set the inputHistory
-   * @param Vector<String> history the history you are setting
+   * The purpose of this method is to remove the last item in the history
    */
-  public void setCommandHistory(Vector<String> history) {
-    this.inputHistory = history;
+  public void popHistory() {
+    // remove the element
+    this.inputHistory.remove(this.inputHistory.size() - 1);
+    // lower the command number
+    this.commandNumber--;
   }
 
   /**
@@ -37,7 +39,7 @@ public class History implements CommandInterface // need execute method()
     // iterate the command number
     commandNumber++;
     // add the command input with the appropriate formatting
-    this.inputHistory.add(input);
+    this.inputHistory.add(commandNumber + ". " + input);
 
   }
 
@@ -139,7 +141,7 @@ public class History implements CommandInterface // need execute method()
     String history = "";
     // Storing all values of the List to the string with appropriate format
     for (int i = 0; i < contents.size(); i++) {
-      history += i+1 + ". " + contents.get(i) + "\n";
+      history += contents.get(i) + "\n";
     }
     return history;
   }
@@ -161,7 +163,7 @@ public class History implements CommandInterface // need execute method()
     String history = "";
     // Storing the values of the vector to the string with appropriate format
     for (int i = 0; i < contents.size(); i++) {
-      history += i+1 + ". " + contents.get(i) + "\n";
+      history += contents.get(i) + "\n";
     }
     return history;
   }
