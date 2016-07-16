@@ -234,7 +234,7 @@ public class MV implements CommandInterface {
       // Acquire full paths if given relative paths
       String oldFullPath = insertedFileSystem.getFullPath(oldPath);
       String newFullPath = insertedFileSystem.getFullPath(newPath);
-      // oldPath is a parent 
+      // oldPath is a parent
       isParent = newFullPath.startsWith(oldFullPath);
     } catch (InvalidPath e) {
       System.err.println("Invalid path given");
@@ -242,9 +242,20 @@ public class MV implements CommandInterface {
     return isParent;
   }
 
+  /**
+   * The purpose of this method is to return a string containing the
+   * documentation/information regarding the "mv" command.
+   * 
+   * @return String
+   */
   public String manual() {
-    // TODO Auto-generated method stub
-    return null;
+    return "mv OLDPATH NEWPATH - Moves an item from a specified oldpath to\n"
+        + "newpath. The paths may be relative or absolute. If OLDPATH and\n"
+        + "NEWPATH are files, OLDPATH's file will overwrite and take the name\n"
+        + "of NEWPATH's. If NEWPATH is a directory, the item in OLDPATH will\n"
+        + "be moved to the directory. Items at OLDPATH can be renamed using\n"
+        + "mv if the item at NEWPATH doesn't exist, but its parent directory\n"
+        + "does.";
   }
 
 }
