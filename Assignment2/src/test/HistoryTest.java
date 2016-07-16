@@ -16,6 +16,9 @@ public class HistoryTest {
   private Vector<String> testVecStr;
   private List<String> testListStr;
   private History commandHistory;
+  private ProQuery runCommand;
+  private String[] history = {"history.txt"};
+  private Cat concatenate;
 
   @Before
   public void setUp() throws Exception {}
@@ -29,6 +32,8 @@ public class HistoryTest {
     this.testVecStr = new Vector<String>();
     this.testListStr = new Vector<String>();
     this.commandHistory = new History();
+    this.runCommand = new ProQuery(this.jFileSystem);
+    this.concatenate = new Cat(this.jFileSystem, history);
   }
 
   @Test
@@ -146,5 +151,43 @@ public class HistoryTest {
     commandHistory.execute(numPast);
 
     assertEquals(testListStr, commandHistory.getSubList());
+  }
+
+  @Test
+  public void testHistoryRedirectOneCommandShowAll() {
+    /*
+     * Test to determine if redirecting output of history command after using
+     * mkdir command. Creates a new file called history.txt, adds the output to
+     * the body of the new file.
+     * 
+     * Expected content of history.txt should be a string of the commands that
+     * were just used
+     */
+    runCommand.getHistory().addInput("mkdir a b c");
+    runCommand.sortQuery("history > history.txt");
+    concatenate = new Cat(runCommand.getFileSystem(), history);
+    assertEquals("1. mkdir a b c\n2. history > history.txt\n",
+        concatenate.execute());
+  }
+
+  @Test
+  public void testHistoryRedirectAppendOneCommandShowAll() {
+    /*
+     * Test to determine if if appending the outputof history command after
+     * using mkdir command and cd command. Creates a new file called
+     * history.txt, adds both outputs to the body of the new file.
+     * 
+     * Expected content of history.txt should be a string of the commands that
+     * were just used
+     */
+    runCommand.getHistory().addInput("mkdir a b c");
+    runCommand.sortQuery("history > history.txt");
+    runCommand.getHistory().addInput("cd a");
+    runCommand.sortQuery("history >> history.txt");
+    concatenate = new Cat(runCommand.getFileSystem(), history);
+    assertEquals(
+        "1. mkdir a b c\n2. history > history.txt\n\n1. mkdir a b c\n"
+            + "2. history > history.txt\n3. cd a\n4. history >> history.txt\n",
+        concatenate.execute());
   }
 }
