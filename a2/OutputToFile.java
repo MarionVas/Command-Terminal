@@ -189,6 +189,10 @@ public class OutputToFile {
    */
 
   private static void append(File file, String body) {
-    file.addToBody("\n" + body);
+    if (!(file.getBody().equals(""))) {
+      file.addToBody("\n" + body);
+    } else {
+      file.addToBody(body);
+    }
   }
 }
