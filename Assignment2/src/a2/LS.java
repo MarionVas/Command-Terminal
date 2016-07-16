@@ -4,7 +4,7 @@ import java.awt.Component;
 import java.awt.List;
 import java.util.Vector;
 
-public class ListSegments implements CommandInterface {
+public class LS implements CommandInterface {
   // The jFileSystem
   private FileSystem Manager;
   // The arguments that the user enters
@@ -22,7 +22,7 @@ public class ListSegments implements CommandInterface {
    * @param fileManager - The JFilemMnager with all the directories and files
    * @param name - The argument(s)
    */
-  public ListSegments(JFileSystem fileManager, String[] name) {
+  public LS(JFileSystem fileManager, String[] name) {
     this.Manager = fileManager;
     this.args = name;
   }
@@ -41,7 +41,7 @@ public class ListSegments implements CommandInterface {
    * 
    * @param fileManager
    */
-  public ListSegments(JFileSystem fileManager) {
+  public LS(JFileSystem fileManager) {
     this.Manager = fileManager;
     this.args = new String[1];
     // Setting a blank command
