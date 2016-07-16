@@ -5,10 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import a2.CD;
-import a2.Folder;
-import a2.JFileSystem;
-import a2.Mkdir;
+import a2.*;
 
 
 public class CDTest {
@@ -20,6 +17,7 @@ public class CDTest {
   private Mkdir mkdir3;
   private Mkdir mkdir4;
   private String[] location;
+  private ProQuery runCommand;
 
   @Before
   public void setUp() throws Exception {
@@ -27,6 +25,8 @@ public class CDTest {
     Folder rootFolder = new Folder("/", "/");
     jFileSystem.setRoot(rootFolder);
     jFileSystem.setCurrFolder(rootFolder);
+
+    this.runCommand = new ProQuery(this.jFileSystem);
 
     String[] path = {"a", "b", "c"};
     String[] path2 = {"/a/a1"};
@@ -337,6 +337,34 @@ public class CDTest {
     cd1 = new CD(jFileSystem, location);
     cd1.execute();
     assertEquals("/a", jFileSystem.getCurrPath());
+  }
+
+  @Test
+  public void testPWDRedirectFailsToMakeFile() {
+    /*
+     * Test to determine if redirection the output of cd command (nonexistent)
+     * will create a file
+     * 
+     * Expected no file called newDirectory.txt should be in the root folder of
+     * the jFileSystem
+     */
+    runCommand.sortQuery("cd a > newDirectory.txt");
+    Item file = jFileSystem.getObject("/newDirectory.txt");
+    assertTrue(file == null);
+  }
+
+  @Test
+  public void testCDRedirectFailsToAppendFile() {
+    /*
+     * Test to determine if redirection the output of cd command (nonexistent)
+     * will create a file
+     * 
+     * Expected no file called newDirectory.txt should be in the root folder of
+     * the jFileSystem
+     */
+    runCommand.sortQuery("cd a >> newDirectory.txt");
+    Item file = jFileSystem.getObject("/newDirectory.txt");
+    assertTrue(file == null);
   }
 
 }
