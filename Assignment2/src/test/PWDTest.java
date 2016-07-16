@@ -11,6 +11,8 @@ public class PWDTest {
   private JFileSystem jFileSystem;
   private PWD printWorkingDir;
   private ProQuery runCommand;
+  private String[] paths = {"path.txt"};
+  private Cat concatenate;
 
   @Before
   public void setUp() throws Exception {}
@@ -22,6 +24,7 @@ public class PWDTest {
     jFileSystem.setCurrFolder(rootFolder);
     this.printWorkingDir = new PWD(this.jFileSystem);
     this.runCommand = new ProQuery(this.jFileSystem);
+    this.concatenate = new Cat(this.jFileSystem, paths);
   }
 
   @Test
@@ -103,5 +106,42 @@ public class PWDTest {
     runCommand.sortQuery("cd f");
     printWorkingDir = new PWD(runCommand.getFileSystem());
     assertEquals("/b/f", printWorkingDir.execute());
+  }
+
+  @Test
+  public void testPWDRedirectNewFolder() {
+    /*
+     * Test to determine if redirecting output of pwd command in new folder
+     * works. Creates a new file called path.txt, adds the output to the body of
+     * the new file.
+     * 
+     * Expected content of path.txt should be a string containing the path of
+     * the newly created working directory ("/a")
+     */
+    runCommand.sortQuery("mkdir a");
+    runCommand.sortQuery("cd a");
+    runCommand.sortQuery("pwd > path.txt");
+    concatenate = new Cat(runCommand.getFileSystem(), paths);
+    assertEquals("/a", concatenate.execute());
+  }
+
+  @Test
+  public void testPWDRedirectAppendNewFolder() {
+    /*
+     * Test to determine if appending the output of pwd command in new folder to
+     * an existing path.txt file works. Creates a new file called
+     * path.txt, adds both outputs to the body of the new file.
+     * 
+     * Expected content of path.txt should be a string containing the path of
+     * the newly created working directory twice separated by a new line
+     * ("/a\n/a")
+     */
+    runCommand.sortQuery("mkdir a");
+    runCommand.sortQuery("cd a");
+    runCommand.sortQuery("pwd > path.txt");
+    runCommand.sortQuery("pwd >> path.txt");
+    concatenate = new Cat(runCommand.getFileSystem(), paths);
+    assertEquals("/a\n/a", concatenate.execute());
+    System.out.println("/a\n/a");
   }
 }
