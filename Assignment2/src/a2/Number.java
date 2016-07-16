@@ -27,6 +27,11 @@ public class Number implements CommandInterface {
   }
 
   @Override
+  /**
+   * Does the command at the history location given, executes the !number class
+   * 
+   * @return output returns an empty string
+   */
   public String execute() {
     // Stores the command location
     int commandLocation = 0;
