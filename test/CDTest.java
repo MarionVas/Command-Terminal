@@ -340,7 +340,7 @@ public class CDTest {
   }
 
   @Test
-  public void testPWDRedirectFailsToMakeFile() {
+  public void testCDRedirectFailsToMakeFile() {
     /*
      * Test to determine if redirection the output of cd command (nonexistent)
      * will create a file
