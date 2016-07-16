@@ -18,6 +18,8 @@ public class ProQuery {
   // String to be printed on console
   private String stringToOutput = "";
 
+
+
   /**
    * Constructs a ProQuery object which takes a JFileSystem for commands to act
    * upon.
@@ -108,13 +110,13 @@ public class ProQuery {
         // If the one key word string is "history", execute the history class
         // through the queryHistory method
       } else if (splitEntry[0].equals("history")) {
-        queryHistory(commandParameters);
+        stringToOutput = queryHistory(commandParameters);
 
         // If the input is calling the "!" command, execute the Number class
         // through the queryNumber method
       } else if (commandParameters.length == 0
           && splitEntry[0].startsWith("!")) {
-        queryNumber(splitEntry);
+        stringToOutput = queryNumber(splitEntry);
 
       } else {
         // Split the given string into its command key word and its parameters
@@ -165,6 +167,14 @@ public class ProQuery {
 
   }
 
+  /**
+   * Constructs a History object which takes the ProQuery and its jFileSystem to
+   * act upon. This method then calls upon and returns the result of History's
+   * execute method.
+   * 
+   * @param splitEntry - The user's input to be parsed for key characters
+   * @return strOut - The result of the execute method to be printed
+   */
   private String queryHistory(String[] commandParameters) {
     String strOut = "";
     if (commandParameters.length == 0) {
@@ -182,6 +192,7 @@ public class ProQuery {
    * execute method.
    * 
    * @param splitEntry - The user's input to be parsed for key characters
+   * @return String - The result of the execute method to be printed
    */
   private String queryNumber(String[] splitEntry) {
     // Acquire the number character that appears after "!"
@@ -199,6 +210,7 @@ public class ProQuery {
    * 
    * @param insertStringArray - A formatted user input string array to be parsed
    *        for redirection characters
+   * @return index - Index value of the sign or last element
    */
   private int findSignIndexOrLast(String[] insertStringArray) {
     // Initialize index at last element
@@ -310,6 +322,14 @@ public class ProQuery {
     }
   }
 
+  /**
+   * Takes user input parameters and parses for a file name for redirection.
+   * Returns an array of whatever elements are found after the redirection
+   * symbols within the input.
+   * 
+   * @param inputArguments - String elements to be concatenated
+   * @return fileSection - Part of the String array containing the file name
+   */
   private String[] getFileSection(String[] inputArguments) {
     String[] fileSection = {};
     int index = findSignIndexOrLast(inputArguments);
@@ -341,6 +361,7 @@ public class ProQuery {
    * true if a redir parameter exists.
    * 
    * @param input - String elements to be parsed for redir chars
+   * @return checkRedir - Returns true if input contains redir chars
    */
   private boolean checkForRedir(String[] input) {
     boolean checkRedir = false;
@@ -379,5 +400,7 @@ public class ProQuery {
     return this.commandHistory;
   }
 
-
+  public String getStringToOutput() {
+    return stringToOutput;
+  }
 }
