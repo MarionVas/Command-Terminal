@@ -57,6 +57,8 @@ public class Curl implements CommandInterface {
       if (valid) {
         // if the file name is valid make a new file with the same file name
         File file = new File(fileName);
+        // add the file to the current working directory
+        fileSystem.getCurrFolder().addChildren(file);
         // add the path to the file to the fileSystem
         if (fileSystem.getCurrPath().equals("/")) {
           fileSystem.addFullPath(fileSystem.getCurrPath() + fileName);
