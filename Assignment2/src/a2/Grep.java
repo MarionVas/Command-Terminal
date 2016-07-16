@@ -8,7 +8,6 @@ public class Grep implements CommandInterface {
   private JFileSystem fileManager;
   private String[] command;
   private String output = "";
-  private boolean recurse = false;
   private String regex;
   private String path;
   private Pattern search;
