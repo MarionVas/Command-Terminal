@@ -124,7 +124,7 @@ public class OutputToFileTest {
     fileNames[0] = "test1";
     OutputToFile.append(jFileSystem, file2.getBody(), "test1");
     cat = new Cat(this.jFileSystem, fileNames);
-    assertEquals("\n" + file2.getBody(), cat.execute());
+    assertEquals(file2.getBody(), cat.execute());
   }
 
   @Test
@@ -183,14 +183,13 @@ public class OutputToFileTest {
      * test to use the append method to create a new file containing the
      * contents of the string provided
      * 
-     * Expected String that would be the String that was passed in after an
-     * empty line
+     * Expected String that would be the String that was passed
      * 
      */
     fileNames[0] = "test4";
     OutputToFile.append(jFileSystem, file2.getBody(), "test4");
     cat = new Cat(this.jFileSystem, fileNames);
-    assertEquals("\n" + file2.getBody(), cat.execute());
+    assertEquals(file2.getBody(), cat.execute());
   }
 
 }
