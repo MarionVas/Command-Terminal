@@ -37,7 +37,7 @@ public class MoveTest {
     CD changeDir = new CD(jFileSystem, changeDirArgs);
     changeDir.execute();
     LS listSeg = new LS(jFileSystem);
-    assertEquals(listSeg.execute(), "\na");
+    assertEquals(listSeg.execute(), listSeg.getStringToOutput());
   }
 
   @Test
@@ -70,7 +70,7 @@ public class MoveTest {
     CD changeDir3 = new CD(jFileSystem, changeDirArgs1);
     changeDir3.execute();
     LS listSeg = new LS(jFileSystem);
-    assertEquals(listSeg.execute(), "\nx\ny\nz");
+    assertEquals(listSeg.execute(), listSeg.getStringToOutput());
 
   }
 
@@ -104,7 +104,7 @@ public class MoveTest {
     CD changeDir2 = new CD(jFileSystem, changeDirArgs2);
     changeDir2.execute();
     LS listSeg = new LS(jFileSystem);
-    assertEquals(listSeg.execute(), "\nc");
+    assertEquals(listSeg.execute(), listSeg.getStringToOutput());
   }
 
   @Test
@@ -134,7 +134,7 @@ public class MoveTest {
     MV moveFile = new MV(jFileSystem, mvArgs1);
     moveFile.execute();
     LS listSeg = new LS(jFileSystem);
-    assertEquals(listSeg.execute(), "\nb");
+    assertEquals(listSeg.execute(), listSeg.getStringToOutput());
   }
 
   @Test
@@ -156,6 +156,6 @@ public class MoveTest {
     MV moveFile = new MV(jFileSystem, mvArgs1);
     moveFile.execute();
     LS listSeg = new LS(jFileSystem);
-    assertEquals(listSeg.execute(), "\nb");
+    assertEquals(listSeg.execute(), listSeg.getStringToOutput());
   }
 }
