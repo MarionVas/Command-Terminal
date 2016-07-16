@@ -11,7 +11,7 @@ import a2.JFileSystem;
 import a2.Mkdir;
 import a2.LS;
 
-public class LSTest {
+public class ListSegementsTest {
   private JFileSystem jFileSystem;
   private String[] fileArg;
   private String[] fileArgs;
@@ -66,7 +66,7 @@ public class LSTest {
   }
 
   @Test
-  public void testExecute1() {
+  public void testExecuteEmpty() {
     /*
      * Testing a basic no argument call to ls; prints contents of current dir
      * 
@@ -78,7 +78,7 @@ public class LSTest {
   }
 
   @Test
-  public void testExecute2() {
+  public void testExecuteDoubleDots() {
     /*
      * Testing the "..", which should return the contents of the parent dir
      * 
@@ -91,7 +91,7 @@ public class LSTest {
   }
 
   @Test
-  public void testExecute3() {
+  public void testExecuteLocalPathDoubleDots() {
     /*
      * Testing a local path with both ".." and a name specification
      * 
@@ -104,7 +104,7 @@ public class LSTest {
   }
 
   @Test
-  public void testExecute4() {
+  public void testExecuteSingleDots() {
     /*
      * Testing to see if proper out put is given when a "." is added (which does
      * nothing)
@@ -119,7 +119,7 @@ public class LSTest {
   }
 
   @Test
-  public void testExecute5() {
+  public void testExecuteDoubleDots2() {
     /*
      * Testing a local path with names in between ".."'s
      * 
@@ -132,7 +132,7 @@ public class LSTest {
   }
 
   @Test
-  public void testExecute6() {
+  public void testExecuteAbsolutePath() {
     /*
      * Testing an absolute file path
      * 
@@ -145,7 +145,7 @@ public class LSTest {
   }
 
   @Test
-  public void testExecute7() {
+  public void testExecuteSlashAtEnd() {
     /*
      * Testing a local with a "/" at the end
      * 
@@ -162,7 +162,7 @@ public class LSTest {
   }
 
   @Test
-  public void testExecute8() {
+  public void testExecuteInvalidArg() {
     /*
      * A failure case
      * 
@@ -171,11 +171,12 @@ public class LSTest {
     this.fileArg[0] = "FAIL_ARG";
     this.ls = new LS(jFileSystem, this.fileArg);
     ls.execute();
-    assertEquals("That was not a valid path.\n", this.ls.getStringToOutput());
+    assertEquals("/a/e/x/FAIL_ARG is not a valid path\n",
+        this.ls.getStringToOutput());
   }
 
   @Test
-  public void testExecute9() {
+  public void testExecuteMultipleArgs() {
     /*
      * Testing multiple arguments at once
      * 
@@ -190,5 +191,46 @@ public class LSTest {
         .equals("/a/e/:      v     x     z\n/:      a     b\n/a/e/v/:      "
             + "TestCase\n");
     assertTrue(Equal);
+  }
+
+  @Test
+  public void testExecuteRecursive() {
+    /*
+     * Testing the -r function on one argument
+     * 
+     * Expected output: The contents of the entire file system
+     */
+    this.fileArgs = new String[2];
+    this.fileArgs[0] = "-r";
+    this.fileArgs[1] = "/";
+    this.ls = new LS(jFileSystem, this.fileArgs);
+    String output = ls.execute();
+
+    assertEquals(
+        "\n/:      a     b\n\n/a:      e     f  "
+            + "   q\n\n/a/e:      v     x     z\n\n/a/e/x: \n\n/a/e/z:"
+            + " \n\n/a/e/v:  "
+            + "    TestCase\n\n/a/e/v/TestCase: \n\n/a/f: \n\n/a/q: \n\n/b: \n",
+        output);
+  }
+
+  @Test
+  public void testExecuteRecursiveMultiple() {
+    /*
+     * Testing the -r function on multiple argument
+     * 
+     * Expected output: The contents of the args and their children
+     */
+    this.fileArgs = new String[3];
+    this.fileArgs[0] = "-R";
+    this.fileArgs[1] = "/";
+    this.fileArgs[2] = "/b";
+    this.ls = new LS(jFileSystem, this.fileArgs);
+    String output = ls.execute();
+
+    assertEquals("\n/:      a     b\n\n/a:      e     f     q\n\n/a/e:     "
+        + " v     x     z\n\n/a/e/x: \n\n/a/e/z: \n\n/a/e/v:     "
+        + " TestCase\n\n/a/e/v/TestCase: \n\n/a/f: \n\n/a/q: \n\n/b:"
+        + " \n\n/b: \n", output);
   }
 }
