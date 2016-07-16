@@ -41,13 +41,13 @@ public class ProQuery {
     // Arrays of keys/values for commands without parameters
     String[] singleCommandKeysList = new String[] {"ls", "exit", "pwd", "popd"};
     String[] singleCommandValuesList =
-        new String[] {"a2.LS", "a2.Exit", "a2.PWD", "a2.PopD"};
+        new String[] {"a2.ListSegments", "a2.Exit", "a2.PWD", "a2.PopD"};
     // Arrays of keys/values for commands with parameters
     String[] commandKeysList = new String[] {"cd", "cat", "echo", "ls", "man",
         "mkdir", "pushd", "mv", "grep", "cp", "curl"};
     String[] commandValuesList =
-        new String[] {"a2.CD", "a2.Cat", "a2.Echo", "a2.LS", "a2.Man",
-            "a2.Mkdir", "a2.PushD", "a2.MV", "a2.Grep", "a2.Copy", "a2.Curl"};
+        new String[] {"a2.CD", "a2.Cat", "a2.Echo", "a2.ListSegments", "a2.Man",
+            "a2.Mkdir", "a2.PushD", "a2.Move", "a2.Grep", "a2.Copy", "a2.Curl"};
 
     // Use the instantiated arrays with keys/values to populate the hashtables
     // Populating hashtable for commands without parameters
