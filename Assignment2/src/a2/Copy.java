@@ -29,6 +29,8 @@ public class Copy implements CommandInterface {
   private boolean oldPathValid = true;
   // Only 2 paths are allowed as parameters
   final int NUM_OF_ALLOWED_PATHS = 2;
+  // A string containing error messages;
+  private String stringToOutputTest;
 
   /**
    * The constructor; connects Copy to the jFileSystem and adds classPaths
@@ -40,6 +42,15 @@ public class Copy implements CommandInterface {
     // Injecting the jFileSystem dependency
     this.insertedFileSystem = insertedFileSystem;
     this.classPaths = classPaths;
+  }
+
+  /**
+   * Used to get the output of the command
+   * 
+   * @return stringToOutput
+   */
+  public String getStringToOutput() {
+    return this.stringToOutputTest;
   }
 
   /**
@@ -63,6 +74,7 @@ public class Copy implements CommandInterface {
         oldPath = this.insertedFileSystem.getFullPath(classPaths[0]);
       } catch (InvalidPath e) {
         System.err.println(e);
+        this.stringToOutputTest = e.getMessage();
       }
       // checking if oldPath is valid or not (since an error will never be
       // thrown
@@ -79,6 +91,7 @@ public class Copy implements CommandInterface {
         newPath = this.insertedFileSystem.getFullPath(classPaths[1]);
       } catch (InvalidPath e) {
         System.err.println(e);
+        this.stringToOutputTest = e.getMessage();
       }
       // checking if newPath already exisits or not
       if (!this.insertedFileSystem.checkValidPath(this.newPath)) {
@@ -108,6 +121,7 @@ public class Copy implements CommandInterface {
                 .addChildren(cpFile);
           } else {
             System.err.println("Invalid File path given");
+            this.stringToOutputTest = "Invalid FilePath given";
           }
         }
       }
@@ -117,10 +131,14 @@ public class Copy implements CommandInterface {
       // If the original oldPath is not valid then do nothing
       if (!this.oldPathValid) {
         return "";
+      } else if (this.newPathType == null) {
+        System.err.println("Invalid newpath given");
+        this.stringToOutputTest = "Invalid newpath given";
       }
       // If a parent folder is trying to be copied into its child
       else if (this.newPath.startsWith(this.oldPath)) {
         System.err.println("Cannot copy a parent folder into it's child");
+        this.stringToOutputTest = "Cannot copy a parent folder into it's child";
       }
       // The File File case
       else if (oldPathType.getClass().equals(File.class)
@@ -154,6 +172,7 @@ public class Copy implements CommandInterface {
       else if (this.oldPathType.getClass().equals(Folder.class)
           && this.newPathType.getClass().equals((File.class))) {
         System.err.println("Cannot copy a directory into a File");
+        this.stringToOutputTest = "Cannot copy a directory into a File";
       }
       // The Folder Folder case
       else {
@@ -161,6 +180,7 @@ public class Copy implements CommandInterface {
       }
     } else {
       System.err.println("This is not a valid command");
+      this.stringToOutputTest = "This is not a valid command";
     }
 
     return "";
