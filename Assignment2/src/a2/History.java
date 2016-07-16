@@ -37,7 +37,7 @@ public class History implements CommandInterface // need execute method()
     // iterate the command number
     commandNumber++;
     // add the command input with the appropriate formatting
-    this.inputHistory.add(commandNumber + ". " + input);
+    this.inputHistory.add(input);
 
   }
 
@@ -139,7 +139,7 @@ public class History implements CommandInterface // need execute method()
     String history = "";
     // Storing all values of the List to the string with appropriate format
     for (int i = 0; i < contents.size(); i++) {
-      history += contents.get(i) + "\n";
+      history += i+1 + ". " + contents.get(i) + "\n";
     }
     return history;
   }
@@ -161,7 +161,7 @@ public class History implements CommandInterface // need execute method()
     String history = "";
     // Storing the values of the vector to the string with appropriate format
     for (int i = 0; i < contents.size(); i++) {
-      history += contents.get(i) + "\n";
+      history += i+1 + ". " + contents.get(i) + "\n";
     }
     return history;
   }
