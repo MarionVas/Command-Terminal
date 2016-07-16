@@ -12,6 +12,7 @@ public class Number implements CommandInterface {
 
   /**
    * The constructor for the class
+   * 
    * @param fileManager
    * @param process
    * @param number
@@ -43,7 +44,7 @@ public class Number implements CommandInterface {
         // Get the command at the specified user location
         String query =
             allCommands.get(commandLocation).substring(REPLACELOCATION);
-        
+
         // remove the !number command from the history
         commandHistory.popHistory();
 
