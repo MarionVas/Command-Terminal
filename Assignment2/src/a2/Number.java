@@ -44,19 +44,24 @@ public class Number implements CommandInterface {
         // Get History from ProQuery
         History commandHistory = process.getHistory();
         Vector<String> allCommands = commandHistory.getList();
+        if (commandLocation <= allCommands.size())
+        {
+          // Get the command at the specified user location
+          String query =
+              allCommands.get(commandLocation).substring(REPLACELOCATION);
 
+          // remove the !number command from the history
+          commandHistory.popHistory();
 
-        // Get the command at the specified user location
-        String query =
-            allCommands.get(commandLocation).substring(REPLACELOCATION);
-
-        // remove the !number command from the history
-        commandHistory.popHistory();
-
-        // set the ProQuery history
-        process.setHistory(commandHistory);
-        // do the past command
-        process.sortQuery(query);
+          // set the ProQuery history
+          process.setHistory(commandHistory);
+          // do the past command
+          process.sortQuery(query);
+        }
+        else
+        {
+          System.out.println("A number within the history should be chosen");
+        }
       } else {
         System.out.println("A number greater than 0 must be chosen");
       }
